@@ -1,0 +1,848 @@
+================================================================================
+ITERACIÓN 22: OPTIMIZACIÓN DONCHIAN v18 PARA DAY TRADING (15m)
+Estrategia: Donchian Breakout + Filtro EMA + SL/TP ATR
+================================================================================
+
+1. Cargando datos de ETHUSDT 15m...
+   ✓ Datos cargados: 35040 velas (aprox. 1 año)
+   ✓ Período: 2024-11-05 15:00:00 a 2025-11-05 14:45:00
+
+2. Definiendo grid de parámetros a optimizar...
+   ✓ Total de combinaciones: 144
+   ✓ Parámetros a optimizar:
+      - donchian_period: [10, 15, 20]
+      - ema_filter_period: [50, 100, 150, 200]
+      - sl_multiplier: [2.0, 3.0, 4.0]
+      - tp_multiplier: [3.0, 4.0, 5.0, 6.0]
+
+3. Ejecutando Grid Search (esto puede tardar varios minutos)...
+================================================================================
+[1/144] Probando: Donchian=10, EMA=50, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.59, Trades: 45, WinRate: 55.6%, Return: 10.85%
+
+[2/144] Probando: Donchian=10, EMA=50, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.24, Trades: 42, WinRate: 45.2%, Return: 5.31%
+
+[3/144] Probando: Donchian=10, EMA=50, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.02, Trades: 41, WinRate: 36.6%, Return: 0.55%
+
+[4/144] Probando: Donchian=10, EMA=50, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.73, Trades: 40, WinRate: 27.5%, Return: -7.25%
+
+[5/144] Probando: Donchian=10, EMA=50, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.72, Trades: 45, WinRate: 64.4%, Return: 14.69%
+
+[6/144] Probando: Donchian=10, EMA=50, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.24, Trades: 42, WinRate: 52.4%, Return: 6.59%
+
+[7/144] Probando: Donchian=10, EMA=50, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.16, Trades: 41, WinRate: 46.3%, Return: 4.88%
+
+[8/144] Probando: Donchian=10, EMA=50, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.93, Trades: 40, WinRate: 37.5%, Return: -2.38%
+
+[9/144] Probando: Donchian=10, EMA=50, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 2.16, Trades: 45, WinRate: 73.3%, Return: 22.09%
+
+[10/144] Probando: Donchian=10, EMA=50, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.54, Trades: 42, WinRate: 61.9%, Return: 14.83%
+
+[11/144] Probando: Donchian=10, EMA=50, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.43, Trades: 41, WinRate: 56.1%, Return: 13.82%
+
+[12/144] Probando: Donchian=10, EMA=50, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.19, Trades: 40, WinRate: 47.5%, Return: 6.91%
+
+[13/144] Probando: Donchian=10, EMA=100, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.27, Trades: 39, WinRate: 51.3%, Return: 4.42%
+
+[14/144] Probando: Donchian=10, EMA=100, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.12, Trades: 38, WinRate: 39.5%, Return: 2.45%
+
+[15/144] Probando: Donchian=10, EMA=100, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.96, Trades: 38, WinRate: 31.6%, Return: -1.02%
+
+[16/144] Probando: Donchian=10, EMA=100, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.61, Trades: 37, WinRate: 21.6%, Return: -9.50%
+
+[17/144] Probando: Donchian=10, EMA=100, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.47, Trades: 39, WinRate: 61.5%, Return: 8.49%
+
+[18/144] Probando: Donchian=10, EMA=100, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.38, Trades: 38, WinRate: 52.6%, Return: 8.43%
+
+[19/144] Probando: Donchian=10, EMA=100, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.34, Trades: 38, WinRate: 47.4%, Return: 8.64%
+
+[20/144] Probando: Donchian=10, EMA=100, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.02, Trades: 37, WinRate: 37.8%, Return: 0.70%
+
+[21/144] Probando: Donchian=10, EMA=100, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.98, Trades: 39, WinRate: 71.8%, Return: 15.97%
+
+[22/144] Probando: Donchian=10, EMA=100, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.91, Trades: 38, WinRate: 63.2%, Return: 18.72%
+
+[23/144] Probando: Donchian=10, EMA=100, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.79, Trades: 38, WinRate: 57.9%, Return: 20.03%
+
+[24/144] Probando: Donchian=10, EMA=100, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.41, Trades: 37, WinRate: 48.6%, Return: 12.28%
+
+[25/144] Probando: Donchian=10, EMA=150, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.09, Trades: 36, WinRate: 47.2%, Return: 1.51%
+
+[26/144] Probando: Donchian=10, EMA=150, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.89, Trades: 36, WinRate: 33.3%, Return: -2.23%
+
+[27/144] Probando: Donchian=10, EMA=150, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.83, Trades: 36, WinRate: 27.8%, Return: -3.68%
+
+[28/144] Probando: Donchian=10, EMA=150, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.75, Trades: 35, WinRate: 22.9%, Return: -5.57%
+
+[29/144] Probando: Donchian=10, EMA=150, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.31, Trades: 36, WinRate: 58.3%, Return: 5.60%
+
+[30/144] Probando: Donchian=10, EMA=150, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.15, Trades: 36, WinRate: 47.2%, Return: 3.31%
+
+[31/144] Probando: Donchian=10, EMA=150, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.24, Trades: 36, WinRate: 44.4%, Return: 6.02%
+
+[32/144] Probando: Donchian=10, EMA=150, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.25, Trades: 35, WinRate: 40.0%, Return: 6.41%
+
+[33/144] Probando: Donchian=10, EMA=150, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.54, Trades: 36, WinRate: 66.7%, Return: 9.47%
+
+[34/144] Probando: Donchian=10, EMA=150, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.39, Trades: 36, WinRate: 55.6%, Return: 8.88%
+
+[35/144] Probando: Donchian=10, EMA=150, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.50, Trades: 36, WinRate: 52.8%, Return: 12.77%
+
+[36/144] Probando: Donchian=10, EMA=150, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.57, Trades: 35, WinRate: 48.6%, Return: 14.83%
+
+[37/144] Probando: Donchian=10, EMA=200, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.09, Trades: 34, WinRate: 47.1%, Return: 1.39%
+
+[38/144] Probando: Donchian=10, EMA=200, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.93, Trades: 34, WinRate: 35.3%, Return: -1.28%
+
+[39/144] Probando: Donchian=10, EMA=200, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.87, Trades: 34, WinRate: 29.4%, Return: -2.74%
+
+[40/144] Probando: Donchian=10, EMA=200, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.79, Trades: 33, WinRate: 24.2%, Return: -4.66%
+
+[41/144] Probando: Donchian=10, EMA=200, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.32, Trades: 34, WinRate: 58.8%, Return: 5.62%
+
+[42/144] Probando: Donchian=10, EMA=200, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.14, Trades: 34, WinRate: 47.1%, Return: 3.11%
+
+[43/144] Probando: Donchian=10, EMA=200, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.23, Trades: 34, WinRate: 44.1%, Return: 5.59%
+
+[44/144] Probando: Donchian=10, EMA=200, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.23, Trades: 33, WinRate: 39.4%, Return: 5.75%
+
+[45/144] Probando: Donchian=10, EMA=200, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.58, Trades: 34, WinRate: 67.7%, Return: 9.65%
+
+[46/144] Probando: Donchian=10, EMA=200, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.40, Trades: 34, WinRate: 55.9%, Return: 8.82%
+
+[47/144] Probando: Donchian=10, EMA=200, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.50, Trades: 34, WinRate: 52.9%, Return: 12.47%
+
+[48/144] Probando: Donchian=10, EMA=200, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.56, Trades: 33, WinRate: 48.5%, Return: 14.28%
+
+[49/144] Probando: Donchian=15, EMA=50, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.47, Trades: 37, WinRate: 54.0%, Return: 7.80%
+
+[50/144] Probando: Donchian=15, EMA=50, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.03, Trades: 36, WinRate: 41.7%, Return: 0.63%
+
+[51/144] Probando: Donchian=15, EMA=50, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.77, Trades: 35, WinRate: 31.4%, Return: -5.41%
+
+[52/144] Probando: Donchian=15, EMA=50, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.54, Trades: 35, WinRate: 22.9%, Return: -11.84%
+
+[53/144] Probando: Donchian=15, EMA=50, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.71, Trades: 37, WinRate: 64.9%, Return: 12.43%
+
+[54/144] Probando: Donchian=15, EMA=50, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.24, Trades: 36, WinRate: 55.6%, Return: 5.87%
+
+[55/144] Probando: Donchian=15, EMA=50, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.11, Trades: 35, WinRate: 48.6%, Return: 3.02%
+
+[56/144] Probando: Donchian=15, EMA=50, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.91, Trades: 35, WinRate: 40.0%, Return: -2.65%
+
+[57/144] Probando: Donchian=15, EMA=50, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 2.15, Trades: 37, WinRate: 73.0%, Return: 18.90%
+
+[58/144] Probando: Donchian=15, EMA=50, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.65, Trades: 36, WinRate: 66.7%, Return: 15.21%
+
+[59/144] Probando: Donchian=15, EMA=50, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.46, Trades: 35, WinRate: 60.0%, Return: 12.95%
+
+[60/144] Probando: Donchian=15, EMA=50, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.23, Trades: 35, WinRate: 51.4%, Return: 7.70%
+
+[61/144] Probando: Donchian=15, EMA=100, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.18, Trades: 33, WinRate: 51.5%, Return: 2.73%
+
+[62/144] Probando: Donchian=15, EMA=100, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.04, Trades: 32, WinRate: 40.6%, Return: 0.71%
+
+[63/144] Probando: Donchian=15, EMA=100, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.81, Trades: 32, WinRate: 31.2%, Return: -3.77%
+
+[64/144] Probando: Donchian=15, EMA=100, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.52, Trades: 32, WinRate: 21.9%, Return: -10.69%
+
+[65/144] Probando: Donchian=15, EMA=100, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.49, Trades: 33, WinRate: 63.6%, Return: 7.59%
+
+[66/144] Probando: Donchian=15, EMA=100, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.41, Trades: 32, WinRate: 56.2%, Return: 7.67%
+
+[67/144] Probando: Donchian=15, EMA=100, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.30, Trades: 32, WinRate: 50.0%, Return: 6.69%
+
+[68/144] Probando: Donchian=15, EMA=100, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.02, Trades: 32, WinRate: 40.6%, Return: 0.38%
+
+[69/144] Probando: Donchian=15, EMA=100, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 2.03, Trades: 33, WinRate: 72.7%, Return: 14.25%
+
+[70/144] Probando: Donchian=15, EMA=100, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 2.18, Trades: 32, WinRate: 68.8%, Return: 19.09%
+
+[71/144] Probando: Donchian=15, EMA=100, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.92, Trades: 32, WinRate: 62.5%, Return: 19.08%
+
+[72/144] Probando: Donchian=15, EMA=100, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.51, Trades: 32, WinRate: 53.1%, Return: 13.06%
+
+[73/144] Probando: Donchian=15, EMA=150, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.05, Trades: 29, WinRate: 48.3%, Return: 0.65%
+
+[74/144] Probando: Donchian=15, EMA=150, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.82, Trades: 29, WinRate: 34.5%, Return: -3.14%
+
+[75/144] Probando: Donchian=15, EMA=150, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.70, Trades: 29, WinRate: 27.6%, Return: -5.62%
+
+[76/144] Probando: Donchian=15, EMA=150, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.69, Trades: 29, WinRate: 24.1%, Return: -6.08%
+
+[77/144] Probando: Donchian=15, EMA=150, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.42, Trades: 29, WinRate: 62.1%, Return: 5.90%
+
+[78/144] Probando: Donchian=15, EMA=150, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.20, Trades: 29, WinRate: 51.7%, Return: 3.73%
+
+[79/144] Probando: Donchian=15, EMA=150, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.26, Trades: 29, WinRate: 48.3%, Return: 5.29%
+
+[80/144] Probando: Donchian=15, EMA=150, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.34, Trades: 29, WinRate: 44.8%, Return: 7.27%
+
+[81/144] Probando: Donchian=15, EMA=150, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.69, Trades: 29, WinRate: 69.0%, Return: 9.42%
+
+[82/144] Probando: Donchian=15, EMA=150, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.64, Trades: 29, WinRate: 62.1%, Return: 10.81%
+
+[83/144] Probando: Donchian=15, EMA=150, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.69, Trades: 29, WinRate: 58.6%, Return: 13.51%
+
+[84/144] Probando: Donchian=15, EMA=150, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.84, Trades: 29, WinRate: 55.2%, Return: 17.32%
+
+[85/144] Probando: Donchian=15, EMA=200, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.04, Trades: 27, WinRate: 48.1%, Return: 0.53%
+
+[86/144] Probando: Donchian=15, EMA=200, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.86, Trades: 27, WinRate: 37.0%, Return: -2.20%
+
+[87/144] Probando: Donchian=15, EMA=200, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.74, Trades: 27, WinRate: 29.6%, Return: -4.70%
+
+[88/144] Probando: Donchian=15, EMA=200, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.72, Trades: 27, WinRate: 25.9%, Return: -5.17%
+
+[89/144] Probando: Donchian=15, EMA=200, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.44, Trades: 27, WinRate: 63.0%, Return: 5.93%
+
+[90/144] Probando: Donchian=15, EMA=200, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.20, Trades: 27, WinRate: 51.9%, Return: 3.53%
+
+[91/144] Probando: Donchian=15, EMA=200, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.25, Trades: 27, WinRate: 48.1%, Return: 4.86%
+
+[92/144] Probando: Donchian=15, EMA=200, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.32, Trades: 27, WinRate: 44.4%, Return: 6.60%
+
+[93/144] Probando: Donchian=15, EMA=200, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.74, Trades: 27, WinRate: 70.4%, Return: 9.60%
+
+[94/144] Probando: Donchian=15, EMA=200, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.66, Trades: 27, WinRate: 63.0%, Return: 10.75%
+
+[95/144] Probando: Donchian=15, EMA=200, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.69, Trades: 27, WinRate: 59.3%, Return: 13.21%
+
+[96/144] Probando: Donchian=15, EMA=200, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.84, Trades: 27, WinRate: 55.6%, Return: 16.76%
+
+[97/144] Probando: Donchian=20, EMA=50, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.11, Trades: 26, WinRate: 50.0%, Return: 1.39%
+
+[98/144] Probando: Donchian=20, EMA=50, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.97, Trades: 25, WinRate: 40.0%, Return: -0.51%
+
+[99/144] Probando: Donchian=20, EMA=50, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.69, Trades: 24, WinRate: 29.2%, Return: -5.34%
+
+[100/144] Probando: Donchian=20, EMA=50, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.45, Trades: 24, WinRate: 20.8%, Return: -10.09%
+
+[101/144] Probando: Donchian=20, EMA=50, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.18, Trades: 26, WinRate: 57.7%, Return: 2.61%
+
+[102/144] Probando: Donchian=20, EMA=50, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.04, Trades: 25, WinRate: 48.0%, Return: 0.77%
+
+[103/144] Probando: Donchian=20, EMA=50, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.94, Trades: 24, WinRate: 41.7%, Return: -1.18%
+
+[104/144] Probando: Donchian=20, EMA=50, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.76, Trades: 24, WinRate: 33.3%, Return: -5.28%
+
+[105/144] Probando: Donchian=20, EMA=50, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.47, Trades: 26, WinRate: 65.4%, Return: 6.80%
+
+[106/144] Probando: Donchian=20, EMA=50, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.53, Trades: 25, WinRate: 60.0%, Return: 8.93%
+
+[107/144] Probando: Donchian=20, EMA=50, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.40, Trades: 24, WinRate: 54.2%, Return: 7.80%
+
+[108/144] Probando: Donchian=20, EMA=50, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.20, Trades: 24, WinRate: 45.8%, Return: 4.41%
+
+[109/144] Probando: Donchian=20, EMA=100, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.09, Trades: 24, WinRate: 50.0%, Return: 1.05%
+
+[110/144] Probando: Donchian=20, EMA=100, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.91, Trades: 23, WinRate: 39.1%, Return: -1.31%
+
+[111/144] Probando: Donchian=20, EMA=100, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.74, Trades: 23, WinRate: 30.4%, Return: -4.13%
+
+[112/144] Probando: Donchian=20, EMA=100, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.48, Trades: 23, WinRate: 21.7%, Return: -8.94%
+
+[113/144] Probando: Donchian=20, EMA=100, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.20, Trades: 24, WinRate: 58.3%, Return: 2.69%
+
+[114/144] Probando: Donchian=20, EMA=100, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.02, Trades: 23, WinRate: 47.8%, Return: 0.37%
+
+[115/144] Probando: Donchian=20, EMA=100, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.04, Trades: 23, WinRate: 43.5%, Return: 0.66%
+
+[116/144] Probando: Donchian=20, EMA=100, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.83, Trades: 23, WinRate: 34.8%, Return: -3.52%
+
+[117/144] Probando: Donchian=20, EMA=100, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.58, Trades: 24, WinRate: 66.7%, Return: 7.32%
+
+[118/144] Probando: Donchian=20, EMA=100, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.61, Trades: 23, WinRate: 60.9%, Return: 8.95%
+
+[119/144] Probando: Donchian=20, EMA=100, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.61, Trades: 23, WinRate: 56.5%, Return: 10.45%
+
+[120/144] Probando: Donchian=20, EMA=100, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.35, Trades: 23, WinRate: 47.8%, Return: 6.97%
+
+[121/144] Probando: Donchian=20, EMA=150, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.90, Trades: 22, WinRate: 45.5%, Return: -1.16%
+
+[122/144] Probando: Donchian=20, EMA=150, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.66, Trades: 22, WinRate: 31.8%, Return: -4.91%
+
+[123/144] Probando: Donchian=20, EMA=150, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.48, Trades: 22, WinRate: 22.7%, Return: -8.38%
+
+[124/144] Probando: Donchian=20, EMA=150, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.40, Trades: 22, WinRate: 18.2%, Return: -9.84%
+
+[125/144] Probando: Donchian=20, EMA=150, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.03, Trades: 22, WinRate: 54.5%, Return: 0.45%
+
+[126/144] Probando: Donchian=20, EMA=150, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.79, Trades: 22, WinRate: 40.9%, Return: -3.58%
+
+[127/144] Probando: Donchian=20, EMA=150, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.78, Trades: 22, WinRate: 36.4%, Return: -4.08%
+
+[128/144] Probando: Donchian=20, EMA=150, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.78, Trades: 22, WinRate: 31.8%, Return: -4.21%
+
+[129/144] Probando: Donchian=20, EMA=150, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.40, Trades: 22, WinRate: 63.6%, Return: 4.98%
+
+[130/144] Probando: Donchian=20, EMA=150, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.28, Trades: 22, WinRate: 54.5%, Return: 4.36%
+
+[131/144] Probando: Donchian=20, EMA=150, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.27, Trades: 22, WinRate: 50.0%, Return: 4.94%
+
+[132/144] Probando: Donchian=20, EMA=150, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.35, Trades: 22, WinRate: 45.5%, Return: 6.49%
+
+[133/144] Probando: Donchian=20, EMA=200, SL=2.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.90, Trades: 22, WinRate: 45.5%, Return: -1.17%
+
+[134/144] Probando: Donchian=20, EMA=200, SL=2.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.66, Trades: 22, WinRate: 31.8%, Return: -4.93%
+
+[135/144] Probando: Donchian=20, EMA=200, SL=2.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.48, Trades: 22, WinRate: 22.7%, Return: -8.39%
+
+[136/144] Probando: Donchian=20, EMA=200, SL=2.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.40, Trades: 22, WinRate: 18.2%, Return: -9.85%
+
+[137/144] Probando: Donchian=20, EMA=200, SL=3.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.03, Trades: 22, WinRate: 54.5%, Return: 0.42%
+
+[138/144] Probando: Donchian=20, EMA=200, SL=3.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.79, Trades: 22, WinRate: 40.9%, Return: -3.60%
+
+[139/144] Probando: Donchian=20, EMA=200, SL=3.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.78, Trades: 22, WinRate: 36.4%, Return: -4.10%
+
+[140/144] Probando: Donchian=20, EMA=200, SL=3.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 0.78, Trades: 22, WinRate: 31.8%, Return: -4.24%
+
+[141/144] Probando: Donchian=20, EMA=200, SL=4.0x, TP=3.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.39, Trades: 22, WinRate: 63.6%, Return: 4.94%
+
+[142/144] Probando: Donchian=20, EMA=200, SL=4.0x, TP=4.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.27, Trades: 22, WinRate: 54.5%, Return: 4.32%
+
+[143/144] Probando: Donchian=20, EMA=200, SL=4.0x, TP=5.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.27, Trades: 22, WinRate: 50.0%, Return: 4.90%
+
+[144/144] Probando: Donchian=20, EMA=200, SL=4.0x, TP=6.0x
+/home/user/DayTrading/src/indicators/technical_simple.py:68: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   PF: 1.34, Trades: 22, WinRate: 45.5%, Return: 6.45%
+
+================================================================================
+
+4. Procesando resultados del Grid Search...
+   ✓ Resultados completos guardados en: results/backtest_results_v22_donchian_15m_full.csv
+   ✓ Total de combinaciones evaluadas: 144
+
+5. Filtrando resultados según criterios...
+   CRITERIOS:
+   - Profit Factor > 1.05
+   - Num Trades > 100
+   ✓ Combinaciones que cumplen criterios: 0
+
+   ⚠️  No se encontraron combinaciones que cumplan los criterios mínimos
+   Mostrando Top 10 sin filtrar (ordenado por Profit Factor)...
+
+================================================================================
+TOP 10 MEJORES CONFIGURACIONES
+================================================================================
+
+Resumen:
+ donchian_period  ema_filter_period  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+              15                100            4.0            4.0           2.18          32         68.75             19.09          0.17              4.46
+              10                 50            4.0            3.0           2.16          45         73.33             22.09          0.19              4.70
+              15                 50            4.0            3.0           2.15          37         72.97             18.90          0.18              4.70
+              15                100            4.0            3.0           2.03          33         72.73             14.25          0.16              4.37
+              10                100            4.0            3.0           1.98          39         71.79             15.97          0.16              4.37
+              15                100            4.0            5.0           1.92          32         62.50             19.08          0.14              5.35
+              10                100            4.0            4.0           1.91          38         63.16             18.72          0.15              5.34
+              15                200            4.0            6.0           1.84          27         55.56             16.76          0.12              5.90
+              15                150            4.0            6.0           1.84          29         55.17             17.32          0.12              5.90
+              10                100            4.0            5.0           1.79          38         57.89             20.03          0.14              5.51
+
+================================================================================
+ANÁLISIS DETALLADO - MEJOR CONFIGURACIÓN
+================================================================================
+
+Parámetros Optimizados:
+  Estrategia: Donchian Breakout + Filtro EMA
+  - Período Donchian: 15 velas
+  - EMA Filtro de Tendencia: 100 velas
+  - Stop Loss: 4.0x ATR
+  - Take Profit: 4.0x ATR
+  - Ratio Riesgo:Recompensa: 1:1.00
+============================================================
+MÉTRICAS DE RENDIMIENTO
+============================================================
+
+Capital Inicial:          $10,000.00
+Valor Final:              $11,909.00
+Ganancia Neta:            $1,909.00
+Retorno Total:            19.09%
+Retorno Anualizado:       19.15%
+
+Sharpe Ratio:             0.17
+Sortino Ratio:            0.01
+Calmar Ratio:             4.29
+Max Drawdown:             4.46%
+
+Número de Trades:         32.0
+Win Rate:                 68.75%
+Profit Factor:            2.18
+Trade Promedio:           $59.66
+Mejor Trade:              $321.39
+Peor Trade:               $-250.71
+============================================================
+
+================================================================================
+EVALUACIÓN DE CRITERIOS DE ÉXITO
+================================================================================
+
+CRITERIO DE ÉXITO: PF > 1.1 Y Num Trades > 150
+  Profit Factor: 2.18 ✓ CUMPLE (objetivo: > 1.1)
+  Num Trades: 32 ✗ NO CUMPLE (objetivo: > 150)
+
+❌ La hipótesis v22 NO se cumplió con los parámetros probados
+   Se requiere explorar otros rangos de parámetros
+
+================================================================================
+COMPARACIÓN CON ESTRATEGIA v18 (BASELINE)
+================================================================================
+
+v18 (Donchian 20 + EMA 200 - Timeframe original):
+  - Profit Factor: 1.13
+  - Num Trades: 24/año
+  - Problema: Baja frecuencia (NO es Day Trading)
+
+v22 (Mejor configuración - 15m optimizado):
+  - Profit Factor: 2.18
+  - Num Trades: 32/año
+  - Mejora en frecuencia: 33.3%
+  - Cambio en PF: 92.9%
+
+================================================================================
+PRÓXIMOS PASOS
+================================================================================
+
+1. Revisar Top 10 para identificar rangos prometedores
+2. Considerar refinar grid search con rangos más finos
+3. Evaluar si la estrategia base requiere modificaciones
+
+================================================================================
+✓ OPTIMIZACIÓN COMPLETADA
+================================================================================
+
+Archivos generados:
+  - results/backtest_results_v22_donchian_15m_full.csv (todos los resultados)
+
+Para ejecutar backtest con mejor configuración:
+  Donchian: 15, EMA: 100, SL: 4.0x, TP: 4.0x

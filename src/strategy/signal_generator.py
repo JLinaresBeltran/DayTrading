@@ -852,6 +852,151 @@ def generar_senales_donchian_filtrado_v18(df, donchian_period=20, config=None):
     return df
 
 
+def generar_senales_mean_reversion_v19(df, bb_period=20, bb_std=2, rsi_period=14,
+                                        rsi_oversold=30, rsi_overbought=70, config=None):
+    """
+    Genera señales de trading usando ESTRATEGIA DE MEAN REVERSION (Iteración 19).
+
+    ITERACIÓN 19: Pivote estratégico hacia ALTA FRECUENCIA.
+
+    Abandona estrategias de tendencia/breakout (v17-v18 = 24 trades/año) y adopta
+    Mean Reversion para lograr 2-3 operaciones diarias (500-1000 trades/año).
+
+    ESTRATEGIA DE MEAN REVERSION CON FILTRO DE TENDENCIA:
+
+    FILOSOFÍA:
+    - Los precios tienden a regresar a la media (Bollinger Bands Middle)
+    - Comprar en SOBREVENTA (precio toca banda inferior) cuando tendencia es alcista
+    - Vender en SOBRECOMPRA (precio toca banda superior) cuando tendencia es bajista
+    - Alta frecuencia: Múltiples operaciones por día
+
+    CAPA 1 (Filtro de Régimen):
+    - EMA(200) determina la tendencia principal
+    - tendencia_alcista: close > EMA_200 → Solo señales LONG
+    - tendencia_bajista: close < EMA_200 → Solo señales SHORT
+
+    CAPA 2 (Señales de Mean Reversion):
+    - COMPRA (LONG): Precio <= BB_lower AND RSI < oversold AND tendencia_alcista
+      * Rationale: Precio sobrevendido en tendencia alcista → rebote esperado
+
+    - VENTA (SHORT): Precio >= BB_upper AND RSI > overbought AND tendencia_bajista
+      * Rationale: Precio sobrecomprado en tendencia bajista → caída esperada
+
+    CAPA 3 (Gestión de Riesgo):
+    - Stop Loss y Take Profit dinámicos basados en ATR
+    - SL más ajustados que en estrategias de tendencia (1.5-3.0x ATR)
+    - TP más rápidos (1.0-3.0x ATR) para capturar reversiones cortas
+    - Ratio R:R común en mean reversion: 1:1 o 1:1.5
+
+    DIFERENCIAS vs v17-v18 (Tendencia/Breakout):
+    - v17-v18: Comprar FUERZA (breakouts), 24 trades/año
+    - v19: Comprar DEBILIDAD (reversión), objetivo >500 trades/año
+    - v17-v18: SL largos (4.0x ATR), TP largos
+    - v19: SL cortos (1.5-3.0x ATR), TP cortos (1.0-3.0x ATR)
+
+    Args:
+        df: DataFrame con indicadores calculados (EMA_200, BB, RSI)
+        bb_period: Período de Bollinger Bands (default: 20)
+        bb_std: Desviaciones estándar de BB (default: 2)
+        rsi_period: Período del RSI (default: 14)
+        rsi_oversold: Nivel de sobreventa RSI (default: 30)
+        rsi_overbought: Nivel de sobrecompra RSI (default: 70)
+        config: Parámetros adicionales (opcional)
+
+    Returns:
+        DataFrame con columnas 'señal' y 'position' añadidas:
+            1 = COMPRA (abrir LONG en sobreventa)
+           -1 = VENTA (abrir SHORT en sobrecompra)
+            0 = NEUTRAL (sin acción)
+    """
+    # Parámetros por defecto
+    if config is None:
+        config = {
+            'ema_trend': 200,
+            'atr_length': 14
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_trend_col = f"EMA_{config['ema_trend']}"
+    rsi_col = f"RSI_{rsi_period}"
+    bb_lower_col = f"BBL_{bb_period}_{bb_std}.0"
+    bb_upper_col = f"BBU_{bb_period}_{bb_std}.0"
+    bb_middle_col = f"BBM_{bb_period}_{bb_std}.0"
+
+    # Verificar que las columnas requeridas existan
+    required_cols = [ema_trend_col, rsi_col, bb_lower_col, bb_upper_col, bb_middle_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(f"Columnas faltantes en DataFrame: {missing_cols}. "
+                        f"Asegúrate de calcular indicadores primero. "
+                        f"Columnas disponibles: {df.columns.tolist()}")
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # CAPA 1: FILTRO DE RÉGIMEN (EMA_200)
+    # ==========================================
+    # Determinar la tendencia principal
+    tendencia_alcista = df['close'] > df[ema_trend_col]
+    tendencia_bajista = df['close'] < df[ema_trend_col]
+
+    # ==========================================
+    # CAPA 2: CONDICIONES DE MEAN REVERSION
+    # ==========================================
+    # Sobreventa: Precio toca/cruza banda inferior Y RSI confirma debilidad
+    condicion_sobreventa = (
+        (df['close'] <= df[bb_lower_col]) &
+        (df[rsi_col] < rsi_oversold)
+    )
+
+    # Sobrecompra: Precio toca/cruza banda superior Y RSI confirma fortaleza
+    condicion_sobrecompra = (
+        (df['close'] >= df[bb_upper_col]) &
+        (df[rsi_col] > rsi_overbought)
+    )
+
+    # ==========================================
+    # GENERACIÓN DE SEÑALES (FILTRADAS POR TENDENCIA)
+    # ==========================================
+    # COMPRA (LONG): Sobreventa en tendencia alcista
+    # Rationale: Precio rebotará hacia la media (BB middle) en tendencia alcista
+    df.loc[tendencia_alcista & condicion_sobreventa, 'señal'] = 1
+
+    # VENTA (SHORT): Sobrecompra en tendencia bajista
+    # Rationale: Precio caerá hacia la media (BB middle) en tendencia bajista
+    df.loc[tendencia_bajista & condicion_sobrecompra, 'señal'] = -1
+
+    # ==========================================
+    # COLUMNA DE POSICIÓN (Long/Short)
+    # ==========================================
+    # Para mean reversion, las posiciones son más cortas que en tendencia
+    # No mantenemos posiciones abiertas indefinidamente
+    df['position'] = 0
+    in_position = False
+    position_type = 0  # 0=none, 1=long, -1=short
+
+    for i in range(len(df)):
+        signal = df['señal'].iloc[i]
+
+        if signal == 1 and not in_position:  # Abrir posición LONG
+            in_position = True
+            position_type = 1
+        elif signal == -1 and not in_position:  # Abrir posición SHORT
+            in_position = True
+            position_type = -1
+        elif signal != 0 and in_position:  # Cerrar posición (señal opuesta)
+            in_position = False
+            position_type = 0
+
+        df.iloc[i, df.columns.get_loc('position')] = position_type
+
+    return df
+
+
 def generar_señales_avanzadas(df, config=None):
     """
     Genera señales de trading con lógica más avanzada (múltiples indicadores).

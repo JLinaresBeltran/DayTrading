@@ -359,6 +359,184 @@ class VectorizedBacktester:
 
         return df
 
+    def run_backtest_with_sl_tp(self, atr_column='ATRr_14', atr_sl_multiplier=2.0, atr_tp_multiplier=3.0):
+        """
+        Ejecuta backtest con Stop Loss Y Take Profit dinámicos basados en ATR.
+
+        ITERACIÓN 19 - MEAN REVERSION:
+        Para estrategias de Mean Reversion, es crítico tener SL y TP independientes
+        ya que los movimientos son más cortos y los ratios R:R suelen ser 1:1 o 1:1.5.
+
+        Lógica:
+        1. Al abrir posición, calculamos:
+           - SL = entry_price ± (ATR × atr_sl_multiplier)
+           - TP = entry_price ± (ATR × atr_tp_multiplier)
+        2. Lo que se toque primero (SL o TP), cierra la posición
+        3. Si aparece señal opuesta antes de tocar SL/TP, también cierra
+
+        Args:
+            atr_column: Nombre de la columna ATR (default: 'ATRr_14')
+            atr_sl_multiplier: Multiplicador ATR para Stop Loss (default: 2.0)
+            atr_tp_multiplier: Multiplicador ATR para Take Profit (default: 3.0)
+
+        Returns:
+            DataFrame con resultados del backtest
+        """
+        df = self.df.copy()
+
+        # Verificaciones
+        if atr_column not in df.columns:
+            raise ValueError(f"Columna '{atr_column}' no encontrada")
+        if 'low' not in df.columns or 'high' not in df.columns:
+            raise ValueError("Columnas 'low' y 'high' requeridas para SL/TP")
+
+        # Inicializar columnas
+        df['position_active'] = 0
+        df['entry_price'] = np.nan
+        df['stop_loss_price'] = np.nan
+        df['take_profit_price'] = np.nan
+        df['exit_price'] = np.nan
+        df['exit_reason'] = ''
+        df['pnl'] = 0.0
+
+        # Estado
+        in_position = False
+        position_type = None
+        entry_price = 0
+        stop_loss_price = 0
+        take_profit_price = 0
+        entry_idx = None
+        portfolio_value = self.initial_capital
+        trades_log = []
+
+        # Simulación
+        for i in range(len(df)):
+            signal = df['señal'].iloc[i]
+            current_price = df['close'].iloc[i]
+            current_low = df['low'].iloc[i]
+            current_high = df['high'].iloc[i]
+            current_atr = df[atr_column].iloc[i]
+
+            if not in_position:
+                # LONG
+                if signal == 1:
+                    in_position = True
+                    position_type = 'LONG'
+                    entry_price = current_price
+                    entry_idx = i
+
+                    stop_loss_price = entry_price - (current_atr * atr_sl_multiplier)
+                    take_profit_price = entry_price + (current_atr * atr_tp_multiplier)
+
+                    df.at[i, 'position_active'] = 1
+                    df.at[i, 'entry_price'] = entry_price
+                    df.at[i, 'stop_loss_price'] = stop_loss_price
+                    df.at[i, 'take_profit_price'] = take_profit_price
+
+                # SHORT
+                elif signal == -1:
+                    in_position = True
+                    position_type = 'SHORT'
+                    entry_price = current_price
+                    entry_idx = i
+
+                    stop_loss_price = entry_price + (current_atr * atr_sl_multiplier)
+                    take_profit_price = entry_price - (current_atr * atr_tp_multiplier)
+
+                    df.at[i, 'position_active'] = 1
+                    df.at[i, 'entry_price'] = entry_price
+                    df.at[i, 'stop_loss_price'] = stop_loss_price
+                    df.at[i, 'take_profit_price'] = take_profit_price
+
+            else:
+                df.at[i, 'position_active'] = 1
+                df.at[i, 'stop_loss_price'] = stop_loss_price
+                df.at[i, 'take_profit_price'] = take_profit_price
+
+                exit_price = None
+                exit_reason = None
+
+                if position_type == 'LONG':
+                    # Verificar SL primero (más conservador)
+                    if current_low <= stop_loss_price:
+                        exit_price = stop_loss_price
+                        exit_reason = 'SL'
+                    # Verificar TP
+                    elif current_high >= take_profit_price:
+                        exit_price = take_profit_price
+                        exit_reason = 'TP'
+                    # Verificar señal opuesta
+                    elif signal == -1:
+                        exit_price = current_price
+                        exit_reason = 'SIGNAL'
+
+                elif position_type == 'SHORT':
+                    # Verificar SL primero
+                    if current_high >= stop_loss_price:
+                        exit_price = stop_loss_price
+                        exit_reason = 'SL'
+                    # Verificar TP
+                    elif current_low <= take_profit_price:
+                        exit_price = take_profit_price
+                        exit_reason = 'TP'
+                    # Verificar señal opuesta
+                    elif signal == 1:
+                        exit_price = current_price
+                        exit_reason = 'SIGNAL'
+
+                # Si hubo salida, procesar
+                if exit_price is not None:
+                    # Calcular PnL
+                    if position_type == 'LONG':
+                        pnl_pct = ((exit_price - entry_price) / entry_price) - (self.commission + self.slippage)
+                    else:  # SHORT
+                        pnl_pct = ((entry_price - exit_price) / entry_price) - (self.commission + self.slippage)
+
+                    pnl_usd = portfolio_value * pnl_pct
+                    portfolio_value += pnl_usd
+
+                    # Registrar
+                    df.at[i, 'exit_price'] = exit_price
+                    df.at[i, 'exit_reason'] = exit_reason
+                    df.at[i, 'pnl'] = pnl_usd
+                    df.at[i, 'position_active'] = 0
+
+                    trades_log.append({
+                        'entry_idx': entry_idx,
+                        'exit_idx': i,
+                        'entry_price': entry_price,
+                        'exit_price': exit_price,
+                        'stop_loss': stop_loss_price,
+                        'take_profit': take_profit_price,
+                        'exit_reason': exit_reason,
+                        'pnl_pct': pnl_pct * 100,
+                        'pnl_usd': pnl_usd,
+                        'position_type': position_type
+                    })
+
+                    # Reset
+                    in_position = False
+                    position_type = None
+                    entry_price = 0
+                    stop_loss_price = 0
+                    take_profit_price = 0
+                    entry_idx = None
+
+        # Calcular métricas
+        df['portfolio_value'] = self.initial_capital + df['pnl'].cumsum()
+        df['returns'] = df['portfolio_value'].pct_change().fillna(0)
+        df['strategy_returns'] = df['returns']
+        df['cumulative_returns'] = (df['portfolio_value'] / self.initial_capital) - 1
+
+        market_returns = df['close'].pct_change().fillna(0)
+        df['buy_hold_cumulative'] = (1 + market_returns).cumprod() - 1
+        df['buy_hold_value'] = self.initial_capital * (1 + df['buy_hold_cumulative'])
+
+        self.trades_log = pd.DataFrame(trades_log)
+        self.results = df
+
+        return df
+
     def calculate_metrics(self):
         """
         Calcula métricas de rendimiento del backtest.

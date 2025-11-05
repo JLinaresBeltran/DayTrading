@@ -714,6 +714,144 @@ def generar_senales_bajista_v1(df, config=None):
     return df
 
 
+def generar_senales_donchian_filtrado_v18(df, donchian_period=20, config=None):
+    """
+    Genera señales de trading usando ESTRATEGIA DONCHIAN BREAKOUT CON FILTRO EMA_200 (Iteración 18).
+
+    ITERACIÓN 18: Mejora sobre la Iteración 17 (Donchian Breakout puro).
+    Se añade filtro de tendencia EMA_200 tanto para entradas como para salidas.
+
+    HIPÓTESIS:
+    La estrategia Donchian Breakout v17 (Profit Factor 1.03, Win Rate 19.23%) solo será
+    rentable si opera a favor de la tendencia principal, filtrando las señales en mercados
+    laterales o contra-tendencia.
+
+    ARQUITECTURA DE 3 CAPAS (LONG/SHORT FILTRADO):
+
+    CAPA 1 (Filtro de Régimen - EMA_200):
+    - Indicador: EMA(200) como proxy de tendencia principal
+    - Lógica LONG: Solo compra si precio > EMA_200 (régimen alcista)
+    - Lógica SHORT: Solo vende si precio < EMA_200 (régimen bajista)
+    - Objetivo: Evitar operar en mercados laterales o contra-tendencia
+
+    CAPA 2 (Señal de Entrada - Donchian Breakout):
+    - Indicador: Canal de Donchian (20 períodos por defecto)
+    - COMPRA: Precio cruza HACIA ARRIBA canal superior Y precio > EMA_200
+      * Condición: (close[-1] < DONCHI_h) AND (close >= DONCHI_h) AND (close > EMA_200)
+    - VENTA: Precio cruza HACIA ABAJO canal inferior Y precio < EMA_200
+      * Condición: (close[-1] > DONCHI_l) AND (close <= DONCHI_l) AND (close < EMA_200)
+
+    CAPA 3 (Gestión de Riesgo - ATR Stop Loss):
+    - Indicador: ATR(14)
+    - Lógica: Stop Loss dinámico basado en volatilidad
+      * SL = Precio_Entrada - (ATR × atr_multiplier)
+    - NOTA: Implementado en el motor de backtesting
+
+    DIFERENCIAS vs Iteración 17 (Donchian sin filtro completo):
+    - v17: COMPRA con filtro (close > EMA_200), VENTA sin filtro
+    - v18: COMPRA con filtro (close > EMA_200), VENTA con filtro (close < EMA_200)
+    - Resultado esperado v18: Menor número de trades, mayor Win Rate, mayor Profit Factor
+
+    Args:
+        df: DataFrame con indicadores calculados (debe contener EMA_200, DONCHI_h, DONCHI_l)
+        donchian_period: Período del Canal de Donchian (default: 20)
+        config: Diccionario con parámetros adicionales:
+            - ema_trend: Período de EMA para filtro de régimen (default: 200)
+            - atr_length: Período del ATR (default: 14, usado por backtester)
+
+    Returns:
+        DataFrame con columnas 'señal' y 'position' añadidas:
+            1 = COMPRA (abrir posición LONG)
+           -1 = VENTA (abrir posición SHORT)
+            0 = NEUTRAL (sin acción)
+
+        Columna 'position' indica estado de posición (1=LONG, -1=SHORT, 0=FUERA)
+    """
+    # Parámetros por defecto
+    if config is None:
+        config = {
+            'ema_trend': 200,
+            'atr_length': 14
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_trend_col = f"EMA_{config['ema_trend']}"
+    donchian_upper_col = f"DONCHI_h_{donchian_period}"
+    donchian_lower_col = f"DONCHI_l_{donchian_period}"
+
+    # Verificar que las columnas requeridas existan
+    required_cols = [ema_trend_col, donchian_upper_col, donchian_lower_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(f"Columnas faltantes en DataFrame: {missing_cols}. "
+                        f"Asegúrate de calcular indicadores primero. "
+                        f"Columnas disponibles: {df.columns.tolist()}")
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # CAPA 1: FILTRO DE RÉGIMEN (EMA_200)
+    # ==========================================
+    # Régimen alcista: precio por encima de EMA_200
+    condicion_regimen_alcista = df['close'] > df[ema_trend_col]
+    # Régimen bajista: precio por debajo de EMA_200
+    condicion_regimen_bajista = df['close'] < df[ema_trend_col]
+
+    # ==========================================
+    # CAPA 2: ENTRADA/SALIDA - DONCHIAN BREAKOUT
+    # ==========================================
+    # Señal de COMPRA: Precio cruza HACIA ARRIBA el canal superior de Donchian
+    condicion_entrada_breakout_alcista = (
+        (df['close'].shift(1) < df[donchian_upper_col].shift(1)) &
+        (df['close'] >= df[donchian_upper_col])
+    )
+
+    # Señal de VENTA: Precio cruza HACIA ABAJO el canal inferior de Donchian
+    condicion_entrada_breakout_bajista = (
+        (df['close'].shift(1) > df[donchian_lower_col].shift(1)) &
+        (df['close'] <= df[donchian_lower_col])
+    )
+
+    # ==========================================
+    # GENERACIÓN DE SEÑALES CON FILTRO COMPLETO
+    # ==========================================
+    # COMPRA: Solo si hay régimen alcista (close > EMA_200) Y breakout del canal superior
+    df.loc[condicion_regimen_alcista & condicion_entrada_breakout_alcista, 'señal'] = 1
+
+    # VENTA: Solo si hay régimen bajista (close < EMA_200) Y breakout del canal inferior
+    df.loc[condicion_regimen_bajista & condicion_entrada_breakout_bajista, 'señal'] = -1
+
+    # ==========================================
+    # COLUMNA DE POSICIÓN (Long/Short)
+    # ==========================================
+    # Crear columna 'position' que indica estado de posición
+    # 1 = LONG, -1 = SHORT, 0 = FUERA
+    df['position'] = 0
+    in_position = False
+    position_type = 0  # 0=none, 1=long, -1=short
+
+    for i in range(len(df)):
+        signal = df['señal'].iloc[i]
+
+        if signal == 1 and not in_position:  # Abrir posición LONG
+            in_position = True
+            position_type = 1
+        elif signal == -1 and not in_position:  # Abrir posición SHORT
+            in_position = True
+            position_type = -1
+        elif signal != 0 and in_position:  # Cerrar posición (cualquier señal opuesta)
+            in_position = False
+            position_type = 0
+
+        df.iloc[i, df.columns.get_loc('position')] = position_type
+
+    return df
+
+
 def generar_señales_avanzadas(df, config=None):
     """
     Genera señales de trading con lógica más avanzada (múltiples indicadores).

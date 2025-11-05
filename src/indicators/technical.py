@@ -4,7 +4,104 @@ Todos los indicadores se añaden directamente al DataFrame.
 """
 
 import pandas as pd
-import pandas_ta as ta
+import numpy as np
+
+# Intentar importar pandas_ta, si no está disponible, usar implementaciones manuales
+try:
+    import pandas_ta as ta
+    HAS_PANDAS_TA = True
+except ImportError:
+    HAS_PANDAS_TA = False
+    print("ADVERTENCIA: pandas_ta no está instalado. Usando implementaciones manuales de indicadores.")
+
+
+def calcular_ema_manual(series, period):
+    """Calcula EMA manualmente sin pandas-ta."""
+    return series.ewm(span=period, adjust=False).mean()
+
+
+def calcular_atr_manual(df, period=14):
+    """Calcula ATR manualmente sin pandas-ta."""
+    high = df['high']
+    low = df['low']
+    close = df['close']
+
+    # True Range
+    tr1 = high - low
+    tr2 = abs(high - close.shift(1))
+    tr3 = abs(low - close.shift(1))
+
+    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+
+    # ATR es el promedio móvil del True Range
+    atr = tr.rolling(window=period).mean()
+
+    return atr
+
+
+def calcular_rsi_manual(series, period=14):
+    """Calcula RSI manualmente sin pandas-ta."""
+    delta = series.diff()
+
+    gain = delta.where(delta > 0, 0)
+    loss = -delta.where(delta < 0, 0)
+
+    avg_gain = gain.rolling(window=period).mean()
+    avg_loss = loss.rolling(window=period).mean()
+
+    rs = avg_gain / avg_loss
+    rsi = 100 - (100 / (1 + rs))
+
+    return rsi
+
+
+def calcular_macd_manual(series, fast=12, slow=26, signal=9):
+    """Calcula MACD manualmente sin pandas-ta."""
+    ema_fast = calcular_ema_manual(series, fast)
+    ema_slow = calcular_ema_manual(series, slow)
+
+    macd = ema_fast - ema_slow
+    signal_line = calcular_ema_manual(macd, signal)
+    histogram = macd - signal_line
+
+    return macd, signal_line, histogram
+
+
+def calcular_bollinger_bands_manual(series, period=20, std_dev=2):
+    """Calcula Bandas de Bollinger manualmente sin pandas-ta."""
+    sma = series.rolling(window=period).mean()
+    std = series.rolling(window=period).std()
+
+    upper = sma + (std * std_dev)
+    lower = sma - (std * std_dev)
+
+    # Bandwidth y %B
+    bandwidth = (upper - lower) / sma
+    percent_b = (series - lower) / (upper - lower)
+
+    return lower, sma, upper, bandwidth, percent_b
+
+
+def calcular_stochastic_manual(df, k_period=14, d_period=3, smooth_k=3):
+    """Calcula Estocástico manualmente sin pandas-ta."""
+    high = df['high']
+    low = df['low']
+    close = df['close']
+
+    # Estocástico %K
+    lowest_low = low.rolling(window=k_period).min()
+    highest_high = high.rolling(window=k_period).max()
+
+    k = 100 * (close - lowest_low) / (highest_high - lowest_low)
+
+    # Suavizar %K si smooth_k > 1
+    if smooth_k > 1:
+        k = k.rolling(window=smooth_k).mean()
+
+    # Estocástico %D (promedio móvil de %K)
+    d = k.rolling(window=d_period).mean()
+
+    return k, d
 
 
 def agregar_indicadores(df, config=None):
@@ -49,40 +146,84 @@ def agregar_indicadores(df, config=None):
     # Hacer una copia para evitar modificar el original
     df = df.copy()
 
-    # EMA (Exponential Moving Average) - Solo si están en config
-    if 'ema_short' in config:
-        df.ta.ema(length=config['ema_short'], append=True)
-    if 'ema_long' in config:
-        df.ta.ema(length=config['ema_long'], append=True)
-    if 'ema_trend' in config:
-        df.ta.ema(length=config['ema_trend'], append=True)  # EMA 200 para filtro de régimen
-    if 'ema_filter' in config:
-        df.ta.ema(length=config['ema_filter'], append=True)  # EMA filtro para estrategia Long-Only
+    if HAS_PANDAS_TA:
+        # Usar pandas_ta si está disponible
+        # EMA (Exponential Moving Average) - Solo si están en config
+        if 'ema_short' in config:
+            df.ta.ema(length=config['ema_short'], append=True)
+        if 'ema_long' in config:
+            df.ta.ema(length=config['ema_long'], append=True)
+        if 'ema_trend' in config:
+            df.ta.ema(length=config['ema_trend'], append=True)  # EMA 200 para filtro de régimen
+        if 'ema_filter' in config:
+            df.ta.ema(length=config['ema_filter'], append=True)  # EMA filtro para estrategia Long-Only
 
-    # RSI (Relative Strength Index)
-    df.ta.rsi(length=config['rsi_period'], append=True)
+        # RSI (Relative Strength Index)
+        df.ta.rsi(length=config['rsi_period'], append=True)
 
-    # Bandas de Bollinger
-    df.ta.bbands(length=config['bb_length'], std=config['bb_std'], append=True)
+        # Bandas de Bollinger
+        df.ta.bbands(length=config['bb_length'], std=config['bb_std'], append=True)
 
-    # MACD (Moving Average Convergence Divergence)
-    df.ta.macd(
-        fast=config['macd_fast'],
-        slow=config['macd_slow'],
-        signal=config['macd_signal'],
-        append=True
-    )
+        # MACD (Moving Average Convergence Divergence)
+        df.ta.macd(
+            fast=config['macd_fast'],
+            slow=config['macd_slow'],
+            signal=config['macd_signal'],
+            append=True
+        )
 
-    # ATR (Average True Range) - para gestión de riesgo
-    df.ta.atr(length=config['atr_length'], append=True)
+        # ATR (Average True Range) - para gestión de riesgo
+        df.ta.atr(length=config['atr_length'], append=True)
 
-    # Estocástico
-    df.ta.stoch(
-        k=config['stoch_k'],
-        d=config['stoch_d'],
-        smooth_k=config['stoch_smooth'],
-        append=True
-    )
+        # Estocástico
+        df.ta.stoch(
+            k=config['stoch_k'],
+            d=config['stoch_d'],
+            smooth_k=config['stoch_smooth'],
+            append=True
+        )
+    else:
+        # Usar implementaciones manuales
+        # EMA
+        if 'ema_short' in config:
+            df[f"EMA_{config['ema_short']}"] = calcular_ema_manual(df['close'], config['ema_short'])
+        if 'ema_long' in config:
+            df[f"EMA_{config['ema_long']}"] = calcular_ema_manual(df['close'], config['ema_long'])
+        if 'ema_trend' in config:
+            df[f"EMA_{config['ema_trend']}"] = calcular_ema_manual(df['close'], config['ema_trend'])
+        if 'ema_filter' in config:
+            df[f"EMA_{config['ema_filter']}"] = calcular_ema_manual(df['close'], config['ema_filter'])
+
+        # RSI
+        df[f"RSI_{config['rsi_period']}"] = calcular_rsi_manual(df['close'], config['rsi_period'])
+
+        # Bandas de Bollinger
+        bb_lower, bb_middle, bb_upper, bb_bandwidth, bb_percent_b = calcular_bollinger_bands_manual(
+            df['close'], config['bb_length'], config['bb_std']
+        )
+        df[f"BBL_{config['bb_length']}_{config['bb_std']}.0"] = bb_lower
+        df[f"BBM_{config['bb_length']}_{config['bb_std']}.0"] = bb_middle
+        df[f"BBU_{config['bb_length']}_{config['bb_std']}.0"] = bb_upper
+        df[f"BBB_{config['bb_length']}_{config['bb_std']}.0"] = bb_bandwidth
+        df[f"BBP_{config['bb_length']}_{config['bb_std']}.0"] = bb_percent_b
+
+        # MACD
+        macd, macd_signal, macd_histogram = calcular_macd_manual(
+            df['close'], config['macd_fast'], config['macd_slow'], config['macd_signal']
+        )
+        df[f"MACD_{config['macd_fast']}_{config['macd_slow']}_{config['macd_signal']}"] = macd
+        df[f"MACDs_{config['macd_fast']}_{config['macd_slow']}_{config['macd_signal']}"] = macd_signal
+        df[f"MACDh_{config['macd_fast']}_{config['macd_slow']}_{config['macd_signal']}"] = macd_histogram
+
+        # ATR
+        df[f"ATRr_{config['atr_length']}"] = calcular_atr_manual(df, config['atr_length'])
+
+        # Estocástico
+        stoch_k, stoch_d = calcular_stochastic_manual(
+            df, config['stoch_k'], config['stoch_d'], config['stoch_smooth']
+        )
+        df[f"STOCHk_{config['stoch_k']}_{config['stoch_d']}_{config['stoch_smooth']}"] = stoch_k
+        df[f"STOCHd_{config['stoch_k']}_{config['stoch_d']}_{config['stoch_smooth']}"] = stoch_d
 
     # Canales de Donchian - Para estrategia de Breakout
     # El Canal de Donchian traza el precio más alto y más bajo de los últimos N períodos

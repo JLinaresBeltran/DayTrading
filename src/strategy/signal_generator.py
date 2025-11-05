@@ -1099,6 +1099,131 @@ def generar_señales_con_filtro_tendencia(df, config=None):
     return df
 
 
+def generar_senales_ema_crossover_v21(df, ema_corta=21, ema_larga=51, adx_threshold=20, config=None):
+    """
+    Genera señales de trading usando ESTRATEGIA DE CRUCE DE EMAs CON FILTRO ADX (Iteración 21).
+
+    ITERACIÓN 21: Pivote a estrategia de TENDENCIA con filtro de FUERZA.
+
+    FILOSOFÍA:
+    - Seguir tendencias confirmadas (no anticipar reversiones)
+    - Usar cruces de EMAs para identificar cambios de tendencia
+    - Filtrar señales en mercados laterales usando ADX
+    - Operar solo cuando hay MOMENTUM fuerte (ADX > threshold)
+
+    HIPÓTESIS:
+    Las estrategias de Mean Reversion (v19) fallaron porque crypto es un mercado de tendencias.
+    Los cruces de EMAs capturan cambios de tendencia, pero generan whipsaws en mercados laterales.
+    El ADX filtra señales falsas al confirmar que existe una tendencia fuerte.
+
+    ESTRATEGIA:
+
+    CAPA 1 (Detección de Cruce):
+    - cruce_alcista: EMA_corta cruza HACIA ARRIBA de EMA_larga
+      * EMA_corta[t] > EMA_larga[t] AND EMA_corta[t-1] <= EMA_larga[t-1]
+    - cruce_bajista: EMA_corta cruza HACIA ABAJO de EMA_larga
+      * EMA_corta[t] < EMA_larga[t] AND EMA_corta[t-1] >= EMA_larga[t-1]
+
+    CAPA 2 (Filtro de Fuerza - ADX):
+    - filtro_fuerza: ADX_14 > adx_threshold
+      * ADX > 20: Tendencia moderada (mercado NO lateral)
+      * ADX > 25: Tendencia fuerte
+      * ADX > 50: Tendencia muy fuerte
+
+    SEÑALES:
+    - COMPRA (1): cruce_alcista AND ADX > threshold
+      * Solo si hay MOMENTUM alcista confirmado
+    - VENTA (-1): cruce_bajista AND ADX > threshold
+      * Solo si hay MOMENTUM bajista confirmado
+    - NEUTRAL (0): Sin cruce O ADX < threshold (mercado lateral)
+
+    VENTAJAS vs v19 (Mean Reversion):
+    - Alineado con naturaleza tendencial de crypto
+    - ADX elimina whipsaws en consolidaciones
+    - EMAs reaccionan más rápido que Donchian (v18)
+    - Menos señales que v19 (324), pero MAYOR CALIDAD
+
+    PARÁMETROS POR DEFECTO:
+    - ema_corta: 21 (captura tendencias de corto/medio plazo)
+    - ema_larga: 51 (tendencia de medio plazo)
+    - adx_threshold: 20 (filtra mercados laterales)
+
+    Args:
+        df: DataFrame con indicadores calculados (EMA_21, EMA_51, ADX_14)
+        ema_corta: Período de EMA corta (default: 21)
+        ema_larga: Período de EMA larga (default: 51)
+        adx_threshold: Umbral mínimo de ADX para validar señales (default: 20)
+        config: Parámetros adicionales (opcional)
+
+    Returns:
+        DataFrame con columnas 'señal' y 'position' añadidas:
+            1 = COMPRA (cruce alcista con ADX fuerte)
+           -1 = VENTA (cruce bajista con ADX fuerte)
+            0 = NEUTRAL (sin cruce o ADX débil)
+    """
+    # Parámetros por defecto
+    if config is None:
+        config = {
+            'adx_period': 14  # Período de ADX
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_corta_col = f"EMA_{ema_corta}"
+    ema_larga_col = f"EMA_{ema_larga}"
+    adx_col = f"ADX_{config['adx_period']}"
+
+    # Verificar que las columnas requeridas existan
+    required_cols = [ema_corta_col, ema_larga_col, adx_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(f"Columnas faltantes en DataFrame: {missing_cols}. "
+                        f"Asegúrate de calcular indicadores primero. "
+                        f"Columnas disponibles: {df.columns.tolist()}")
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # CAPA 1: DETECCIÓN DE CRUCES DE EMAs
+    # ==========================================
+    # Cruce alcista: EMA_corta cruza HACIA ARRIBA de EMA_larga
+    # Condición: EMA_corta actual > EMA_larga actual AND EMA_corta anterior <= EMA_larga anterior
+    cruce_alcista = (
+        (df[ema_corta_col] > df[ema_larga_col]) &
+        (df[ema_corta_col].shift(1) <= df[ema_larga_col].shift(1))
+    )
+
+    # Cruce bajista: EMA_corta cruza HACIA ABAJO de EMA_larga
+    # Condición: EMA_corta actual < EMA_larga actual AND EMA_corta anterior >= EMA_larga anterior
+    cruce_bajista = (
+        (df[ema_corta_col] < df[ema_larga_col]) &
+        (df[ema_corta_col].shift(1) >= df[ema_larga_col].shift(1))
+    )
+
+    # ==========================================
+    # CAPA 2: FILTRO DE FUERZA (ADX)
+    # ==========================================
+    # Solo validar señales cuando ADX confirma tendencia fuerte
+    filtro_fuerza = df[adx_col] > adx_threshold
+
+    # ==========================================
+    # GENERACIÓN DE SEÑALES FINALES
+    # ==========================================
+    # COMPRA: Cruce alcista + ADX fuerte
+    df.loc[cruce_alcista & filtro_fuerza, 'señal'] = 1
+
+    # VENTA: Cruce bajista + ADX fuerte
+    df.loc[cruce_bajista & filtro_fuerza, 'señal'] = -1
+
+    # Columna 'position' para compatibilidad con backtester
+    df['position'] = 0
+
+    return df
+
+
 def obtener_señales_recientes(df, n=10):
     """
     Obtiene las últimas N señales generadas.

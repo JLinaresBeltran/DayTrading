@@ -104,16 +104,69 @@ def calcular_stochastic_manual(df, k_period=14, d_period=3, smooth_k=3):
     return k, d
 
 
+def calcular_adx_manual(df, period=14):
+    """
+    Calcula ADX (Average Directional Index) manualmente sin pandas-ta.
+
+    El ADX mide la fuerza de la tendencia (no la dirección).
+    - ADX > 25: Tendencia fuerte
+    - ADX < 20: Tendencia débil o mercado lateral
+    - ADX > 50: Tendencia muy fuerte
+
+    Args:
+        df: DataFrame con columnas high, low, close
+        period: Período de suavizado (típicamente 14)
+
+    Returns:
+        tuple: (adx, plus_di, minus_di)
+    """
+    high = df['high']
+    low = df['low']
+    close = df['close']
+
+    # Calcular True Range (TR)
+    tr1 = high - low
+    tr2 = abs(high - close.shift(1))
+    tr3 = abs(low - close.shift(1))
+    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+
+    # Calcular movimientos direccionales
+    plus_dm = high.diff()  # High(t) - High(t-1)
+    minus_dm = -low.diff()  # Low(t-1) - Low(t)
+
+    # Solo contar movimientos positivos
+    plus_dm = plus_dm.where((plus_dm > 0) & (plus_dm > minus_dm), 0)
+    minus_dm = minus_dm.where((minus_dm > 0) & (minus_dm > plus_dm), 0)
+
+    # Suavizar TR y DM con EMA (Wilder's smoothing)
+    atr = tr.ewm(alpha=1/period, adjust=False).mean()
+    plus_di_smooth = plus_dm.ewm(alpha=1/period, adjust=False).mean()
+    minus_di_smooth = minus_dm.ewm(alpha=1/period, adjust=False).mean()
+
+    # Calcular +DI y -DI (Directional Indicators)
+    plus_di = 100 * (plus_di_smooth / atr)
+    minus_di = 100 * (minus_di_smooth / atr)
+
+    # Calcular DX (Directional Movement Index)
+    dx = 100 * abs(plus_di - minus_di) / (plus_di + minus_di)
+
+    # Calcular ADX (promedio suavizado del DX)
+    adx = dx.ewm(alpha=1/period, adjust=False).mean()
+
+    return adx, plus_di, minus_di
+
+
 def agregar_indicadores(df, config=None):
     """
     Añade indicadores técnicos al DataFrame usando pandas-ta.
 
     Indicadores incluidos:
-    - EMA (21, 50)
+    - EMA (21, 50, 200)
     - RSI (14)
     - Bandas de Bollinger (20, std 2)
     - MACD (12, 26, 9)
     - ATR (14)
+    - ADX (14) - Average Directional Index para medir fuerza de tendencia
     - Estocástico (14, 3, 3)
     - Canales de Donchian (20, 40, 60) - para estrategia de Breakout
 
@@ -128,7 +181,7 @@ def agregar_indicadores(df, config=None):
     if config is None:
         config = {
             'ema_short': 21,
-            'ema_long': 50,
+            'ema_long': 51,    # EMA 51 para estrategia v21 (antes 50)
             'ema_trend': 200,  # EMA de tendencia para filtro de régimen
             'rsi_period': 14,
             'bb_length': 20,
@@ -137,6 +190,7 @@ def agregar_indicadores(df, config=None):
             'macd_slow': 26,
             'macd_signal': 9,
             'atr_length': 14,
+            'adx_period': 14,  # ADX para medir fuerza de tendencia
             'stoch_k': 14,
             'stoch_d': 3,
             'stoch_smooth': 3,
@@ -174,6 +228,9 @@ def agregar_indicadores(df, config=None):
 
         # ATR (Average True Range) - para gestión de riesgo
         df.ta.atr(length=config['atr_length'], append=True)
+
+        # ADX (Average Directional Index) - para medir fuerza de tendencia
+        df.ta.adx(length=config['adx_period'], append=True)
 
         # Estocástico
         df.ta.stoch(
@@ -217,6 +274,12 @@ def agregar_indicadores(df, config=None):
 
         # ATR
         df[f"ATRr_{config['atr_length']}"] = calcular_atr_manual(df, config['atr_length'])
+
+        # ADX
+        adx, plus_di, minus_di = calcular_adx_manual(df, config['adx_period'])
+        df[f"ADX_{config['adx_period']}"] = adx
+        df[f"DMP_{config['adx_period']}"] = plus_di  # +DI
+        df[f"DMN_{config['adx_period']}"] = minus_di  # -DI
 
         # Estocástico
         stoch_k, stoch_d = calcular_stochastic_manual(

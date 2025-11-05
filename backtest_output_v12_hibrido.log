@@ -1,0 +1,136 @@
+================================================================================
+FASE 2: BACKTESTING Y OPTIMIZACIÓN - ITERACIÓN 12 (HÍBRIDO v1)
+ESTRATEGIA: 4 Capas (Régimen + Momentum + MACD + ATR)
+================================================================================
+
+1. Conectando a Binance...
+   ✓ Cliente creado
+
+2. Definiendo grid de parámetros a optimizar...
+   ✓ Total de combinaciones: 9
+   ✓ Parámetros a optimizar:
+      - rsi_momentum_level: [45, 50, 55]
+      - atr_multiplier: [1.5, 2.0, 2.5]
+
+3. Ejecutando optimización (esto puede tardar varios minutos)...
+   ACTIVO: ETH/USDT
+   TIMEFRAME: 15 minutos
+   DATASET: 1 año completo (365 días)
+   ESTRATEGIA: Híbrida 4 Capas (EMA_200 + RSI + MACD + ATR)
+   STOP LOSS: ACTIVADO (dinámico basado en ATR)
+================================================================================
+Optimizando parámetros para ETHUSDT...
+Estrategia: generar_senales_hibrido_v1
+Stop Loss ATR: ACTIVADO
+Total de combinaciones a probar: 9
+
+Pre-calculando todos los Canales de Donchian...
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 21:15:00 hasta 2025-11-04 21:00:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+✓ Indicadores pre-calculados
+
+[1/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 45, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.19, Retorno: -51.37%
+
+[2/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 50, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.17, Retorno: -44.53%
+
+[3/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 55, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.16, Retorno: -36.69%
+
+[4/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 45, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.20, Retorno: -54.77%
+
+[5/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 50, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.17, Retorno: -46.64%
+
+[6/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 55, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.18, Retorno: -40.54%
+
+[7/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 45, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.16, Retorno: -49.31%
+
+[8/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 50, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.13, Retorno: -40.27%
+
+[9/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 55, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.12, Retorno: -33.30%
+
+
+4. Guardando resultados completos del Grid Search...
+   ✓ Resultados guardados en: backtest_results_eth_v12_hibrido.csv
+   ✓ Total de combinaciones evaluadas: 9
+
+================================================================================
+TOP 5 MEJORES CONFIGURACIONES
+================================================================================
+
+Resumen:
+ ema_trend  rsi_momentum_level  atr_multiplier  sharpe_ratio  total_return_pct  max_drawdown_pct  win_rate_pct  profit_factor  num_trades
+       200                  55             2.5         -0.12            -33.30             37.12         27.51           0.79         469
+       200                  50             2.5         -0.13            -40.27             48.40         25.83           0.78         631
+       200                  55             1.5         -0.16            -36.69             41.60         26.44           0.75         469
+       200                  45             2.5         -0.16            -49.31             54.54         26.26           0.76         716
+       200                  50             1.5         -0.17            -44.53             51.56         24.72           0.74         631
+
+================================================================================
+MÉTRICAS DETALLADAS DE LA MEJOR CONFIGURACIÓN
+================================================================================
+
+Parámetros Optimizados - Estrategia Híbrida:
+  CAPA 1 (Régimen):
+    - EMA Tendencia: 200 períodos
+  CAPA 2 (Momentum):
+    - RSI: 14 períodos
+    - RSI Nivel Mínimo: 55
+  CAPA 3 (Señal):
+    - MACD: 12/26/9
+  CAPA 4 (Riesgo):
+    - Stop Loss ATR: 14 períodos × 2.5x
+============================================================
+MÉTRICAS DE RENDIMIENTO
+============================================================
+
+Capital Inicial:          $10,000.00
+Valor Final:              $6,669.80
+Ganancia Neta:            $-3,330.20
+Retorno Total:            -33.30%
+Retorno Anualizado:       -33.38%
+
+Sharpe Ratio:             -0.12
+Sortino Ratio:            -0.04
+Calmar Ratio:             -0.9
+Max Drawdown:             37.12%
+
+Número de Trades:         469.0
+Win Rate:                 27.51%
+Profit Factor:            0.79
+Trade Promedio:           $-7.10
+Mejor Trade:              $789.80
+Peor Trade:               $-249.18
+============================================================
+
+5. Guardando parámetros óptimos...
+
+✓ Parámetros óptimos guardados en config/optimal_params.json
+
+================================================================================
+✓ FASE 2 COMPLETADA EXITOSAMENTE - ITERACIÓN 12 (HÍBRIDO v1)
+================================================================================
+
+Resultados:
+  - CSV completo: backtest_results_eth_v12_hibrido.csv (9 combinaciones)
+  - Parámetros óptimos: config/optimal_params.json
+  - Estrategia: Híbrida 4 Capas (EMA_200 + RSI + MACD + ATR)
+  - Stop Loss ATR: ACTIVADO (lógica dual SL/TP)
+
+Comparación con Iteraciones Anteriores:
+  - Iteración 10.1 (Estocástico): Win Rate 0%, Sharpe -0.14 a -0.26
+  - Iteración 11.1 (Momentum/Donchian): Win Rate 5%, Sharpe 0.03, baja frecuencia
+  - Iteración 12 (Híbrido): Esperamos Win Rate >35%, mayor frecuencia de trades
+
+Próximos pasos:
+  - Auditoría del Quant-Auditor: N° Trades, Win Rate >35%, Profit Factor >1.0
+  - Si aprueba auditoría → Fase 3: python scripts/phase3_paper.py

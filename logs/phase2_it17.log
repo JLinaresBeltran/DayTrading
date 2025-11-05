@@ -1,0 +1,97 @@
+2025-11-04 17:14:15 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:14:15 - phase2_it17 - INFO - ITERACIÓN 17: ÚLTIMA PRUEBA - DONCHIAN BREAKOUT
+2025-11-04 17:14:15 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:14:15 - phase2_it17 - INFO - 
+1. Descargando datos ETH/USDT 15m...
+2025-11-04 17:14:43 - phase2_it17 - INFO -    ✓ 35040 velas descargadas
+2025-11-04 17:14:43 - phase2_it17 - INFO - 
+2. Calculando indicadores...
+2025-11-04 17:14:43 - phase2_it17 - INFO -    ✓ Indicadores calculados
+2025-11-04 17:14:43 - phase2_it17 - INFO - 
+3. Grid Search: donchian_period=20, atr_multiplier=[3.0, 3.5, 4.0]
+2025-11-04 17:14:43 - phase2_it17 - INFO - 
+[1/3] Probando: {'donchian_period': 20, 'atr_multiplier': 3.0}
+2025-11-04 17:17:53 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:17:53 - phase2_it17 - INFO - ITERACIÓN 17: ÚLTIMA PRUEBA - DONCHIAN BREAKOUT
+2025-11-04 17:17:53 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:17:53 - phase2_it17 - INFO - 
+1. Descargando datos ETH/USDT 15m...
+2025-11-04 17:18:17 - phase2_it17 - INFO -    ✓ 35040 velas descargadas
+2025-11-04 17:18:17 - phase2_it17 - INFO - 
+2. Calculando indicadores...
+2025-11-04 17:18:17 - phase2_it17 - INFO -    ✓ Indicadores calculados
+2025-11-04 17:18:17 - phase2_it17 - INFO - 
+3. Grid Search: donchian_period=20, atr_multiplier=[3.0, 3.5, 4.0]
+2025-11-04 17:18:17 - phase2_it17 - INFO - 
+[1/3] Probando: ATR × 3.0
+2025-11-04 17:18:20 - phase2_it17 - INFO -    Sharpe: -0.00, Return: -3.29%, PF: 0.90, WR: 11.1%, Trades: 27
+2025-11-04 17:18:20 - phase2_it17 - INFO - 
+[2/3] Probando: ATR × 3.5
+2025-11-04 17:18:22 - phase2_it17 - INFO -    Sharpe: 0.01, Return: +0.10%, PF: 1.00, WR: 14.8%, Trades: 27
+2025-11-04 17:18:22 - phase2_it17 - INFO - 
+[3/3] Probando: ATR × 4.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -    Sharpe: 0.01, Return: +1.19%, PF: 1.03, WR: 19.2%, Trades: 26
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - RESULTADOS FINALES
+2025-11-04 17:18:25 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+RESULTADOS ORDENADOS POR PROFIT FACTOR:
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  Donchian: 20.0, ATR × 4.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Profit Factor: 1.03
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Win Rate: 19.2%
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Return: +1.19%
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Sharpe: 0.01
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Trades: 26.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Avg Trade: $+5
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Max DD: 22.44%
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  Donchian: 20.0, ATR × 3.5
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Profit Factor: 1.00
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Win Rate: 14.8%
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Return: +0.10%
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Sharpe: 0.01
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Trades: 27.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Avg Trade: $+0
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Max DD: 20.04%
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  Donchian: 20.0, ATR × 3.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Profit Factor: 0.90
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Win Rate: 11.1%
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Return: -3.29%
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Sharpe: -0.00
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Trades: 27.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Avg Trade: $-12
+2025-11-04 17:18:25 - phase2_it17 - INFO -     Max DD: 19.69%
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - MEJOR CONFIGURACIÓN - ITERACIÓN 17
+2025-11-04 17:18:25 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  Estrategia: Donchian Breakout (Momentum v1)
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Donchian Period: 20.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -   ATR Multiplier: 4.0
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  Profit Factor: 1.03
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Win Rate: 19.2%
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Total Return: +1.19%
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Sharpe Ratio: 0.01
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Total Trades: 26.0
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Avg Trade: $+5
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Max Drawdown: 22.44%
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - CRITERIOS DE ÉXITO IT17
+2025-11-04 17:18:25 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  Profit Factor ≥ 1.5: 1.03 ✗ REPROBADO
+2025-11-04 17:18:25 - phase2_it17 - INFO -   Win Rate ≥ 40%: 19.2% ✗ REPROBADO
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+  ✗✗✗ ITERACIÓN 17 RECHAZADA - PROYECTO FALLIDO EN ETH/USDT 15m ✗✗✗
+2025-11-04 17:18:25 - phase2_it17 - INFO - 
+================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO - Guardando artefactos...
+2025-11-04 17:18:25 - phase2_it17 - INFO - ================================================================================
+2025-11-04 17:18:25 - phase2_it17 - INFO -   ✓ Trades log: backtest_results_eth_v17_donchian_final.csv
+2025-11-04 17:18:25 - phase2_it17 - INFO -   ✓ Summary: summary_it17_20251104_171825.csv

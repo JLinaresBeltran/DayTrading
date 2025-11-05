@@ -1,0 +1,23 @@
+# Core Data Science Libraries
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+
+# Binance API
+python-binance>=1.0.17
+
+# Technical Analysis
+pandas-ta>=0.3.14b
+
+# Machine Learning
+scikit-learn>=1.3.0
+tensorflow>=2.13.0
+transformers>=4.30.0
+torch>=2.0.0
+
+# Sentiment Analysis Support
+sentencepiece>=0.1.99
+protobuf>=3.20.0
+
+# Configuration and Utilities
+python-dotenv>=1.0.0

@@ -1,0 +1,19 @@
+{
+  "iteration": 17,
+  "date": "2025-11-04T17:18:25.253558",
+  "strategy": "Donchian Breakout (generar_senales_momentum_v1)",
+  "best_params": {
+    "donchian_period": 20,
+    "atr_multiplier": 4.0
+  },
+  "metrics": {
+    "profit_factor": 1.03,
+    "win_rate_pct": 19.23,
+    "total_return_pct": 1.19,
+    "sharpe_ratio": 0.01,
+    "num_trades": 26,
+    "avg_trade": 4.56,
+    "max_drawdown_pct": 22.44
+  },
+  "success": {
+    "profit_factor_>=_1.5": 

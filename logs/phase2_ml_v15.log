@@ -1,0 +1,184 @@
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO - ================================================================================
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO - FASE 2: BACKTESTING CON MACHINE LEARNING v2
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO - ITERACIÓN 15: OPTIMIZACIÓN (Features Mejorados + Class Balancing + Risk Adj)
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO - ================================================================================
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO - 
+1. Conectando a Binance...
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO -    ✓ Cliente creado
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO - 
+2. Descargando datos...
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO -    ACTIVO: ETHUSDT
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO -    TIMEFRAME: 15m
+2025-11-04 16:55:44 - phase2_ml_v15 - INFO -    PERÍODO: 1 year ago UTC
+2025-11-04 16:56:05 - phase2_ml_v15 - INFO -    ✓ Descargados 35040 registros
+2025-11-04 16:56:05 - phase2_ml_v15 - INFO - 
+3. Calculando indicadores técnicos...
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    ✓ Indicadores calculados
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Total de columnas: 25
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+4. Preparando dataset ML con FEATURES MEJORADOS...
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    ✓ Dataset preparado
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Features: 13
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Muestras: 35039
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   FEATURES UTILIZADOS (13):
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       1. EMA_200
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       2. RSI_14
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       3. ATRr_14
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       4. MACDh_12_26_9
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       5. STOCHk_14_3_3
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       6. volume_norm
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       7. atr_pct
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       8. close_pct_change
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -       9. bollinger_pct_b
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -      10. ema_21_50_cross
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -      11. rsi_zscore
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -      12. volume_momentum
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -      13. price_to_ema200_pct
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   TARGET DISTRIBUTION (2.0% ganancia mínima):
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Total: 35039
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Positivos (Buy): 3009 (8.6%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Negativos (No Buy): 32030 (91.4%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Balance Ratio: 0.09
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+5. Split Train/Test...
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Train: 28031 muestras (80.0%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Test: 7008 muestras (20.0%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   TRAIN SET:
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Positivos: 2630 (9.4%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Negativos: 25401 (90.6%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   TEST SET:
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Positivos: 379 (5.4%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Negativos: 6629 (94.6%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+6. Entrenando RandomForestClassifier CON CLASS BALANCING...
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    ✓ Modelo entrenado
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Parámetros: class_weight='balanced' + max_depth=8
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+7. Evaluando modelo...
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   TRAIN SET:
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - AUC Score: 0.8535
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Accuracy: 0.7933
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   TEST SET:
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - AUC Score: 0.6489
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Accuracy: 0.9224
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Precision: 0.2064
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - Recall: 0.1530
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   CONFUSION MATRIX (Test):
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - True Negatives: 6406
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - False Positives: 223
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - False Negatives: 321
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    - True Positives: 58
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+8. Importancia de Features:
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+   TOP 10 FEATURES:
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     1. atr_pct.......................  22.3%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     2. volume_norm...................  17.8%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     3. EMA_200.......................  13.1%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     4. ATRr_14.......................  11.5%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     5. price_to_ema200_pct...........  10.5%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     6. MACDh_12_26_9.................   5.3%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     7. RSI_14........................   5.3%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     8. close_pct_change..............   4.1%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -     9. STOCHk_14_3_3.................   3.7%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    10. rsi_zscore....................   2.7%
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+9. Generando señales en test set...
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    ✓ Señales generadas
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Total de señales de compra: 98 (1.40%)
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO -    Threshold de confianza: 0.6
+2025-11-04 16:56:06 - phase2_ml_v15 - INFO - 
+10. Ejecutando backtesting...
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -    ✓ Backtesting completado
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - REPORTE FINAL - ITERACIÓN 15: ML v2 OPTIMIZACIÓN
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+DATASET:
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Activo: ETHUSDT
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Timeframe: 15m
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Período: 1 year ago UTC
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Total velas: 35,040
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Train set: 28,031 (80.0%)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Test set: 7,008 (20.0%)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+FEATURES (13):
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Básicos (8):  EMA_200, RSI_14, ATRr_14, MACDh, STOCHk, volume_norm, atr_pct, close_pct_change
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Mejorados (5): bollinger_pct_b, ema_21_50_cross, rsi_zscore, volume_momentum, price_to_ema200_pct
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+TARGET:
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Ganancia mínima: 2.0% (↑ de 1% en IT14)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Horizonte: 10 velas (2.5h en 15m)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+MODELO: RandomForestClassifier + CLASS BALANCING
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Estimadores: 100
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Max depth: 8 (↓ de 10)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Class weight: 'balanced' (NUEVO)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Min samples leaf: 10 (↑ de 5)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+MÉTRICAS DEL MODELO (Test Set):
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   AUC Score: 0.6489 (Target: ≥0.65)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Accuracy: 0.9224 (92.2%)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Precision: 0.2064 (20.6%)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Recall: 0.1530 (15.3%)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+TOP 3 FEATURES POR IMPORTANCIA:
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   1. atr_pct                         22.3%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   2. volume_norm                     17.8%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   3. EMA_200                         13.1%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+BACKTESTING (Test Set, últimas 7,009 velas):
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Capital inicial: $10,000
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Capital final: $nan
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Retorno neto: $nan
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Retorno %: +nan%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Annual return: +0.00%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+RISK METRICS:
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Sharpe Ratio: -0.34
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Sortino Ratio: -0.02
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Calmar Ratio: 0.00
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Max Drawdown: 20.48%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+TRADES:
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Total trades: 6
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Win rate: 0.0%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Profit factor: 0.00 (Target: ≥1.0)
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Avg trade: $+nan
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Best trade: $-247
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Worst trade: $-641
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+BENCHMARK (Buy & Hold):
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Return B&H: -32.87%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Return Estrategia: +nan%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO -   Excess return: +nan%
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - CRITERIOS DE ÉXITO - ITERACIÓN 15
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+AUC Score ≥ 0.65: 0.6489 ✗ REPROBADO
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - Profit Factor ≥ 1.0: 0.00 ✗ REPROBADO
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+✗✗✗ ITERACIÓN 15 PARCIALMENTE COMPLETADA ✗✗✗
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - NOTA: Profit Factor sigue siendo desafío. Recomendación: revisar entrada de trades
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - Guardando artefactos...
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ✓ Trades log guardado: trades_log_ml_v15_20251104_165609.csv
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ✓ Feature importance guardado: feature_importance_ml_v15_20251104_165609.csv
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ✓ Métricas guardadas: metrics_ml_v15_20251104_165609.json
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ✓ Reporte solicitado guardado: backtest_results_eth_v15_opt_ml.csv
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - 
+================================================================================
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - EJECUCIÓN COMPLETADA
+2025-11-04 16:56:09 - phase2_ml_v15 - INFO - ================================================================================

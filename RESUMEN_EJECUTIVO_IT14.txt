@@ -1,0 +1,275 @@
+================================================================================
+ITERACIÓN 14: MÓDULO DE MACHINE LEARNING v1 - RESUMEN EJECUTIVO
+================================================================================
+Fecha: 2025-11-04
+Proyecto: Bot de Trading Algorítmico (Fase 5)
+Auditoría: Quant-Auditor
+
+================================================================================
+RESULTADO FINAL: ❌ RECHAZADO - REQUIERE AJUSTES
+================================================================================
+
+CRITERIOS DE ÉXITO:
+┌────────────────────────────┬─────────┬──────────┬────────────┐
+│ Criterio                   │ Valor   │ Requerido│ Status     │
+├────────────────────────────┼─────────┼──────────┼────────────┤
+│ AUC Score ≥ 0.60           │ 0.6389  │ ≥ 0.60   │ ✓ APROBADO │
+│ Profit Factor ≥ 1.0        │ 0.00    │ ≥ 1.0    │ ✗ REPROBADO│
+│ ESTADO GENERAL             │ FALLO   │ AMBOS    │ ✗ RECHAZADO│
+└────────────────────────────┴─────────┴──────────┴────────────┘
+
+CONCLUSIÓN: El modelo es discriminante (AUC > 0.60) pero NO rentable.
+
+================================================================================
+IMPLEMENTACIÓN COMPLETADA
+================================================================================
+
+MÓDULOS CREADOS:
+✓ src/ml/feature_engineer.py (203 líneas)
+  - crear_features(): Extrae 8 features técnicos
+  - crear_target(): Genera target binario (1% ganancia, horizonte 10 velas)
+  - preparar_dataset_ml(): Pipeline completo de preparación
+
+✓ scripts/phase2_ml_backtest.py (462 líneas)
+  - Descarga datos (ETH/USDT, 15m, 1 año)
+  - Calcula indicadores técnicos
+  - Prepara dataset ML (35,039 muestras)
+  - Entrena RandomForestClassifier
+  - Genera señales (threshold 0.70)
+  - Ejecuta backtesting con SL dinámico ATR
+  - Produce reportes en JSON, CSV, logs
+
+ARTEFACTOS GENERADOS:
+✓ results/metrics_ml_v1_20251104_164541.json
+✓ results/feature_importance_ml_v1_20251104_164541.csv
+✓ results/trades_log_ml_v1_20251104_164541.csv
+✓ logs/phase2_ml.log
+✓ ITERACION_14_REPORTE_ML_v1.md (Reporte detallado)
+
+================================================================================
+DATASET
+================================================================================
+
+PERÍODO: 2024-11-04 → 2025-11-04 (1 año completo)
+ACTIVO: ETH/USDT
+TIMEFRAME: 15 minutos
+TOTAL VELAS: 35,040
+
+SPLIT TEMPORAL:
+├─ TRAIN: 28,031 velas (80%) | Positivos: 8,593 (30.7%)
+└─ TEST:   7,008 velas (20%) | Positivos: 1,546 (22.1%)
+
+FEATURES (8):
+1. EMA_200           (Tendencia)     - 15.3% importancia
+2. RSI_14            (Momentum)      - 7.8% importancia
+3. ATRr_14           (Volatilidad)   - 16.0% importancia ⭐
+4. MACDh_12_26_9     (Presión)       - 7.8% importancia
+5. STOCHk_14_3_3     (Reversión)     - 6.1% importancia
+6. volume_norm       (Volumen)       - 15.4% importancia
+7. atr_pct           (ATR %)         - 25.1% importancia ⭐⭐ TOP
+8. close_pct_change  (Cambio %)      - 6.5% importancia
+
+TARGET: Binario (1 = sube ≥1% en próximas 10 velas, 0 = no)
+
+================================================================================
+MODELO ENTRENADO
+================================================================================
+
+ARQUITECTURA: RandomForestClassifier
+PARÁMETROS:
+  - n_estimators: 100 árboles
+  - max_depth: 10 (prevención de overfitting)
+  - min_samples_leaf: 5
+  - Entrenamiento: <1 segundo
+
+EVALUACIÓN:
+                TRAIN           TEST
+  AUC Score:    0.8137          0.6389 ✓ (>0.60)
+  Accuracy:     76.4%           77.9%
+  Precision:    N/A             49.2%
+  Recall:       N/A             7.5% ← MUY BAJO
+
+ANÁLISIS:
+- AUC en test apenas supera mínimo (0.6389 vs 0.60)
+- Degradación AUC: 22% (overfitting)
+- Recall muy bajo: detecta solo 7.5% de oportunidades
+- Problema: modelo extremadamente conservador
+
+================================================================================
+BACKTESTING (Test Set, 20% final del dataset)
+================================================================================
+
+CONFIGURACIÓN:
+  Capital inicial:  $10,000
+  Período:          ~2025-08-10 → 2025-11-04 (3 meses)
+  Comisión:         0.075% (Binance)
+  Stop Loss:        ATR × 2.0 (dinámico)
+  Threshold:        0.70 (probabilidad de compra)
+
+RESULTADOS:
+  Capital Final:    $8,444
+  Pérdida Neta:     -$1,556
+  Retorno:          -15.56% ✗
+
+OPERACIONES:
+  Total Trades:     6 (muy pocos)
+  Ganadores:        0 (0.0%)
+  Perdedores:       6 (100.0%)
+  Profit Factor:    0.00 ✗ REPROBADO (≥1.0 requerido)
+  Avg Trade:        -$259
+  Best Trade:       -$196
+  Worst Trade:      -$448
+
+RIESGO:
+  Sharpe Ratio:     -0.38 (negativo, no rentable)
+  Max Drawdown:     -15.56%
+
+SEÑALES GENERADAS:
+  Total de señales: 48 (0.68% del dataset)
+  Motivo: threshold muy alto (0.70) + modelo débil
+
+BENCHMARK (Buy & Hold):
+  Return B&H:       -33.92%
+  Return Estrategia: -15.56%
+  Excess:           +18.36%
+  ↳ Estrategia es "menos mala" pero sigue siendo pérdida
+
+================================================================================
+¿POR QUÉ FALLÓ?
+================================================================================
+
+1. RECALL BAJO (7.5%)
+   └─ Detecta solo 116 de 1,546 oportunidades reales
+   └─ Se pierden el 92.5% de trades potenciales
+
+2. POCOS TRADES (6 total)
+   └─ Threshold 0.70 + modelo débil = muy selectivo
+   └─ Insuficiente para validar rentabilidad
+
+3. TODOS LOS TRADES EN STOP LOSS
+   └─ 100% de pérdidas por SL
+   └─ Entrada inoportuna o mercado adverso
+
+4. VOLATILIDAD DOMINA (41% importancia)
+   └─ ATR + volumen = 41% de la decisión
+   └─ Tendencia/momentum débiles (7.8% c/u)
+   └─ El modelo compra cuando "está volátil" sin dirección
+
+5. DESBALANCE SIN MITIGACIÓN
+   └─ 71% negativos, 29% positivos
+   └─ Modelo tiende a predecir "no comprar"
+   └─ Sin class_weight ni SMOTE
+
+6. TARGET SUBÓPTIMO
+   └─ 1% ganancia es muy baja
+   └─ Ruido en el dataset
+   └─ Horizonte 10 velas quizá muy corto
+
+================================================================================
+FEATURES MÁS IMPORTANTES
+================================================================================
+
+TOP 3:
+1. atr_pct       25.1% ⭐ (Volatilidad relativa)
+2. ATRr_14       16.0%    (Volatilidad absoluta)
+3. volume_norm   15.4%    (Volumen logarítmico)
+
+INSIGHT: El modelo se enfoca en VOLATILIDAD, no en TENDENCIA
+         ↳ Explica por qué entra en posiciones perdedoras
+
+================================================================================
+RECOMENDACIONES CRÍTICAS (ITERACIÓN 15)
+================================================================================
+
+PRIORIDAD ALTA:
+
+1. REDEFINIR TARGET
+   - Aumentar ganancia mínima a 2-3% (1% muy bajo)
+   - Incluir SL en target: target=1 solo si alcanza TP sin SL
+   - Probar horizontes: 5, 15, 20 velas (actualmente 10)
+
+2. MEJORAR FEATURES
+   - Agregar RSI cambios (RSI momentum)
+   - Agregar crossovers de EMAs
+   - Agregar Bollinger %B (volatilidad relativa)
+   - Normalizar features con Z-score
+
+3. BALANCEAR DATASET
+   - Usar class_weight='balanced' en RandomForest
+   - O implementar SMOTE oversampling
+   - Ajustar threshold de predicción (actualmente 0.70)
+
+4. REDUCIR OVERFITTING
+   - min_samples_leaf: 5 → 20
+   - max_depth: 10 → 6-8
+   - Usar validación cruzada 5-fold
+   - Implementar early stopping
+
+PRIORIDAD MEDIA:
+
+5. GRID SEARCH
+   - n_estimators: [50, 100, 200]
+   - max_depth: [6, 8, 10, 12]
+   - min_samples_leaf: [5, 10, 20]
+   - threshold: [0.50, 0.60, 0.70, 0.80]
+
+6. ANÁLISIS DE TRANSACCIONES
+   - Estudiar por qué todos van al SL
+   - ¿Entrada temprana? ¿Mercado adverso?
+   - Análisis técnico de los 6 trades perdedores
+
+================================================================================
+PRÓXIMOS PASOS
+================================================================================
+
+ITERACIÓN 15 (ML v2 - Optimización):
+□ Redefine target: 2-3% ganancia, incluir SL
+□ Agregar 5-10 features adicionales
+□ Implementar class balancing
+□ Grid search completo
+□ Validación cruzada 5-fold
+□ Backtesting walk-forward validation
+□ Prueba en otros pares (BTC, ADA)
+
+CRITERIOS DE ÉXITO ITERACIÓN 15:
+- AUC Score ≥ 0.65 (vs 0.6389 actual)
+- Profit Factor ≥ 1.5 (vs 0.00 actual)
+- Win Rate ≥ 40% (vs 0% actual)
+- Trades ≥ 50 (vs 6 actual)
+
+================================================================================
+AUDITORÍA
+================================================================================
+
+Status:              ❌ RECHAZADO
+Motivo:              Profit Factor = 0 (pérdida total)
+Necesita:            Optimización fundamental en iteración 15
+Aprobación:          Pendiente dirección ejecutiva
+
+Módulos funcionales: ✓ Sí
+Código calidad:      ✓ Bueno
+Reportes:            ✓ Completos
+Reproducibilidad:    ✓ 100% (seed random_state=42)
+
+================================================================================
+CÓMO EJECUTAR
+================================================================================
+
+# Ejecutar pipeline completo
+python3 scripts/phase2_ml_backtest.py
+
+# Ver resultados
+cat logs/phase2_ml.log
+cat results/metrics_ml_v1_*.json
+cat results/trades_log_ml_v1_*.csv
+
+# Leer reporte completo
+cat ITERACION_14_REPORTE_ML_v1.md
+
+================================================================================
+FIN DE RESUMEN EJECUTIVO
+================================================================================
+Documento: RESUMEN_EJECUTIVO_IT14.txt
+Fecha: 2025-11-04
+Preparado por: Claude Code (Quant-Auditor)
+Destinatario: Dirección Ejecutiva / Quant-Auditor

@@ -1,0 +1,22 @@
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)

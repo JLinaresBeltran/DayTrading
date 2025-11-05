@@ -1,0 +1,56 @@
+{
+  "binance": {
+    "api_key": "YOUR_BINANCE_API_KEY_HERE",
+    "api_secret": "YOUR_BINANCE_API_SECRET_HERE",
+    "testnet": true,
+    "testnet_api_key": "YOUR_TESTNET_API_KEY_HERE",
+    "testnet_api_secret": "YOUR_TESTNET_API_SECRET_HERE"
+  },
+  "trading": {
+    "symbol": "BTCUSDT",
+    "interval": "5m",
+    "capital_per_trade": 15,
+    "max_open_positions": 3,
+    "max_daily_loss_pct": 0.05,
+    "atr_sl_multiplier": 2.0,
+    "atr_tp_multiplier": 3.0
+  },
+  "strategy": {
+    "ema_short": 21,
+    "ema_long": 50,
+    "rsi_period": 14,
+    "rsi_overbought": 70,
+    "rsi_oversold": 30,
+    "bb_length": 20,
+    "bb_std": 2,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "atr_length": 14,
+    "stoch_k": 14,
+    "stoch_d": 3,
+    "stoch_smooth": 3
+  },
+  "backtest": {
+    "initial_capital": 10000,
+    "commission": 0.00075,
+    "slippage": 0.0005,
+    "start_date": "1 year ago UTC"
+  },
+  "ai": {
+    "use_lstm": true,
+    "use_sentiment": true,
+    "lstm_model_path": "models/lstm_model.h5",
+    "sentiment_model": "nlptown/bert-base-multilingual-uncased-sentiment",
+    "min_sentiment_score": 3.0,
+    "lstm_weight": 0.3,
+    "technical_weight": 0.4,
+    "sentiment_weight": 0.3
+  },
+  "logging": {
+    "level": "INFO",
+    "log_file": "logs/bot.log",
+    "max_bytes": 10485760,
+    "backup_count": 5
+  }
+}

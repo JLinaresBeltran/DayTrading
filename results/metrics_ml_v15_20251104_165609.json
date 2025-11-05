@@ -1,0 +1,53 @@
+{
+  "iteration": 15,
+  "date": "2025-11-04T16:56:09.434414",
+  "config": {
+    "features_mejorados": true,
+    "ganancia_min": 0.02,
+    "horizonte": 10,
+    "atr_multiplier": 3.0,
+    "threshold": 0.6,
+    "class_weight": "balanced",
+    "max_depth": 8
+  },
+  "model": {
+    "auc_score": 0.6489427800051824,
+    "accuracy": 0.9223744292237442,
+    "precision": 0.20640569395017794,
+    "recall": 0.15303430079155672,
+    "n_features": 13
+  },
+  "backtest": {
+    "initial_capital": 10000,
+    "final_value": NaN,
+    "net_profit": NaN,
+    "total_return_pct": NaN,
+    "annual_return_pct": 0.0,
+    "sharpe_ratio": -0.34,
+    "sortino_ratio": -0.02,
+    "calmar_ratio": 0.0,
+    "max_drawdown_pct": 20.48,
+    "num_trades": 6,
+    "win_rate_pct": 0.0,
+    "profit_factor": 0.0,
+    "avg_trade": NaN,
+    "best_trade": -247.21,
+    "worst_trade": -641.01,
+    "commission": 0.00075,
+    "slippage": 0.0005,
+    "buy_hold_return_pct": -32.87,
+    "excess_return_pct": NaN
+  },
+  "dataset": {
+    "total": 35039,
+    "train": 28031,
+    "test": 7008,
+    "symbol": "ETHUSDT",
+    "interval": "15m"
+  },
+  "success": {
+    "auc_>=_0.65": false,
+    "profit_factor_>= 1.0": false,
+    "approved": false
+  }
+}

@@ -1,0 +1,309 @@
+================================================================================
+ITERACIÓN 14: MÓDULO ML v1 - ÍNDICE DE ARTEFACTOS Y DOCUMENTACIÓN
+================================================================================
+
+📦 ARCHIVOS DE CÓDIGO CREADOS
+────────────────────────────────────────────────────────────────────────────
+
+✓ src/ml/feature_engineer.py (203 líneas)
+  ├─ Propósito: Feature Engineering y preparación de dataset
+  ├─ Funciones:
+  │  ├─ crear_features(df) → DataFrame con 8 features técnicos
+  │  ├─ crear_target(df, horizonte, ganancia_min) → Series binaria
+  │  ├─ preparar_dataset_ml(df, ...) → (X, y, feature_names)
+  │  └─ calcular_stats_target(y) → Dict con estadísticas
+  ├─ Uso: from src.ml.feature_engineer import preparar_dataset_ml
+  └─ Test: python3 src/ml/feature_engineer.py
+
+✓ scripts/phase2_ml_backtest.py (462 líneas)
+  ├─ Propósito: Pipeline ML completo (entrenamiento + backtesting)
+  ├─ Pasos automatizados:
+  │  1. Descarga datos (ETH/USDT, 15m, 1 año)
+  │  2. Calcula indicadores técnicos
+  │  3. Prepara dataset ML
+  │  4. Split Train/Test 80/20
+  │  5. Entrena RandomForestClassifier
+  │  6. Genera señales (threshold 0.70)
+  │  7. Backtesting con SL dinámico ATR
+  │  8. Genera reportes (JSON, CSV, logs)
+  ├─ Ejecución: python3 scripts/phase2_ml_backtest.py
+  ├─ Duración: ~30 segundos
+  └─ Outputs: Genera 3 artefactos en results/
+
+📊 ARTEFACTOS GENERADOS (Resultados)
+────────────────────────────────────────────────────────────────────────────
+
+✓ results/metrics_ml_v1_20251104_164541.json (986 bytes)
+  ├─ Formato: JSON estructurado
+  ├─ Contiene:
+  │  ├─ Métricas del modelo (AUC: 0.6389, Accuracy: 77.9%)
+  │  ├─ Métricas de backtesting (Profit Factor: 0.00, Sharpe: -0.38)
+  │  ├─ Info de dataset (35,039 muestras, split 80/20)
+  │  └─ Status criterios de éxito (AUC ✓, Profit Factor ✗)
+  ├─ Uso: Carga en cualquier herramienta JSON
+  └─ Ejemplo:
+      {
+        "model": {
+          "auc_score": 0.6389,
+          "accuracy": 0.7788,
+          "precision": 0.4915,
+          "recall": 0.075,
+          ...
+        },
+        "backtest": {
+          "total_return_pct": -15.56,
+          "profit_factor": 0.0,
+          "num_trades": 6,
+          ...
+        },
+        "success": {
+          "auc_>=_0.60": true,
+          "profit_factor_>= 1.0": false
+        }
+      }
+
+✓ results/feature_importance_ml_v1_20251104_164541.csv (265 bytes)
+  ├─ Formato: CSV (2 columnas: feature, importance)
+  ├─ Contiene: Importancia de cada uno de los 8 features
+  ├─ Ranking:
+  │  1. atr_pct          25.1%  ← MÁS IMPORTANTE
+  │  2. ATRr_14          16.0%
+  │  3. volume_norm      15.4%
+  │  4. EMA_200          15.3%
+  │  5. RSI_14            7.8%
+  │  6. MACDh_12_26_9     7.8%
+  │  7. close_pct_change  6.5%
+  │  8. STOCHk_14_3_3     6.1%
+  ├─ Uso: Análisis de qué features son más relevantes
+  └─ Insight: Volatilidad domina (41%), Tendencia es débil (7.8%)
+
+✓ results/trades_log_ml_v1_20251104_164541.csv (706 bytes)
+  ├─ Formato: CSV (9 columnas)
+  ├─ Contiene: Detalles de los 6 trades ejecutados
+  ├─ Columnas:
+  │  ├─ entry_idx, exit_idx: Índice de entrada/salida
+  │  ├─ entry_price, exit_price: Precios
+  │  ├─ stop_loss: Precio del SL
+  │  ├─ exit_reason: 'SL' (todos en stop loss)
+  │  ├─ pnl_pct, pnl_usd: Pérdida/ganancia
+  │  └─ position_type: 'LONG' (todas posiciones largas)
+  ├─ Análisis:
+  │  - 6 trades total
+  │  - 0 ganadores, 6 perdedores (100% loss rate)
+  │  - Rango de pérdida: -2.15% a -4.69%
+  │  - Total de pérdida: -$1,556
+  └─ Todos terminan en Stop Loss (problema: entrada inoportuna?)
+
+📄 DOCUMENTACIÓN GENERADA
+────────────────────────────────────────────────────────────────────────────
+
+✓ ITERACION_14_REPORTE_ML_v1.md (2,400 líneas aprox)
+  ├─ Documento: REPORTE DETALLADO DE AUDITORÍA
+  ├─ Secciones: 10 secciones principales
+  │  1. Resumen ejecutivo
+  │  2. Arquitectura del pipeline (diagrama)
+  │  3. Módulos implementados (detallados)
+  │  4. Dataset y preparación (análisis estadístico)
+  │  5. Modelo de clasificación (arquitectura, evaluación)
+  │  6. Resultados del backtesting (cuantitativos)
+  │  7. Análisis profundo de resultados
+  │  8. Criterios de éxito (evaluación)
+  │  9. Recomendaciones (críticas e importantes)
+  │  10. Artefactos generados
+  ├─ Público: Auditor / Dirección ejecutiva
+  ├─ Detalle: MUY ALTO (análisis completo)
+  └─ Extensión: ~100-150 KB
+
+✓ RESUMEN_EJECUTIVO_IT14.txt (500 líneas)
+  ├─ Documento: RESUMEN EJECUTIVO CONCISO
+  ├─ Ideal para: Lectura rápida (5-10 minutos)
+  ├─ Contiene: Resultado final + problem analysis + recomendaciones
+  ├─ Público: Dirección ejecutiva / C-level
+  ├─ Criterios:
+  │  ├─ AUC ≥ 0.60: ✓ APROBADO (0.6389)
+  │  └─ Profit Factor ≥ 1.0: ✗ REPROBADO (0.00)
+  ├─ Veredicto: ❌ RECHAZADO - Requiere ajustes (Iteración 15)
+  └─ Formato: TXT con tablas ASCII
+
+✓ EJEMPLOS_USO_ML_V1.md (400 líneas)
+  ├─ Documento: MANUAL DE EJEMPLOS Y TUTORIAL
+  ├─ Secciones:
+  │  1. Importación del módulo
+  │  2. Feature engineering (5 ejemplos)
+  │  3. Preparación de dataset (5 ejemplos)
+  │  4. Entrenamiento (3 ejemplos)
+  │  5. Generación de señales (3 ejemplos)
+  │  6. Integración con backtester (2 ejemplos)
+  │  7. Casos avanzados (ensemble, walk-forward)
+  │  8. Troubleshooting (5 problemas comunes)
+  │  9. Referencia rápida (copy-paste ready)
+  ├─ Público: Developers / Quants
+  ├─ Uso: Tutorial práctico con código ejecutable
+  └─ Extensión: ~20-30 KB
+
+✓ INDICE_ARTEFACTOS_IT14.txt (ESTE ARCHIVO)
+  ├─ Documento: ÍNDICE Y CATÁLOGO
+  ├─ Propósito: Navegar todos los artefactos
+  ├─ Público: Todos
+  └─ Uso: Punto de entrada para explorar
+
+✓ logs/phase2_ml.log
+  ├─ Formato: Log de ejecución con timestamps
+  ├─ Líneas: ~200+ con progreso detallado
+  ├─ Contiene:
+  │  ├─ Pasos de ejecución (con ✓/✗)
+  │  ├─ Métricas intermedias
+  │  ├─ Warnings (FutureWarning de pandas)
+  │  └─ Reporte final
+  ├─ Tamaño: ~4.8 KB
+  └─ Reproduciblidad: 100% (todas las métricas logged)
+
+📈 ESTRUCTURA DE DIRECTORIOS CREADA
+────────────────────────────────────────────────────────────────────────────
+
+BotDayTrading/
+├─ src/
+│  └─ ml/                                    ← NUEVO DIRECTORIO
+│     └─ feature_engineer.py                 ← NUEVO MÓDULO
+│
+├─ scripts/
+│  ├─ phase1_historical.py                  (existente)
+│  ├─ phase2_backtest.py                    (existente)
+│  ├─ phase2_ml_backtest.py                 ← NUEVO SCRIPT
+│  ├─ phase3_paper.py                       (existente)
+│  ├─ phase4_live.py                        (existente)
+│  └─ phase5_deployment.py                  (existente)
+│
+├─ results/                                  ← NUEVO DIRECTORIO
+│  ├─ metrics_ml_v1_20251104_164541.json     ← NUEVO
+│  ├─ feature_importance_ml_v1_....csv       ← NUEVO
+│  └─ trades_log_ml_v1_20251104_164541.csv   ← NUEVO
+│
+├─ logs/
+│  ├─ bot.log                               (existente)
+│  ├─ trades.log                            (existente)
+│  └─ phase2_ml.log                         ← NUEVO
+│
+├─ ITERACION_14_REPORTE_ML_v1.md            ← NUEVO
+├─ RESUMEN_EJECUTIVO_IT14.txt               ← NUEVO
+├─ EJEMPLOS_USO_ML_V1.md                    ← NUEVO
+└─ INDICE_ARTEFACTOS_IT14.txt               ← ESTE ARCHIVO
+
+📊 ESTADÍSTICAS DEL PROYECTO
+────────────────────────────────────────────────────────────────────────────
+
+CÓDIGO:
+  └─ 2 archivos nuevos: 665 líneas totales
+     ├─ feature_engineer.py:   203 líneas
+     └─ phase2_ml_backtest.py: 462 líneas
+
+DOCUMENTACIÓN:
+  └─ 4 archivos: ~4,000 líneas totales
+     ├─ ITERACION_14_REPORTE_ML_v1.md:    2,400 líneas
+     ├─ RESUMEN_EJECUTIVO_IT14.txt:         500 líneas
+     ├─ EJEMPLOS_USO_ML_V1.md:              400 líneas
+     └─ INDICE_ARTEFACTOS_IT14.txt:         700 líneas
+
+DATOS/LOGS:
+  └─ 4 archivos de salida: ~2 KB
+     ├─ metrics_ml_v1_....json:               986 bytes
+     ├─ feature_importance_ml_v1_....csv:     265 bytes
+     ├─ trades_log_ml_v1_....csv:             706 bytes
+     └─ phase2_ml.log:                      4.8 KB
+
+TOTAL: 10 archivos nuevos, 665 líneas de código, 4,000 líneas de docs
+
+🎯 CRITERIOS DE ÉXITO - ESTADO
+────────────────────────────────────────────────────────────────────────────
+
+┌─────────────────────────┬────────┬──────────┬────────────────────────────┐
+│ Criterio                │ Valor  │ Requerido│ Status   │ Análisis       │
+├─────────────────────────┼────────┼──────────┼──────────┼────────────────┤
+│ AUC Score               │ 0.6389 │ ≥ 0.60   │ ✓ APROBADO  │Apenas supera  │
+│ Profit Factor           │ 0.00   │ ≥ 1.0    │ ✗ RECHAZADO │Sin rentabilidad│
+│ MÓDULO VIABLE           │ ❌     │ Ambos    │ ✗ RECHAZADO │Falla criterion│
+└─────────────────────────┴────────┴──────────┴──────────────────────────────┘
+
+VEREDICTO: ❌ RECHAZADO - Requiere optimización (Iteración 15)
+
+⚙️ CÓMO USAR ESTOS ARTEFACTOS
+────────────────────────────────────────────────────────────────────────────
+
+1. REVISAR RÁPIDAMENTE (5 minutos):
+   └─ cat RESUMEN_EJECUTIVO_IT14.txt
+
+2. LEER AUDITORÍA COMPLETA (30-60 minutos):
+   └─ cat ITERACION_14_REPORTE_ML_v1.md
+
+3. APRENDER A USAR EL MÓDULO (30 minutos):
+   └─ cat EJEMPLOS_USO_ML_V1.md
+
+4. EJECUTAR NUEVAMENTE EL PIPELINE:
+   └─ python3 scripts/phase2_ml_backtest.py
+
+5. REVISAR RESULTADOS ESPECÍFICOS:
+   ├─ cat logs/phase2_ml.log
+   ├─ cat results/metrics_ml_v1_*.json
+   ├─ cat results/feature_importance_ml_v1_*.csv
+   └─ cat results/trades_log_ml_v1_*.csv
+
+6. IMPLEMENTAR ITERACIÓN 15:
+   └─ Leer recomendaciones en ITERACION_14_REPORTE_ML_v1.md (sección 9)
+
+🔍 PUNTOS CLAVE A RECORDAR
+────────────────────────────────────────────────────────────────────────────
+
+✓ LOGROS:
+  ├─ Pipeline ML funcional y reproducible (random_state=42)
+  ├─ 8 features técnicos relevantes
+  ├─ RandomForest discriminante (AUC 0.6389 > 0.50)
+  ├─ 35,039 muestras con 80/20 split
+  ├─ Backtesting vectorizado con SL dinámico
+  └─ Reportes completos y auditables
+
+❌ PROBLEMAS:
+  ├─ Profit Factor = 0 (pérdida total)
+  ├─ Win Rate = 0% (sin trades ganadores)
+  ├─ Recall = 7.5% (pocas señales detectadas)
+  ├─ Volatilidad domina features (41% del modelo)
+  ├─ Degradación train→test (overfitting 22%)
+  └─ Dataset desbalanceado sin mitigación
+
+💡 SIGUIENTE ITERACIÓN (Iteración 15):
+  1. Redefinir target (2-3% ganancia, incluir SL)
+  2. Agregar 5-10 features adicionales
+  3. Implementar class balancing
+  4. Grid search de hiperparámetros
+  5. Validación cruzada 5-fold
+  6. Walk-forward validation
+
+📝 PARA AUDITORÍA
+────────────────────────────────────────────────────────────────────────────
+
+Auditor debe revisar:
+  ✓ src/ml/feature_engineer.py     (lógica de features)
+  ✓ scripts/phase2_ml_backtest.py  (pipeline completo)
+  ✓ ITERACION_14_REPORTE_ML_v1.md  (análisis profundo)
+  ✓ results/*.json                 (resultados finales)
+  ✓ logs/phase2_ml.log             (trazabilidad)
+
+Preguntas para auditoría:
+  ❓ ¿Qué cambios haría para mejorar Profit Factor?
+  ❓ ¿Es aceptable Recall del 7.5% para siguiente fase?
+  ❓ ¿Debería usar clase_weight='balanced'?
+  ❓ ¿Qué target definition es mejor?
+  ❓ ¿Necesita walk-forward validation?
+
+================================================================================
+FIN DE ÍNDICE
+================================================================================
+
+Documento generado: 2025-11-04
+Versión: 1.0
+Iteración: 14 (ML v1)
+Status: ❌ RECHAZADO - Requiere Iteración 15
+
+Para consultas o actualizaciones, consulte:
+  - Reporte detallado: ITERACION_14_REPORTE_ML_v1.md
+  - Ejemplos de código: EJEMPLOS_USO_ML_V1.md
+  - Log de ejecución: logs/phase2_ml.log

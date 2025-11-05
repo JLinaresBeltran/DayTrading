@@ -1,0 +1,43 @@
+{
+  "model": {
+    "auc_score": 0.6389285871620126,
+    "accuracy": 0.778824200913242,
+    "precision": 0.4915254237288136,
+    "recall": 0.07503234152652005,
+    "n_estimators": 100,
+    "max_depth": 10
+  },
+  "backtest": {
+    "initial_capital": 10000,
+    "final_value": 8443.97,
+    "net_profit": -1556.03,
+    "total_return_pct": -15.56,
+    "annual_return_pct": 0.0,
+    "sharpe_ratio": -0.38,
+    "sortino_ratio": -0.03,
+    "calmar_ratio": 0.0,
+    "max_drawdown_pct": 15.56,
+    "num_trades": 6,
+    "win_rate_pct": 0.0,
+    "profit_factor": 0.0,
+    "avg_trade": -259.34,
+    "best_trade": -195.55,
+    "worst_trade": -447.64,
+    "commission": 0.00075,
+    "slippage": 0.0005,
+    "buy_hold_return_pct": -33.92,
+    "excess_return_pct": 18.36
+  },
+  "dataset": {
+    "total": 35039,
+    "train": 28031,
+    "test": 7008,
+    "symbol": "ETHUSDT",
+    "interval": "15m"
+  },
+  "success": {
+    "auc_>=_0.60": true,
+    "profit_factor_>= 1.0": false,
+    "approved": false
+  }
+}

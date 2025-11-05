@@ -1,0 +1,37 @@
+{
+  "iteration": 16,
+  "date": "2025-11-04T17:10:13.208828",
+  "target": "Triple Barrier (TP +4%, SL -2%, H=30)",
+  "model": {
+    "auc": 0.6494782129794816,
+    "accuracy": 0.9774543378995434,
+    "precision": 0.0,
+    "recall": 0.0
+  },
+  "backtest": {
+    "initial_capital": 10000,
+    "final_value": 10000.0,
+    "net_profit": 0.0,
+    "total_return_pct": 0.0,
+    "annual_return_pct": 0.0,
+    "sharpe_ratio": 0.0,
+    "sortino_ratio": 0.0,
+    "calmar_ratio": 0.0,
+    "max_drawdown_pct": 0.0,
+    "num_trades": 0,
+    "win_rate_pct": 0.0,
+    "profit_factor": 0.0,
+    "avg_trade": 0.0,
+    "best_trade": 0.0,
+    "worst_trade": 0.0,
+    "commission": 0.00075,
+    "slippage": 0.0005,
+    "buy_hold_return_pct": -31.5,
+    "excess_return_pct": 31.5
+  },
+  "success": {
+    "profit_factor_>=_1.0": false,
+    "win_rate_>_0": false,
+    "approved": false
+  }
+}

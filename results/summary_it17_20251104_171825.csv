@@ -1,0 +1,4 @@
+donchian_period,atr_multiplier,sharpe_ratio,total_return_pct,profit_factor,win_rate_pct,num_trades,max_drawdown_pct,avg_trade,best_trade,worst_trade
+20,4.0,0.01,1.19,1.03,19.23,26,22.44,4.56,1914.41,-458.14
+20,3.5,0.01,0.1,1.0,14.81,27,20.04,0.36,1888.76,-408.43
+20,3.0,-0.0,-3.29,0.9,11.11,27,19.69,-12.2,1819.9,-357.07

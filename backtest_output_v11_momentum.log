@@ -1,0 +1,134 @@
+================================================================================
+FASE 2: BACKTESTING Y OPTIMIZACIÓN - ITERACIÓN 11 (MOMENTUM v1)
+ESTRATEGIA: Donchian Channel Breakout + SL Dinámico ATR
+================================================================================
+
+1. Conectando a Binance...
+   ✓ Cliente creado
+
+2. Definiendo grid de parámetros a optimizar...
+   ✓ Total de combinaciones: 9
+   ✓ Parámetros a optimizar:
+      - donchian_period: [20, 30, 40]
+      - atr_multiplier: [1.5, 2.0, 2.5]
+
+3. Ejecutando optimización (esto puede tardar varios minutos)...
+   ACTIVO: ETH/USDT
+   TIMEFRAME: 15 minutos
+   DATASET: 1 año completo (365 días)
+   ESTRATEGIA: Donchian Channel Breakout (Momentum)
+   STOP LOSS: ACTIVADO (dinámico basado en ATR)
+================================================================================
+Optimizando parámetros para ETHUSDT...
+Estrategia: generar_senales_momentum_v1
+Stop Loss ATR: ACTIVADO
+Total de combinaciones a probar: 9
+
+Pre-calculando todos los Canales de Donchian...
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 17:45:00 hasta 2025-11-04 17:30:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+✓ Indicadores pre-calculados
+
+[1/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: 0.03, Retorno: 6.14%
+
+[2/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 30, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.33, Retorno: -11.89%
+
+[3/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 40, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.30, Retorno: -9.62%
+
+[4/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: 0.02, Retorno: 2.10%
+
+[5/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 30, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.33, Retorno: -14.98%
+
+[6/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 40, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.29, Retorno: -12.16%
+
+[7/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: 0.01, Retorno: 0.92%
+
+[8/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 30, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.32, Retorno: -17.97%
+
+[9/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 40, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.29, Retorno: -14.63%
+
+
+4. Guardando resultados completos del Grid Search...
+   ✓ Resultados guardados en: backtest_results_eth_v11_momentum.csv
+   ✓ Total de combinaciones evaluadas: 9
+
+================================================================================
+TOP 5 MEJORES CONFIGURACIONES
+================================================================================
+
+Resumen:
+ ema_trend  donchian_period  atr_multiplier  sharpe_ratio  total_return_pct  max_drawdown_pct  win_rate_pct  profit_factor  num_trades
+       200               20             1.5          0.03              6.14             12.56           0.0            0.0          37
+       200               20             2.0          0.02              2.10             15.66           0.0            0.0          37
+       200               20             2.5          0.01              0.92             16.42           0.0            0.0          37
+       200               40             2.0         -0.29            -12.16             12.16           0.0            0.0          18
+       200               40             2.5         -0.29            -14.63             14.63           0.0            0.0          18
+
+================================================================================
+MÉTRICAS DETALLADAS DE LA MEJOR CONFIGURACIÓN
+================================================================================
+
+Parámetros Optimizados - Estrategia de Momentum:
+  CAPA 1 (Régimen):
+    - EMA Tendencia: 200 períodos
+  CAPA 2 (Entrada - Breakout):
+    - Canal de Donchian: 20 períodos
+  CAPA 3 (Salida y Riesgo):
+    - Trailing Stop: Canal Donchian Inferior (20 períodos)
+    - Stop Loss ATR: 14 períodos × 1.5x
+============================================================
+MÉTRICAS DE RENDIMIENTO
+============================================================
+
+Capital Inicial:          $10,000.00
+Valor Final:              $10,614.11
+Ganancia Neta:            $614.11
+Retorno Total:            6.14%
+Retorno Anualizado:       6.16%
+
+Sharpe Ratio:             0.03
+Sortino Ratio:            0.02
+Calmar Ratio:             0.49
+Max Drawdown:             12.56%
+
+Número de Trades:         37.0
+Win Rate:                 0.00%
+Profit Factor:            0.0
+Trade Promedio:           $16.60
+Mejor Trade:              $0.00
+Peor Trade:               $-44.47
+============================================================
+
+5. Guardando parámetros óptimos...
+
+✓ Parámetros óptimos guardados en config/optimal_params.json
+
+================================================================================
+✓ FASE 2 COMPLETADA EXITOSAMENTE - ITERACIÓN 11 (MOMENTUM)
+================================================================================
+
+Resultados:
+  - CSV completo: backtest_results_eth_v11_momentum.csv (9 combinaciones)
+  - Parámetros óptimos: config/optimal_params.json
+  - Estrategia: Donchian Channel Breakout (Momentum)
+  - Stop Loss ATR: ACTIVADO (mantenido de Iteración 10.1)
+
+Comparación con Iteración 10.1:
+  - Iteración 10.1 (Estocástico): Win Rate 0%, Sharpe -0.14 a -0.26
+  - Iteración 11 (Momentum): Revisar archivo CSV para comparación
+
+Próximos pasos:
+  - Analizar Win Rate y Profit Factor (objetivo: >40% y >1.0)
+  - Comparar métricas con Iteración 10.1
+  - Si aprueba auditoría → Fase 3: python scripts/phase3_paper.py

@@ -1,0 +1,142 @@
+================================================================================
+FASE 2: BACKTESTING Y OPTIMIZACIÓN - ITERACIÓN 13 (BAJISTA v1)
+ESTRATEGIA: 4 Capas SHORT-ONLY (Régimen Bajista + RSI + MACD + ATR)
+================================================================================
+
+1. Conectando a Binance...
+   ✓ Cliente creado
+
+2. Definiendo grid de parámetros a optimizar...
+   ✓ Total de combinaciones: 9
+   ✓ Parámetros a optimizar:
+      - rsi_momentum_level: [55, 50, 45] (⚠️ INVERTIDO: RSI < nivel)
+      - atr_multiplier: [1.5, 2.0, 2.5]
+
+3. Ejecutando optimización (esto puede tardar varios minutos)...
+   ACTIVO: ETH/USDT
+   TIMEFRAME: 15 minutos
+   DATASET: 1 año completo (365 días)
+   ESTRATEGIA: Bajista 4 Capas SHORT-ONLY (precio < EMA_200 + RSI < nivel + MACD bajista)
+   STOP LOSS: ACTIVADO (dinámico basado en ATR, INVERTIDO: entry + ATR, verifica df['high'])
+================================================================================
+Optimizando parámetros para ETHUSDT...
+Estrategia: generar_senales_bajista_v1
+Stop Loss ATR: ACTIVADO
+Total de combinaciones a probar: 9
+
+Pre-calculando todos los Canales de Donchian...
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 21:30:00 hasta 2025-11-04 21:15:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+✓ Indicadores pre-calculados
+
+[1/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 55, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.01, Retorno: -28.99%
+
+[2/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 50, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.02, Retorno: -33.19%
+
+[3/9] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 45, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: 0.03, Retorno: 4.10%
+
+[4/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 55, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.00, Retorno: -23.58%
+
+[5/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 50, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.02, Retorno: -34.63%
+
+[6/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.0, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 45, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: 0.02, Retorno: -7.65%
+
+[7/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 55, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.02, Retorno: -35.08%
+
+[8/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 50, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.03, Retorno: -39.31%
+
+[9/9] Probando: {'atr_length': 14, 'atr_multiplier': 2.5, 'bb_length': 20, 'bb_std': 2, 'donchian_period': 20, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_momentum_level': 45, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_smooth': 3}
+   Sharpe: -0.00, Retorno: -25.92%
+
+
+4. Guardando resultados completos del Grid Search...
+   ✓ Resultados guardados en: backtest_results_eth_v13_bajista.csv
+   ✓ Total de combinaciones evaluadas: 9
+
+================================================================================
+TOP 5 MEJORES CONFIGURACIONES
+================================================================================
+
+Resumen:
+ ema_trend  rsi_momentum_level  atr_multiplier  sharpe_ratio  total_return_pct  max_drawdown_pct  win_rate_pct  profit_factor  num_trades
+       200                  45             1.5          0.03              4.10             41.75         18.79           1.01         596
+       200                  45             2.0          0.02             -7.65             55.71         21.59           0.98         528
+       200                  55             2.0         -0.00            -23.58             52.84         23.22           0.95         732
+       200                  45             2.5         -0.00            -25.92             59.92         21.63           0.93         490
+       200                  55             1.5         -0.01            -28.99             54.92         19.75           0.94         805
+
+================================================================================
+MÉTRICAS DETALLADAS DE LA MEJOR CONFIGURACIÓN
+================================================================================
+
+Parámetros Optimizados - Estrategia Bajista (SHORT-ONLY):
+  CAPA 1 (Régimen BAJISTA) ⚠️ INVERTIDO:
+    - EMA Tendencia: 200 períodos (Solo opera si precio < EMA)
+  CAPA 2 (Momentum BAJISTA) ⚠️ INVERTIDO:
+    - RSI: 14 períodos
+    - RSI Nivel MÁXIMO: 45 (Solo opera si RSI < nivel)
+  CAPA 3 (Señal VENTA EN CORTO) ⚠️ INVERTIDO:
+    - MACD: 12/26/9
+    - Entrada: Cruce BAJISTA (MACD < Signal)
+    - Salida: Cruce ALCISTA (MACD > Signal)
+  CAPA 4 (Riesgo SHORT) ⚠️ INVERTIDO:
+    - Stop Loss ATR: entry + (14 períodos × 1.5x)
+    - Verificación: df['high'] >= SL
+============================================================
+MÉTRICAS DE RENDIMIENTO
+============================================================
+
+Capital Inicial:          $10,000.00
+Valor Final:              $10,410.44
+Ganancia Neta:            $410.44
+Retorno Total:            4.10%
+Retorno Anualizado:       4.12%
+
+Sharpe Ratio:             0.03
+Sortino Ratio:            0.03
+Calmar Ratio:             0.1
+Max Drawdown:             41.75%
+
+Número de Trades:         596.0
+Win Rate:                 18.79%
+Profit Factor:            1.01
+Trade Promedio:           $0.69
+Mejor Trade:              $3,472.11
+Peor Trade:               $-449.90
+============================================================
+
+5. Guardando parámetros óptimos...
+
+✓ Parámetros óptimos guardados en config/optimal_params.json
+
+================================================================================
+✓ FASE 2 COMPLETADA EXITOSAMENTE - ITERACIÓN 13 (BAJISTA v1 - SHORT-ONLY)
+================================================================================
+
+Resultados:
+  - CSV completo: backtest_results_eth_v13_bajista.csv (9 combinaciones)
+  - Parámetros óptimos: config/optimal_params.json
+  - Estrategia: Bajista 4 Capas SHORT-ONLY (precio < EMA_200 + RSI < nivel + MACD bajista)
+  - Stop Loss ATR: ACTIVADO (INVERTIDO: entry + ATR, verifica df['high'])
+  - Motor de Backtest: ACTUALIZADO para soportar posiciones LONG y SHORT
+
+Comparación con Iteraciones Anteriores (TODAS LONG-ONLY):
+  - Iteración 10.1 (Estocástico Long): Win Rate 0%, Sharpe -0.14 a -0.26
+  - Iteración 11.1 (Donchian Long): Win Rate 5%, Sharpe 0.03
+  - Iteración 12 (Híbrido Long): Win Rate 27.51%, Sharpe -0.12, Return -33.30%
+  - Iteración 13 (Bajista SHORT): ¿Hipótesis correcta? ¿Señales invertidas rentables?
+
+Próximos pasos:
+  - Auditoría del Quant-Auditor: N° Trades, Win Rate >35%, Profit Factor >1.0
+  - Verificar correcta implementación de lógica SHORT (SL invertido, df['high'])
+  - Si aprueba auditoría → Fase 3: python scripts/phase3_paper.py

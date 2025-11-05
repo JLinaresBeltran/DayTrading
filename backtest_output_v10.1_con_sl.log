@@ -1,0 +1,56 @@
+================================================================================
+FASE 2: BACKTESTING Y OPTIMIZACIÓN - ITERACIÓN 10.1 (CON STOP LOSS)
+ESTRATEGIA: Confluencia de 3 Capas (Módulo Alcista v1) + SL Dinámico ATR
+================================================================================
+
+1. Conectando a Binance...
+   ✓ Cliente creado
+
+2. Definiendo grid de parámetros a optimizar...
+   ✓ Total de combinaciones: 27
+   ✓ Parámetros a optimizar:
+      - stoch_oversold: [20, 25, 30]
+      - stoch_overbought: [70, 75, 80]
+      - atr_multiplier: [1.5, 2.0, 2.5]
+
+3. Ejecutando optimización (esto puede tardar varios minutos)...
+   ACTIVO: ETH/USDT
+   TIMEFRAME: 15 minutos
+   DATASET: 1 año completo (365 días)
+   STOP LOSS: ACTIVADO (dinámico basado en ATR)
+================================================================================
+Optimizando parámetros para ETHUSDT...
+Estrategia: generar_senales_triple_capa
+Stop Loss ATR: ACTIVADO
+Total de combinaciones a probar: 27
+
+[1/27] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_overbought': 70, 'stoch_oversold': 20, 'stoch_smooth': 3}
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 17:00:00 hasta 2025-11-04 16:45:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   Error: 'strategy_returns'
+
+[2/27] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_overbought': 70, 'stoch_oversold': 25, 'stoch_smooth': 3}
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 17:00:00 hasta 2025-11-04 16:45:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   Error: 'strategy_returns'
+
+[3/27] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_overbought': 70, 'stoch_oversold': 30, 'stoch_smooth': 3}
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 17:00:00 hasta 2025-11-04 16:45:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   Error: 'strategy_returns'
+
+[4/27] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_overbought': 75, 'stoch_oversold': 20, 'stoch_smooth': 3}
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...
+✓ Descargados 35040 registros desde 2024-11-04 17:00:00 hasta 2025-11-04 16:45:00
+/Users/jhonathan/BotDayTrading/src/indicators/technical.py:105: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method='bfill', inplace=True)
+   Error: 'strategy_returns'
+
+[5/27] Probando: {'atr_length': 14, 'atr_multiplier': 1.5, 'bb_length': 20, 'bb_std': 2, 'ema_trend': 200, 'macd_fast': 12, 'macd_signal': 9, 'macd_slow': 26, 'rsi_period': 14, 'stoch_d': 3, 'stoch_k': 14, 'stoch_overbought': 75, 'stoch_oversold': 25, 'stoch_smooth': 3}
+Descargando datos de ETHUSDT (15m) desde 365 days ago UTC...

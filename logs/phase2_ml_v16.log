@@ -1,0 +1,75 @@
+2025-11-04 17:09:24 - phase2_ml_v16 - INFO - ================================================================================
+2025-11-04 17:09:24 - phase2_ml_v16 - INFO - ITERACIÓN 16: ML v3 - TRIPLE BARRIER + GRADIENT BOOSTING
+2025-11-04 17:09:24 - phase2_ml_v16 - INFO - ================================================================================
+2025-11-04 17:09:24 - phase2_ml_v16 - INFO - 
+1. Descargando datos...
+2025-11-04 17:09:49 - phase2_ml_v16 - INFO -    ✓ 35040 velas descargadas
+2025-11-04 17:09:49 - phase2_ml_v16 - INFO - 
+2. Preparando dataset con Triple Barrier...
+2025-11-04 17:09:50 - phase2_ml_v16 - INFO -    ✓ 35039 muestras, 18 features
+2025-11-04 17:09:50 - phase2_ml_v16 - INFO -    Positivos: 1894 (5.4%)
+2025-11-04 17:09:50 - phase2_ml_v16 - INFO -    Negativos: 33145 (94.6%)
+2025-11-04 17:09:50 - phase2_ml_v16 - INFO - 
+3. Train/Test split
+2025-11-04 17:09:50 - phase2_ml_v16 - INFO -    Train: 28031, Test: 7008
+2025-11-04 17:09:50 - phase2_ml_v16 - INFO - 
+4. Entrenando GradientBoostingClassifier...
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    ✓ Modelo entrenado
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO - 
+5. Evaluando modelo...
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    AUC: 0.6495, Accuracy: 0.9775, Precision: 0.0000, Recall: 0.0000
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO - 
+6. TOP 5 Features:
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    1. EMA_200.......................  37.3%
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    2. price_to_ema200_pct...........  18.0%
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    3. atr_pct.......................  12.4%
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    4. ATRr_14.......................   6.9%
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    5. ema_distance_ratio............   5.5%
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO - 
+7. Generando señales...
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO -    ✓ 0 señales (0.00%)
+2025-11-04 17:10:12 - phase2_ml_v16 - INFO - 
+8. Ejecutando backtesting...
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -    ✓ Backtesting completado
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+================================================================================
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - REPORTE IT16: TRIPLE BARRIER + GRADIENT BOOSTING
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - ================================================================================
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+DATASET: 35,040 velas (Train: 28,031, Test: 7,008)
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - FEATURES: 18 (básicos + IT15 + timing/momentum)
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - TARGET: Triple Barrier (TP +4%, SL -2%, H=30 velas)
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+MODELO: GradientBoostingClassifier
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   AUC: 0.6495
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Accuracy: 0.9775 (97.7%)
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Precision: 0.0000
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Recall: 0.0000
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+BACKTESTING:
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Capital Inicial: $10,000
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Capital Final: $10,000
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Retorno: +0.00%
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Trades: 0
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Win Rate: 0.0%
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Profit Factor: 0.00
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Sharpe: 0.00
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO -   Max DD: 0.00%
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+================================================================================
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - CRITERIOS DE ÉXITO IT16
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - ================================================================================
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+AUC ≥ 0.60: 0.6495 ✓
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - Profit Factor ≥ 1.0: 0.00 ✗ CRÍTICO
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - Win Rate > 0%: 0.0% ✗ CRÍTICO
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+✗✗✗ ITERACIÓN 16 SIN APROBACIÓN ✗✗✗
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+================================================================================
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - Guardando artefactos...
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - ✓ Reporte: backtest_results_eth_v16_triple_barrier.csv
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - 
+================================================================================
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - EJECUCIÓN COMPLETADA
+2025-11-04 17:10:13 - phase2_ml_v16 - INFO - ================================================================================

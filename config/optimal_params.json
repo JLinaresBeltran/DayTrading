@@ -1,0 +1,16 @@
+{
+  "ema_trend": 200,
+  "rsi_period": 14,
+  "rsi_momentum_level": 45,
+  "macd_fast": 12,
+  "macd_slow": 26,
+  "macd_signal": 9,
+  "atr_length": 14,
+  "atr_multiplier": 1.5,
+  "bb_length": 20,
+  "bb_std": 2.0,
+  "stoch_k": 14,
+  "stoch_d": 3,
+  "stoch_smooth": 3,
+  "donchian_period": 20
+}

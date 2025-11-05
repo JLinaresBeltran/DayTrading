@@ -1,0 +1,53 @@
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO - ================================================================================
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO - ITERACIÓN 23: OPTIMIZACIÓN ULTRA-AGRESIVA EN 15M
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO - ================================================================================
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO - 
+Hipótesis: Parámetros ultra-agresivos → Alta frecuencia (>150 trades)
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO - Objetivo: PF > 1.1 AND Num Trades > 150
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO - 
+1. Cargando datos históricos de ETHUSDT 15m...
+2025-11-05 19:12:10 - phase2_optimize_v23 - INFO -    ✓ Cargando desde archivo: ETHUSDT_15m_OHLCV_2025-11-05.csv
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -    ✓ 35,040 velas cargadas desde CSV
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO - 
+2. Definiendo Grid de Parámetros Ultra-Agresivos...
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -    ✓ Total de combinaciones: 81
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -    ✓ Parámetros:
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -       - donchian_period: [5, 7, 10]
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -       - ema_filter_period: [25, 50, 75]
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -       - sl_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -       - tp_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 19:12:11 - phase2_optimize_v23 - INFO -    Evaluando combinación 1/81...
+2025-11-05 19:12:53 - phase2_optimize_v23 - INFO -    Evaluando combinación 10/81...
+2025-11-05 19:13:39 - phase2_optimize_v23 - INFO -    Evaluando combinación 20/81...
+2025-11-05 19:14:25 - phase2_optimize_v23 - INFO -    Evaluando combinación 30/81...
+2025-11-05 19:15:10 - phase2_optimize_v23 - INFO -    Evaluando combinación 40/81...
+2025-11-05 19:15:56 - phase2_optimize_v23 - INFO -    Evaluando combinación 50/81...
+2025-11-05 19:16:41 - phase2_optimize_v23 - INFO -    Evaluando combinación 60/81...
+2025-11-05 19:17:26 - phase2_optimize_v23 - INFO -    Evaluando combinación 70/81...
+2025-11-05 19:18:12 - phase2_optimize_v23 - INFO -    Evaluando combinación 80/81...
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO -    ✓ Resultados guardados: backtest_results_eth_v23_aggressive_15m.csv
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO -    ✓ Total de combinaciones evaluadas: 81
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - 
+================================================================================
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - ================================================================================
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO -   - Profit Factor > 1.1: ✓
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO -   - Num Trades > 150: ✓
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO -   - Total encontradas: 0
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - 
+✗✗✗ ITERACIÓN 23 SIN APROBACIÓN ✗✗✗
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - No se encontraron configuraciones que cumplan AMBOS criterios.
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - ANÁLISIS SEPARADO:
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - --------------------------------------------------------------------------------
+2025-11-05 19:18:21 - phase2_optimize_v23 - INFO - 
+Top 5 por Profit Factor (sin filtro de trades):

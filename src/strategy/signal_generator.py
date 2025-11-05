@@ -867,6 +867,111 @@ def contar_señales(df):
     }
 
 
+def generar_senales_donchian_ema(df, config=None):
+    """
+    Genera señales de trading usando ESTRATEGIA DONCHIAN + EMA (v18/v22/v23).
+
+    ITERACIÓN 23: Parámetros ultra-agresivos para maximizar frecuencia en 15m.
+
+    Estrategia de 2 Capas (LONG-ONLY):
+
+    CAPA 1 (Filtro de Tendencia):
+    - Solo opera cuando close > EMA (tendencia alcista)
+    - Evita operar contra la tendencia principal
+
+    CAPA 2 (Señal de Entrada - Breakout Donchian):
+    - COMPRA: Precio rompe HACIA ARRIBA el canal superior de Donchian
+    - VENTA: Precio rompe HACIA ABAJO el canal inferior de Donchian
+    - Rationale: Breakout de máximos/mínimos indica momentum
+
+    Args:
+        df: DataFrame con indicadores calculados
+        config: Diccionario con parámetros:
+            - donchian_period: Período del Canal de Donchian (default: 20)
+            - ema_filter_period: Período de EMA de filtro (default: 50)
+
+    Returns:
+        DataFrame con columnas 'señal' y 'position' añadidas
+    """
+    # Parámetros por defecto
+    if config is None:
+        config = {
+            'donchian_period': 20,
+            'ema_filter_period': 50
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    donchian_period = config['donchian_period']
+    ema_filter_col = f"EMA_{config['ema_filter_period']}"
+    donchian_upper_col = f"DONCHI_h_{donchian_period}"
+    donchian_lower_col = f"DONCHI_l_{donchian_period}"
+
+    # Verificar que las columnas requeridas existan
+    required_cols = [ema_filter_col, donchian_upper_col, donchian_lower_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(f"Columnas faltantes en DataFrame: {missing_cols}. "
+                        f"Asegúrate de calcular indicadores primero. "
+                        f"Columnas disponibles: {df.columns.tolist()}")
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # CAPA 1: FILTRO DE TENDENCIA (EMA)
+    # ==========================================
+    # Solo opera cuando el precio está por encima de EMA (tendencia alcista)
+    condicion_tendencia_alcista = df['close'] > df[ema_filter_col]
+
+    # ==========================================
+    # CAPA 2: ENTRADA - BREAKOUT ALCISTA
+    # ==========================================
+    # Señal de COMPRA: Precio cruza HACIA ARRIBA el canal superior de Donchian
+    condicion_entrada_breakout = (
+        (df['close'].shift(1) < df[donchian_upper_col].shift(1)) &
+        (df['close'] >= df[donchian_upper_col])
+    )
+
+    # ==========================================
+    # CAPA 2: SALIDA - BREAKOUT BAJISTA
+    # ==========================================
+    # Señal de VENTA: Precio cruza HACIA ABAJO el canal inferior
+    condicion_salida_breakout = (
+        (df['close'].shift(1) > df[donchian_lower_col].shift(1)) &
+        (df['close'] <= df[donchian_lower_col])
+    )
+
+    # ==========================================
+    # GENERACIÓN DE SEÑALES
+    # ==========================================
+    # COMPRA: Solo si hay tendencia alcista Y breakout del canal superior
+    df.loc[condicion_tendencia_alcista & condicion_entrada_breakout, 'señal'] = 1
+
+    # VENTA: Cuando se rompe el canal inferior
+    df.loc[condicion_salida_breakout, 'señal'] = -1
+
+    # ==========================================
+    # COLUMNA DE POSICIÓN (Long-Only)
+    # ==========================================
+    df['position'] = 0
+    in_position = False
+
+    for i in range(len(df)):
+        signal = df['señal'].iloc[i]
+
+        if signal == 1 and not in_position:  # Abrir posición larga
+            in_position = True
+        elif signal == -1 and in_position:   # Cerrar posición larga
+            in_position = False
+
+        df.iloc[i, df.columns.get_loc('position')] = 1 if in_position else 0
+
+    return df
+
+
 if __name__ == "__main__":
     # Test básico del módulo
     from src.data.binance_client import BinanceClientManager

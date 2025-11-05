@@ -12,7 +12,7 @@ from src.backtest.engine import VectorizedBacktester
 
 
 def run_strategy_backtest(client, params, symbol='BTCUSDT', interval='5m', start_date='1 year ago UTC',
-                          df_cached=None, signal_function='generar_señales', use_stop_loss=False):
+                          df_cached=None, signal_function='generar_señales', use_stop_loss=False, use_sl_tp=False):
     """
     Ejecuta un backtest con parámetros específicos.
 
@@ -25,6 +25,7 @@ def run_strategy_backtest(client, params, symbol='BTCUSDT', interval='5m', start
         df_cached: DataFrame pre-calculado con indicadores (opcional)
         signal_function: Nombre de la función de generación de señales (default: 'generar_señales')
         use_stop_loss: Si True, usa backtest con Stop Loss dinámico basado en ATR (default: False)
+        use_sl_tp: Si True, usa backtest con SL y TP separados basados en ATR (default: False)
 
     Returns:
         Diccionario con resultados
@@ -48,7 +49,19 @@ def run_strategy_backtest(client, params, symbol='BTCUSDT', interval='5m', start
     # Ejecutar backtest
     backtester = VectorizedBacktester(df, initial_capital=10000)
 
-    if use_stop_loss:
+    if use_sl_tp:
+        # Usar backtest con SL y TP separados basados en ATR (ITERACIÓN 22)
+        sl_multiplier = params.get('sl_multiplier', 2.0)
+        tp_multiplier = params.get('tp_multiplier', 3.0)
+        atr_length = params.get('atr_length', 14)
+        atr_column = f'ATRr_{atr_length}'
+
+        backtester.run_backtest_with_sl_tp(
+            atr_column=atr_column,
+            sl_multiplier=sl_multiplier,
+            tp_multiplier=tp_multiplier
+        )
+    elif use_stop_loss:
         # Usar backtest con Stop Loss dinámico basado en ATR
         atr_multiplier = params.get('atr_multiplier', 2.0)
         atr_length = params.get('atr_length', 14)
@@ -71,7 +84,7 @@ def run_strategy_backtest(client, params, symbol='BTCUSDT', interval='5m', start
 
 
 def optimize_parameters(client, param_grid, symbol='BTCUSDT', interval='5m', start_date='1 year ago UTC',
-                       signal_function='generar_señales', use_stop_loss=False):
+                       signal_function='generar_señales', use_stop_loss=False, use_sl_tp=False):
     """
     Optimiza parámetros usando Grid Search.
 
@@ -83,13 +96,19 @@ def optimize_parameters(client, param_grid, symbol='BTCUSDT', interval='5m', sta
         start_date: Fecha de inicio
         signal_function: Nombre de la función de generación de señales (default: 'generar_señales')
         use_stop_loss: Si True, usa backtest con Stop Loss dinámico basado en ATR (default: False)
+        use_sl_tp: Si True, usa backtest con SL y TP separados basados en ATR (default: False)
 
     Returns:
         DataFrame con todos los resultados ordenados por Sharpe Ratio
     """
     print(f"Optimizando parámetros para {symbol}...")
     print(f"Estrategia: {signal_function}")
-    print(f"Stop Loss ATR: {'ACTIVADO' if use_stop_loss else 'DESACTIVADO'}")
+    if use_sl_tp:
+        print(f"Stop Loss + Take Profit ATR: ACTIVADO (SL y TP separados)")
+    elif use_stop_loss:
+        print(f"Stop Loss ATR: ACTIVADO")
+    else:
+        print(f"Stop Loss/TP: DESACTIVADO")
     print(f"Total de combinaciones a probar: {len(list(ParameterGrid(param_grid)))}\n")
 
     # Pre-calcular indicadores una sola vez con TODOS los períodos necesarios
@@ -113,7 +132,7 @@ def optimize_parameters(client, param_grid, symbol='BTCUSDT', interval='5m', sta
         try:
             result = run_strategy_backtest(client, params, symbol, interval, start_date,
                                           df_cached=df_cached, signal_function=signal_function,
-                                          use_stop_loss=use_stop_loss)
+                                          use_stop_loss=use_stop_loss, use_sl_tp=use_sl_tp)
             results.append(result)
             print(f"   Sharpe: {result['sharpe_ratio']:.2f}, Retorno: {result['total_return_pct']:.2f}%\n")
         except Exception as e:

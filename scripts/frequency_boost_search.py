@@ -177,13 +177,12 @@ def main():
 
     # Calcular indicadores
     print("\nCalculando indicadores...")
-    df_base = agregar_indicadores(
-        df_base,
-        ema_rapida=12,
-        ema_lenta=26,
-        rsi_periodo=14,
-        atr_length=14
-    )
+    df_base = agregar_indicadores(df_base, config={
+        'ema_short': 21,
+        'ema_long': 50,
+        'rsi_period': 14,
+        'atr_length': 14,
+    })
 
     # Calcular indicadores adicionales manualmente
     df_base.ta.atr(length=20, append=True)

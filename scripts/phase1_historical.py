@@ -20,7 +20,7 @@ def main():
     print("=" * 70)
 
     # Configuración
-    SIMBOLO = 'BTCUSDT'
+    SIMBOLO = 'ETHUSDT'
     INTERVALO = '5m'
     INICIO = '1 year ago UTC'
 

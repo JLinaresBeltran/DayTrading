@@ -1020,3 +1020,529 @@ if __name__ == "__main__":
     print(f"   Señales VENTA (avanzada): {stats_avanzado['ventas']}")
 
     print("\n✓ Test completado exitosamente")
+
+
+def generar_senales_pullback_ema_v25(df, config=None):
+    """
+    ITERACIÓN 25: ESTRATEGIA EMA PULLBACK (Retrocesos a Media Móvil)
+
+    Hipótesis: Podemos obtener alta frecuencia y rentabilidad comprando los retrocesos
+    (pullbacks) a una EMA corta, solo en la dirección de la tendencia principal.
+
+    Esta estrategia busca "comprar la caída" cuando el precio retrocede hacia el
+    soporte dinámico (EMA gatillo), pero solo si la tendencia general es alcista.
+
+    LÓGICA DE SEÑALES:
+
+    COMPRA (señal = 1):
+        1. Filtro de Tendencia: Precio[t] > EMA_Filtro[t] (Solo tendencia alcista)
+        2. Setup: Precio[t-1] > EMA_Gatillo[t-1] (Vela anterior por encima del soporte)
+        3. Trigger: Low[t] <= EMA_Gatillo[t] (Vela actual tocó o perforó el soporte)
+
+        Interpretación: El precio está en tendencia alcista, retrocedió hasta el soporte
+        dinámico (EMA gatillo), y rebotó. Este es un pullback en tendencia alcista.
+
+    VENTA (señal = -1):
+        1. Filtro de Tendencia: Precio[t] < EMA_Filtro[t] (Solo tendencia bajista)
+        2. Setup: Precio[t-1] < EMA_Gatillo[t-1] (Vela anterior por debajo de resistencia)
+        3. Trigger: High[t] >= EMA_Gatillo[t] (Vela actual tocó o perforó la resistencia)
+
+        Interpretación: El precio está en tendencia bajista, rebotó hasta la resistencia
+        dinámica (EMA gatillo), y cayó. Este es un pullback en tendencia bajista.
+
+    PARÁMETROS:
+        - ema_gatillo_periodo: EMA corta para el punto de entrada (default: 21)
+        - ema_filtro_periodo: EMA larga para determinar la tendencia (default: 100)
+
+    Args:
+        df: DataFrame con columnas OHLCV y EMAs calculadas
+        config: Diccionario con parámetros de estrategia
+
+    Returns:
+        DataFrame con columna 'señal' añadida (1=COMPRA, -1=VENTA, 0=NEUTRAL)
+    """
+    # Parámetros por defecto
+    if config is None:
+        config = {
+            'ema_gatillo_periodo': 21,   # EMA corta (soporte/resistencia dinámica)
+            'ema_filtro_periodo': 100    # EMA larga (filtro de tendencia)
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_gatillo_col = f"EMA_{config['ema_gatillo_periodo']}"
+    ema_filtro_col = f"EMA_{config['ema_filtro_periodo']}"
+
+    # Verificar que las columnas existan
+    required_cols = [ema_gatillo_col, ema_filtro_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(
+            f"Columnas faltantes en DataFrame: {missing_cols}\n"
+            f"Asegúrate de calcular indicadores primero.\n"
+            f"Columnas disponibles: {df.columns.tolist()}"
+        )
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # SEÑAL DE COMPRA (Pullback Alcista)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio actual por encima de EMA filtro
+    tendencia_alcista = df['close'] > df[ema_filtro_col]
+
+    # 2. Setup: Vela anterior estaba por encima de EMA gatillo
+    precio_anterior_arriba = df['close'].shift(1) > df[ema_gatillo_col].shift(1)
+
+    # 3. Trigger: Low actual tocó o perforó EMA gatillo (pullback)
+    pullback_alcista = df['low'] <= df[ema_gatillo_col]
+
+    # Condición completa de COMPRA
+    condicion_compra = tendencia_alcista & precio_anterior_arriba & pullback_alcista
+
+    # ==========================================
+    # SEÑAL DE VENTA (Pullback Bajista)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio actual por debajo de EMA filtro
+    tendencia_bajista = df['close'] < df[ema_filtro_col]
+
+    # 2. Setup: Vela anterior estaba por debajo de EMA gatillo
+    precio_anterior_abajo = df['close'].shift(1) < df[ema_gatillo_col].shift(1)
+
+    # 3. Trigger: High actual tocó o perforó EMA gatillo (pullback)
+    pullback_bajista = df['high'] >= df[ema_gatillo_col]
+
+    # Condición completa de VENTA
+    condicion_venta = tendencia_bajista & precio_anterior_abajo & pullback_bajista
+
+    # Asignar señales
+    df.loc[condicion_compra, 'señal'] = 1   # COMPRA
+    df.loc[condicion_venta, 'señal'] = -1   # VENTA
+
+    return df
+
+
+def generar_senales_macd_crossover_v26(df, config=None):
+    """
+    ITERACIÓN 26: ESTRATEGIA MACD CROSSOVER CON FILTRO DE TENDENCIA EMA
+
+    Hipótesis: El cruce de MACD dentro de una tendencia EMA proporciona señales
+    de entrada más rápidas y fiables que breakouts o pullbacks en 5m.
+
+    COMPRA (señal = 1):
+        1. Filtro de Tendencia: Precio[t] > EMA_Filtro[t]
+        2. Cruce Alcista: MACD[t] cruza por encima de Señal_MACD[t]
+           (MACD[t-1] <= Señal[t-1] AND MACD[t] > Señal[t])
+
+    VENTA (señal = -1):
+        1. Filtro de Tendencia: Precio[t] < EMA_Filtro[t]
+        2. Cruce Bajista: MACD[t] cruza por debajo de Señal_MACD[t]
+           (MACD[t-1] >= Señal[t-1] AND MACD[t] < Señal[t])
+
+    Args:
+        df: DataFrame con OHLCV e indicadores calculados
+        config: Diccionario con parámetros:
+            - ema_filter_periodo: Período de EMA para filtro de tendencia
+            - macd_fast: Período rápido del MACD (default 12)
+            - macd_slow: Período lento del MACD (default 26)
+            - macd_signal: Período de la señal MACD (default 9)
+
+    Returns:
+        DataFrame con columna 'señal' (1=COMPRA, -1=VENTA, 0=NEUTRAL)
+    """
+    if config is None:
+        config = {
+            'ema_filter_periodo': 100,
+            'macd_fast': 12,
+            'macd_slow': 26,
+            'macd_signal': 9
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_filter_col = f"EMA_{config['ema_filter_periodo']}"
+    macd_line_col = f"MACD_{config['macd_fast']}_{config['macd_slow']}_{config['macd_signal']}"
+    macd_signal_col = f"MACDs_{config['macd_fast']}_{config['macd_slow']}_{config['macd_signal']}"
+
+    # Verificar que las columnas existan
+    required_cols = [ema_filter_col, macd_line_col, macd_signal_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(
+            f"Columnas faltantes en DataFrame: {missing_cols}\n"
+            f"Asegúrate de calcular indicadores primero.\n"
+            f"Columnas disponibles: {df.columns.tolist()}"
+        )
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # SEÑAL DE COMPRA (Cruce Alcista MACD)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio por encima de EMA filtro
+    tendencia_alcista = df['close'] > df[ema_filter_col]
+
+    # 2. Cruce alcista: MACD cruza por encima de su señal
+    macd_anterior_abajo = df[macd_line_col].shift(1) <= df[macd_signal_col].shift(1)
+    macd_actual_arriba = df[macd_line_col] > df[macd_signal_col]
+    cruce_alcista = macd_anterior_abajo & macd_actual_arriba
+
+    # Condición completa de COMPRA
+    condicion_compra = tendencia_alcista & cruce_alcista
+
+    # ==========================================
+    # SEÑAL DE VENTA (Cruce Bajista MACD)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio por debajo de EMA filtro
+    tendencia_bajista = df['close'] < df[ema_filter_col]
+
+    # 2. Cruce bajista: MACD cruza por debajo de su señal
+    macd_anterior_arriba = df[macd_line_col].shift(1) >= df[macd_signal_col].shift(1)
+    macd_actual_abajo = df[macd_line_col] < df[macd_signal_col]
+    cruce_bajista = macd_anterior_arriba & macd_actual_abajo
+
+    # Condición completa de VENTA
+    condicion_venta = tendencia_bajista & cruce_bajista
+
+    # Asignar señales
+    df.loc[condicion_compra, 'señal'] = 1   # COMPRA
+    df.loc[condicion_venta, 'señal'] = -1   # VENTA
+
+    return df
+
+
+def generar_senales_stoch_crossover_v27(df, config=None):
+    """
+    ITERACIÓN 27: ESTRATEGIA STOCHASTIC CROSSOVER CON FILTRO DE TENDENCIA EMA
+
+    Hipótesis: El Oscilador Estocástico puede identificar reversiones rápidas en zonas
+    de sobreventa/sobrecompra, proporcionando un "edge" en el timeframe de 5m cuando
+    se opera a favor de la tendencia principal (EMA).
+
+    ÚLTIMA ESTRATEGIA DE DAY TRADING EN 5M:
+    Si esta iteración falla (PF < 1.1), habremos agotado las cuatro familias principales
+    de indicadores técnicos (Precio, Momentum MACD, Oscilador Stochastic, Breakout).
+
+    COMPRA (señal = 1):
+        1. Filtro de Tendencia: Precio[t] > EMA_Filtro[t] (Solo en tendencia alcista)
+        2. Zona de Sobreventa: Stoch_K[t] < 20 (Precio oversold)
+        3. Cruce Alcista: Stoch_K[t] cruza por encima de Stoch_D[t]
+           (Stoch_K[t-1] <= Stoch_D[t-1] AND Stoch_K[t] > Stoch_D[t])
+
+    VENTA (señal = -1):
+        1. Filtro de Tendencia: Precio[t] < EMA_Filtro[t] (Solo en tendencia bajista)
+        2. Zona de Sobrecompra: Stoch_K[t] > 80 (Precio overbought)
+        3. Cruce Bajista: Stoch_K[t] cruza por debajo de Stoch_D[t]
+           (Stoch_K[t-1] >= Stoch_D[t-1] AND Stoch_K[t] < Stoch_D[t])
+
+    Args:
+        df: DataFrame con OHLCV e indicadores calculados
+        config: Diccionario con parámetros:
+            - ema_filter_periodo: Período de EMA para filtro de tendencia
+            - stoch_k: Período del %K (default 14)
+            - stoch_d: Período del %D (default 3)
+            - stoch_smooth: Suavizado del %K (default 3)
+
+    Returns:
+        DataFrame con columna 'señal' (1=COMPRA, -1=VENTA, 0=NEUTRAL)
+    """
+    if config is None:
+        config = {
+            'ema_filter_periodo': 200,
+            'stoch_k': 14,
+            'stoch_d': 3,
+            'stoch_smooth': 3
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_filter_col = f"EMA_{config['ema_filter_periodo']}"
+    stoch_k_col = f"STOCHk_{config['stoch_k']}_{config['stoch_d']}_{config['stoch_smooth']}"
+    stoch_d_col = f"STOCHd_{config['stoch_k']}_{config['stoch_d']}_{config['stoch_smooth']}"
+
+    # Verificar que las columnas existan
+    required_cols = [ema_filter_col, stoch_k_col, stoch_d_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(
+            f"Columnas faltantes en DataFrame: {missing_cols}\n"
+            f"Asegúrate de calcular indicadores primero.\n"
+            f"Columnas disponibles: {df.columns.tolist()}"
+        )
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # SEÑAL DE COMPRA (Cruce Alcista en Sobreventa)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio por encima de EMA filtro
+    tendencia_alcista = df['close'] > df[ema_filter_col]
+
+    # 2. Zona de sobreventa: Stoch_K por debajo de 20
+    zona_sobreventa = df[stoch_k_col] < 20
+
+    # 3. Cruce alcista: Stoch_K cruza por encima de Stoch_D
+    stoch_k_anterior_abajo = df[stoch_k_col].shift(1) <= df[stoch_d_col].shift(1)
+    stoch_k_actual_arriba = df[stoch_k_col] > df[stoch_d_col]
+    cruce_alcista = stoch_k_anterior_abajo & stoch_k_actual_arriba
+
+    # Condición completa de COMPRA
+    condicion_compra = tendencia_alcista & zona_sobreventa & cruce_alcista
+
+    # ==========================================
+    # SEÑAL DE VENTA (Cruce Bajista en Sobrecompra)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio por debajo de EMA filtro
+    tendencia_bajista = df['close'] < df[ema_filter_col]
+
+    # 2. Zona de sobrecompra: Stoch_K por encima de 80
+    zona_sobrecompra = df[stoch_k_col] > 80
+
+    # 3. Cruce bajista: Stoch_K cruza por debajo de Stoch_D
+    stoch_k_anterior_arriba = df[stoch_k_col].shift(1) >= df[stoch_d_col].shift(1)
+    stoch_k_actual_abajo = df[stoch_k_col] < df[stoch_d_col]
+    cruce_bajista = stoch_k_anterior_arriba & stoch_k_actual_abajo
+
+    # Condición completa de VENTA
+    condicion_venta = tendencia_bajista & zona_sobrecompra & cruce_bajista
+
+    # Asignar señales
+    df.loc[condicion_compra, 'señal'] = 1   # COMPRA
+    df.loc[condicion_venta, 'señal'] = -1   # VENTA
+
+    return df
+
+
+def generar_senales_bb_breakout_v28(df, config=None):
+    """
+    ITERACIÓN 28: ESTRATEGIA BOLLINGER BAND BREAKOUT CON MÚLTIPLES FILTROS EMA
+
+    CONTEXTO CRÍTICO:
+    Las iteraciones v24-v27 fallaron en 5m debido a un conflicto entre velocidad y filtro:
+    - Filtros lentos (EMA 100-200) → Muy pocas señales o señales tardías
+    - Estrategias sin filtro → Demasiado ruido y whipsaws
+
+    HIPÓTESIS V28 (ÚLTIMA PRUEBA TÉCNICA):
+    Una EMA de tendencia más rápida (21 o 50) puede capturar micro-tendencias en 5m,
+    haciendo rentable la ruptura de volatilidad (Bollinger Bands).
+
+    INNOVACIÓN:
+    Probaremos un rango amplio de filtros EMA [21, 50, 100, 200] para encontrar el
+    equilibrio óptimo entre velocidad de señal y calidad de filtrado.
+
+    ESTRATEGIA: BOLLINGER BAND BREAKOUT
+    - Detecta expansiones de volatilidad cuando el precio rompe las bandas
+    - Filtra con EMA para operar solo a favor de micro-tendencias
+    - BB detecta momentum explosivo, EMA valida dirección
+
+    COMPRA (señal = 1):
+        1. Filtro de Tendencia: Precio[t] > EMA_Filtro[t] (Micro-tendencia alcista)
+        2. Breakout Alcista: Precio[t] cruza por encima de BB_Upper
+           (Close[t-1] <= BB_Upper[t-1] AND Close[t] > BB_Upper[t])
+
+    VENTA (señal = -1):
+        1. Filtro de Tendencia: Precio[t] < EMA_Filtro[t] (Micro-tendencia bajista)
+        2. Breakout Bajista: Precio[t] cruza por debajo de BB_Lower
+           (Close[t-1] >= BB_Lower[t-1] AND Close[t] < BB_Lower[t])
+
+    Args:
+        df: DataFrame con OHLCV e indicadores calculados
+        config: Diccionario con parámetros:
+            - ema_filter_periodo: Período de EMA para filtro (21, 50, 100, 200)
+            - bb_length: Período de las Bollinger Bands (default 20)
+            - bb_std: Desviaciones estándar de las BB (default 2.0)
+
+    Returns:
+        DataFrame con columna 'señal' (1=COMPRA, -1=VENTA, 0=NEUTRAL)
+    """
+    if config is None:
+        config = {
+            'ema_filter_periodo': 50,
+            'bb_length': 20,
+            'bb_std': 2.0
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_filter_col = f"EMA_{config['ema_filter_periodo']}"
+    bb_upper_col = f"BBU_{config['bb_length']}_{config['bb_std']}.0"
+    bb_lower_col = f"BBL_{config['bb_length']}_{config['bb_std']}.0"
+
+    # Verificar que las columnas existan
+    required_cols = [ema_filter_col, bb_upper_col, bb_lower_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(
+            f"Columnas faltantes en DataFrame: {missing_cols}\n"
+            f"Asegúrate de calcular indicadores primero.\n"
+            f"Columnas disponibles: {df.columns.tolist()}"
+        )
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # SEÑAL DE COMPRA (Breakout Alcista BB)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio por encima de EMA filtro
+    tendencia_alcista = df['close'] > df[ema_filter_col]
+
+    # 2. Breakout alcista: Precio cruza por encima de BB_Upper
+    precio_anterior_dentro = df['close'].shift(1) <= df[bb_upper_col].shift(1)
+    precio_actual_fuera = df['close'] > df[bb_upper_col]
+    breakout_alcista = precio_anterior_dentro & precio_actual_fuera
+
+    # Condición completa de COMPRA
+    condicion_compra = tendencia_alcista & breakout_alcista
+
+    # ==========================================
+    # SEÑAL DE VENTA (Breakout Bajista BB)
+    # ==========================================
+    # 1. Filtro de tendencia: Precio por debajo de EMA filtro
+    tendencia_bajista = df['close'] < df[ema_filter_col]
+
+    # 2. Breakout bajista: Precio cruza por debajo de BB_Lower
+    precio_anterior_dentro_lower = df['close'].shift(1) >= df[bb_lower_col].shift(1)
+    precio_actual_fuera_lower = df['close'] < df[bb_lower_col]
+    breakout_bajista = precio_anterior_dentro_lower & precio_actual_fuera_lower
+
+    # Condición completa de VENTA
+    condicion_venta = tendencia_bajista & breakout_bajista
+
+    # Asignar señales
+    df.loc[condicion_compra, 'señal'] = 1   # COMPRA
+    df.loc[condicion_venta, 'señal'] = -1   # VENTA
+
+    return df
+
+
+def generar_senales_bb_adx_filter_v30(df, config=None):
+    """
+    ITERACIÓN 30: BB BREAKOUT CON TRIPLE FILTRO (ADX + EMA + ESPECTRO COMPLETO)
+
+    CONTEXTO DEFINITIVO:
+    Las iteraciones v24-v28 fracasaron en 5m porque el filtro de tendencia EMA no era
+    suficiente para eliminar el ruido. Los resultados mostraron:
+    - v24-v28: Todas PF 0.74-0.85 (pérdidas del 75-97%)
+    - Problema: Demasiados whipsaws en consolidaciones laterales
+
+    HIPÓTESIS V30 (PRUEBA DEFINITIVA DEL EDGE):
+    El problema NO es el filtro EMA, sino la falta de filtro de MOMENTUM.
+    ADX > 15 filtra consolidaciones laterales, permitiendo operar SOLO cuando hay
+    momentum real, reduciendo whipsaws y mejorando el Profit Factor.
+
+    INNOVACIÓN TRIPLE FILTRO:
+    1. **ADX > 15:** Filtra mercado lateral (solo opera con momentum)
+    2. **EMA Trend:** Valida dirección de micro-tendencia [21, 50, 100, 150, 200]
+    3. **BB Breakout:** Detecta expansión de volatilidad
+
+    ESTRATEGIA: BB BREAKOUT + ADX FILTER + ESPECTRO EMA
+    - ADX elimina el ruido lateral (principal causa de whipsaws)
+    - BB detecta momentum explosivo
+    - EMA valida dirección
+
+    COMPRA (señal = 1):
+        1. Filtro de Momentum: ADX[t] > adx_threshold (Tendencia confirmada)
+        2. Filtro de Dirección: Precio[t] > EMA_Filtro[t] (Micro-tendencia alcista)
+        3. Breakout Alcista: Precio[t] cruza por encima de BB_Upper
+           (Close[t-1] <= BB_Upper[t-1] AND Close[t] > BB_Upper[t])
+
+    VENTA (señal = -1):
+        1. Filtro de Momentum: ADX[t] > adx_threshold (Tendencia confirmada)
+        2. Filtro de Dirección: Precio[t] < EMA_Filtro[t] (Micro-tendencia bajista)
+        3. Breakout Bajista: Precio[t] cruza por debajo de BB_Lower
+           (Close[t-1] >= BB_Lower[t-1] AND Close[t] < BB_Lower[t])
+
+    Args:
+        df: DataFrame con OHLCV e indicadores calculados
+        config: Diccionario con parámetros:
+            - ema_filter_periodo: Período de EMA para filtro (21, 50, 100, 150, 200)
+            - bb_length: Período de las Bollinger Bands (default 20)
+            - bb_std: Desviaciones estándar de las BB (default 2.0)
+            - adx_period: Período del ADX (default 14)
+            - adx_threshold: Umbral mínimo de ADX (default 15)
+
+    Returns:
+        DataFrame con columna 'señal' (1=COMPRA, -1=VENTA, 0=NEUTRAL)
+    """
+    if config is None:
+        config = {
+            'ema_filter_periodo': 50,
+            'bb_length': 20,
+            'bb_std': 2.0,
+            'adx_period': 14,
+            'adx_threshold': 15
+        }
+
+    df = df.copy()
+
+    # Nombres de columnas de indicadores
+    ema_filter_col = f"EMA_{config['ema_filter_periodo']}"
+    bb_upper_col = f"BBU_{config['bb_length']}_{config['bb_std']}.0"
+    bb_lower_col = f"BBL_{config['bb_length']}_{config['bb_std']}.0"
+    adx_col = f"ADX_{config['adx_period']}"
+
+    # Verificar que las columnas existan
+    required_cols = [ema_filter_col, bb_upper_col, bb_lower_col, adx_col]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+
+    if missing_cols:
+        raise ValueError(
+            f"Columnas faltantes en DataFrame: {missing_cols}\n"
+            f"Asegúrate de calcular indicadores primero.\n"
+            f"Columnas disponibles: {df.columns.tolist()}"
+        )
+
+    # Inicializar columna de señales en 0 (NEUTRAL)
+    df['señal'] = 0
+
+    # ==========================================
+    # SEÑAL DE COMPRA (Triple Filtro Alcista)
+    # ==========================================
+    # 1. Filtro de momentum: ADX indica tendencia (no lateral)
+    momentum_confirmed = df[adx_col] > config['adx_threshold']
+
+    # 2. Filtro de dirección: Precio por encima de EMA filtro
+    tendencia_alcista = df['close'] > df[ema_filter_col]
+
+    # 3. Breakout alcista: Precio cruza por encima de BB_Upper
+    precio_anterior_dentro = df['close'].shift(1) <= df[bb_upper_col].shift(1)
+    precio_actual_fuera = df['close'] > df[bb_upper_col]
+    breakout_alcista = precio_anterior_dentro & precio_actual_fuera
+
+    # Condición completa de COMPRA (TRIPLE FILTRO)
+    condicion_compra = momentum_confirmed & tendencia_alcista & breakout_alcista
+
+    # ==========================================
+    # SEÑAL DE VENTA (Triple Filtro Bajista)
+    # ==========================================
+    # 1. Filtro de momentum (mismo que compra)
+    # momentum_confirmed ya calculado arriba
+
+    # 2. Filtro de dirección: Precio por debajo de EMA filtro
+    tendencia_bajista = df['close'] < df[ema_filter_col]
+
+    # 3. Breakout bajista: Precio cruza por debajo de BB_Lower
+    precio_anterior_dentro_lower = df['close'].shift(1) >= df[bb_lower_col].shift(1)
+    precio_actual_fuera_lower = df['close'] < df[bb_lower_col]
+    breakout_bajista = precio_anterior_dentro_lower & precio_actual_fuera_lower
+
+    # Condición completa de VENTA (TRIPLE FILTRO)
+    condicion_venta = momentum_confirmed & tendencia_bajista & breakout_bajista
+
+    # Asignar señales
+    df.loc[condicion_compra, 'señal'] = 1   # COMPRA
+    df.loc[condicion_venta, 'señal'] = -1   # VENTA
+
+    return df

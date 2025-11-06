@@ -111,6 +111,55 @@ def calcular_stochastic(df, period=14, smooth_k=3, smooth_d=3):
     return k_line, d_line
 
 
+def calcular_adx(df, period=14):
+    """
+    Calcula ADX (Average Directional Index).
+
+    El ADX mide la fuerza de la tendencia (no la dirección).
+    Valores:
+    - ADX < 20: Tendencia débil o mercado lateral
+    - ADX 20-25: Tendencia emergente
+    - ADX > 25: Tendencia fuerte
+    - ADX > 40: Tendencia muy fuerte
+
+    Args:
+        df: DataFrame con columnas OHLCV
+        period: Período para el cálculo (default 14)
+
+    Returns:
+        Series: ADX values
+    """
+    high = df['high']
+    low = df['low']
+    close = df['close']
+
+    # Calcular +DM y -DM (Directional Movement)
+    high_diff = high.diff()
+    low_diff = -low.diff()
+
+    plus_dm = high_diff.where((high_diff > low_diff) & (high_diff > 0), 0)
+    minus_dm = low_diff.where((low_diff > high_diff) & (low_diff > 0), 0)
+
+    # Calcular ATR (True Range)
+    tr1 = high - low
+    tr2 = abs(high - close.shift())
+    tr3 = abs(low - close.shift())
+    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+
+    # Suavizar con EMA
+    atr = tr.ewm(span=period, adjust=False).mean()
+    plus_di = 100 * (plus_dm.ewm(span=period, adjust=False).mean() / atr)
+    minus_di = 100 * (minus_dm.ewm(span=period, adjust=False).mean() / atr)
+
+    # Calcular DX (Directional Index)
+    dx = 100 * abs(plus_di - minus_di) / (plus_di + minus_di)
+
+    # Calcular ADX (suavizado de DX)
+    adx = dx.ewm(span=period, adjust=False).mean()
+
+    return adx
+
+
 def agregar_indicadores(df, config=None):
     """
     Añade indicadores técnicos al DataFrame.
@@ -186,6 +235,10 @@ def agregar_indicadores(df, config=None):
     k_line, d_line = calcular_stochastic(df, period=stoch_k, smooth_k=stoch_smooth, smooth_d=stoch_d)
     df[f"STOCHk_{stoch_k}_{stoch_d}_{stoch_smooth}"] = k_line
     df[f"STOCHd_{stoch_k}_{stoch_d}_{stoch_smooth}"] = d_line
+
+    # ADX (Average Directional Index)
+    adx_period = config.get('adx_period', 14)
+    df[f"ADX_{adx_period}"] = calcular_adx(df, period=adx_period)
 
     # Canales de Donchian
     if 'donchian_period' in config:

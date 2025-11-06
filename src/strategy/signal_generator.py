@@ -1546,3 +1546,209 @@ def generar_senales_bb_adx_filter_v30(df, config=None):
     df.loc[condicion_venta, 'señal'] = -1   # VENTA
 
     return df
+
+
+def generar_senales_mtf_v001(df_m15, df_h1, config=None):
+    """
+    ITERACIÓN 001: ESTRATEGIA MULTI-TIMEFRAME BIDIRECCIONAL
+
+    Primera estrategia completamente diferente a las anteriores:
+    - Multi-Timeframe: Combina señales de 15m (ejecución) + 1h (régimen)
+    - Bidireccional: Opera LONG y SHORT de forma dinámica
+    - Sistema de 4 señales: 1, -1, 2, -2
+
+    ARQUITECTURA DE 5 CAPAS:
+
+    CAPA 1 - Régimen de Mercado (H1):
+        - Alcista: Precio > EMA_200 en 1h
+        - Bajista: Precio < EMA_200 en 1h
+        - Propósito: Filtro macro de dirección
+
+    CAPA 2 - Filtro de Volatilidad (M15):
+        - ATR actual > ATR hace 10 períodos
+        - Propósito: Solo operar con momentum creciente
+
+    CAPA 3 - Entrada LONG (M15):
+        - Régimen alcista (Capa 1) ✓
+        - Volatilidad confirmada (Capa 2) ✓
+        - EMA_9 cruza por encima de EMA_21
+        - in_position == 0 (no hay posición abierta)
+        → Señal = 1 (Abrir Long)
+
+    CAPA 4 - Entrada SHORT (M15):
+        - Régimen bajista (Capa 1) ✓
+        - Volatilidad confirmada (Capa 2) ✓
+        - EMA_9 cruza por debajo de EMA_21
+        - in_position == 0 (no hay posición abierta)
+        → Señal = -1 (Abrir Short)
+
+    CAPA 5 - Salidas por Cruce Inverso (M15):
+        - Si in_position == 1 (Long activo):
+            - EMA_9 cruza por debajo de EMA_21
+            → Señal = 2 (Cerrar Long)
+        - Si in_position == -1 (Short activo):
+            - EMA_9 cruza por encima de EMA_21
+            → Señal = -2 (Cerrar Short)
+
+    SISTEMA DE SEÑALES (4 valores):
+        1 = Abrir Long
+       -1 = Abrir Short
+        2 = Cerrar Long (por cruce inverso)
+       -2 = Cerrar Short (por cruce inverso)
+        0 = Neutral (mantener posición o esperar)
+
+    PRIORIDAD: Lógica de salida (Capa 5) se evalúa ANTES que lógica de entrada
+
+    Args:
+        df_m15: DataFrame con datos de 15 minutos (ejecución)
+                Debe tener: timestamp, open, high, low, close, volume, EMA_9, EMA_21, ATR_14
+        df_h1: DataFrame con datos de 1 hora (régimen macro)
+               Debe tener: timestamp, EMA_200
+        config: Diccionario con parámetros:
+            - ema_fast_m15: Período de EMA rápida en 15m (default 9)
+            - ema_slow_m15: Período de EMA lenta en 15m (default 21)
+            - ema_trend_h1: Período de EMA de tendencia en 1h (default 200)
+            - atr_period: Período del ATR (default 14)
+            - atr_lookback: Períodos hacia atrás para comparar ATR (default 10)
+
+    Returns:
+        DataFrame (15m) con columna 'señal' conteniendo: 1, -1, 2, -2, 0
+    """
+    if config is None:
+        config = {
+            'ema_fast_m15': 9,
+            'ema_slow_m15': 21,
+            'ema_trend_h1': 200,
+            'atr_period': 14,
+            'atr_lookback': 10
+        }
+
+    # ==========================================
+    # 1. PREPARACIÓN DE DATOS
+    # ==========================================
+    df_m15 = df_m15.copy()
+    df_h1 = df_h1.copy()
+
+    # Nombres de columnas de indicadores
+    ema_fast_col = f"EMA_{config['ema_fast_m15']}"
+    ema_slow_col = f"EMA_{config['ema_slow_m15']}"
+    ema_trend_col_h1 = f"EMA_{config['ema_trend_h1']}"
+    atr_col = f"ATRr_{config['atr_period']}"
+
+    # Verificar columnas en df_m15
+    required_m15 = ['timestamp', 'close', ema_fast_col, ema_slow_col, atr_col]
+    missing_m15 = [col for col in required_m15 if col not in df_m15.columns]
+    if missing_m15:
+        raise ValueError(
+            f"Columnas faltantes en df_m15 (15m): {missing_m15}\n"
+            f"Columnas disponibles: {df_m15.columns.tolist()}"
+        )
+
+    # Verificar columnas en df_h1
+    required_h1 = ['timestamp', ema_trend_col_h1]
+    missing_h1 = [col for col in required_h1 if col not in df_h1.columns]
+    if missing_h1:
+        raise ValueError(
+            f"Columnas faltantes en df_h1 (1h): {missing_h1}\n"
+            f"Columnas disponibles: {df_h1.columns.tolist()}"
+        )
+
+    # ==========================================
+    # 2. ALINEAMIENTO MULTI-TIMEFRAME
+    # ==========================================
+    # Resamplear EMA_200 de 1h a 15m usando forward-fill
+    # Esto asegura que cada vela de 15m tiene el valor de EMA_200 correspondiente
+
+    # Asegurar que timestamps sean datetime
+    df_m15['timestamp'] = pd.to_datetime(df_m15['timestamp'])
+    df_h1['timestamp'] = pd.to_datetime(df_h1['timestamp'])
+
+    # Crear DataFrame de 1h solo con timestamp y EMA_200
+    df_h1_ema = df_h1[['timestamp', ema_trend_col_h1]].copy()
+    df_h1_ema = df_h1_ema.set_index('timestamp')
+
+    # Resamplear a 15m y forward-fill
+    df_h1_resampled = df_h1_ema.resample('15min').ffill()
+    df_h1_resampled = df_h1_resampled.reset_index()
+    df_h1_resampled.columns = ['timestamp', 'EMA_200_h1']
+
+    # Hacer merge con df_m15
+    df_m15 = pd.merge(df_m15, df_h1_resampled, on='timestamp', how='left')
+
+    # Forward-fill para llenar cualquier NaN residual
+    df_m15['EMA_200_h1'] = df_m15['EMA_200_h1'].ffill()
+
+    # ==========================================
+    # 3. CALCULAR CONDICIONES DE LAS 5 CAPAS
+    # ==========================================
+
+    # CAPA 1: Régimen de Mercado (H1)
+    cond_regimen_alcista = df_m15['close'] > df_m15['EMA_200_h1']
+    cond_regimen_bajista = df_m15['close'] < df_m15['EMA_200_h1']
+
+    # CAPA 2: Filtro de Volatilidad (M15)
+    atr_lookback = config['atr_lookback']
+    cond_volatilidad = df_m15[atr_col] > df_m15[atr_col].shift(atr_lookback)
+
+    # CAPA 3 y 4: Cruces de EMAs (M15)
+    # Cruce alcista: EMA rápida cruza por encima de EMA lenta
+    ema_fast_anterior_abajo = df_m15[ema_fast_col].shift(1) <= df_m15[ema_slow_col].shift(1)
+    ema_fast_actual_arriba = df_m15[ema_fast_col] > df_m15[ema_slow_col]
+    cruce_alcista = ema_fast_anterior_abajo & ema_fast_actual_arriba
+
+    # Cruce bajista: EMA rápida cruza por debajo de EMA lenta
+    ema_fast_anterior_arriba = df_m15[ema_fast_col].shift(1) >= df_m15[ema_slow_col].shift(1)
+    ema_fast_actual_abajo = df_m15[ema_fast_col] < df_m15[ema_slow_col]
+    cruce_bajista = ema_fast_anterior_arriba & ema_fast_actual_abajo
+
+    # ==========================================
+    # 4. GENERACIÓN DE SEÑALES CON BUCLE
+    # ==========================================
+    # Inicializar columna de señales
+    df_m15['señal'] = 0
+
+    # Estado de posición: 0 (plano), 1 (long), -1 (short)
+    in_position = 0
+
+    # Iterar sobre cada fila para tracking de estado
+    for i in range(len(df_m15)):
+        # Saltar primeras filas con NaN
+        if pd.isna(df_m15[atr_col].iloc[i]) or pd.isna(df_m15['EMA_200_h1'].iloc[i]):
+            continue
+
+        # PRIORIDAD 1: SALIDAS (Capa 5)
+        # Estas se evalúan ANTES que las entradas
+
+        if in_position == 1:  # Long activo
+            # Salida Long por cruce bajista
+            if cruce_bajista.iloc[i]:
+                df_m15.loc[df_m15.index[i], 'señal'] = 2  # Cerrar Long
+                in_position = 0
+                continue
+
+        elif in_position == -1:  # Short activo
+            # Salida Short por cruce alcista
+            if cruce_alcista.iloc[i]:
+                df_m15.loc[df_m15.index[i], 'señal'] = -2  # Cerrar Short
+                in_position = 0
+                continue
+
+        # PRIORIDAD 2: ENTRADAS (Capas 3 y 4)
+        # Solo se evalúan si in_position == 0
+
+        if in_position == 0:  # No hay posición abierta
+            # ENTRADA LONG (Capa 3)
+            if (cond_regimen_alcista.iloc[i] and
+                cond_volatilidad.iloc[i] and
+                cruce_alcista.iloc[i]):
+                df_m15.loc[df_m15.index[i], 'señal'] = 1  # Abrir Long
+                in_position = 1
+
+            # ENTRADA SHORT (Capa 4)
+            elif (cond_regimen_bajista.iloc[i] and
+                  cond_volatilidad.iloc[i] and
+                  cruce_bajista.iloc[i]):
+                df_m15.loc[df_m15.index[i], 'señal'] = -1  # Abrir Short
+                in_position = -1
+
+    return df_m15

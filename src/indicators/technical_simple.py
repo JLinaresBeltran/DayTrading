@@ -160,6 +160,47 @@ def calcular_adx(df, period=14):
     return adx
 
 
+def calcular_vwap(df):
+    """
+    Calcula VWAP (Volume Weighted Average Price) diario.
+
+    El VWAP se reinicia cada día (nueva sesión).
+
+    Args:
+        df: DataFrame con columnas OHLCV y timestamp
+
+    Returns:
+        Series: VWAP values
+    """
+    df = df.copy()
+
+    # Asegurar que timestamp sea datetime
+    if 'timestamp' in df.columns:
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        df['date'] = df['timestamp'].dt.date
+    else:
+        # Si no hay timestamp, calcular VWAP acumulado simple
+        typical_price = (df['high'] + df['low'] + df['close']) / 3
+        cumulative_tpv = (typical_price * df['volume']).cumsum()
+        cumulative_volume = df['volume'].cumsum()
+        return cumulative_tpv / cumulative_volume
+
+    # Calcular Typical Price
+    typical_price = (df['high'] + df['low'] + df['close']) / 3
+
+    # Calcular TPV (Typical Price × Volume)
+    df['tpv'] = typical_price * df['volume']
+
+    # Agrupar por día y calcular VWAP diario
+    df['cumulative_tpv'] = df.groupby('date')['tpv'].cumsum()
+    df['cumulative_volume'] = df.groupby('date')['volume'].cumsum()
+
+    # VWAP = Cumulative TPV / Cumulative Volume
+    vwap = df['cumulative_tpv'] / df['cumulative_volume']
+
+    return vwap
+
+
 def agregar_indicadores(df, config=None):
     """
     Añade indicadores técnicos al DataFrame.
@@ -249,6 +290,10 @@ def agregar_indicadores(df, config=None):
             df[f'DONCHI_h_{period}'] = upper
             df[f'DONCHI_l_{period}'] = lower
             df[f'DONCHIm_{period}'] = middle
+
+    # VWAP (Volume Weighted Average Price)
+    if config.get('vwap', False):
+        df['VWAP'] = calcular_vwap(df)
 
     return df
 

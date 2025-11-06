@@ -304,14 +304,18 @@ def main():
         'macd_signal': 9,
         'bb_length': 20,
         'bb_std': 2.0,
-        'atr_length': [14, 20],
+        'atr_length': 14,  # Solo ATR_14 primero
         'stoch_k': 14,
         'stoch_d': 3,
         'stoch_smooth': 3,
         'donchian_period': [20, 30],
     }
     df_base = agregar_indicadores(df_base, config=indicator_config)
-    print(f"   ✓ Indicadores calculados")
+
+    # Calcular ATR_20 manualmente
+    df_base.ta.atr(length=20, append=True)
+
+    print(f"   ✓ Indicadores calculados (incluyendo ATR_14 y ATR_20)")
 
     print("\n" + "="*80)
     print("FASE 2: GENERACIÓN Y PRUEBA DE ESTRATEGIAS")

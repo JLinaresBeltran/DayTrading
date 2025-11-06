@@ -492,7 +492,7 @@ def generate_signals_multi_timeframe(df_trade, df_higher, config):
 
     # Determinar el intervalo del TF superior para hacer merge correcto
     # Esto es una simplificación - en producción deberías detectar automáticamente
-    df_trade['timestamp_htf'] = pd.to_datetime(df_trade['timestamp']).dt.floor('1H')
+    df_trade['timestamp_htf'] = pd.to_datetime(df_trade['timestamp']).dt.floor('1h')  # Usar 'h' minúscula
 
     # Merge para traer can_long y can_short al timeframe de operación
     df_merged = df_trade.merge(
@@ -503,9 +503,9 @@ def generate_signals_multi_timeframe(df_trade, df_higher, config):
         suffixes=('', '_htf')
     )
 
-    # Forward fill por si hay gaps
-    df_merged['can_long'] = df_merged['can_long'].fillna(method='ffill').fillna(False)
-    df_merged['can_short'] = df_merged['can_short'].fillna(method='ffill').fillna(False)
+    # Forward fill por si hay gaps (usando método actualizado)
+    df_merged['can_long'] = df_merged['can_long'].ffill().fillna(False)
+    df_merged['can_short'] = df_merged['can_short'].ffill().fillna(False)
 
     # 3. Generar señales en timeframe de operación usando generate_signals_multi_indicator
     df_signals = generate_signals_multi_indicator(df_merged, config)

@@ -392,3 +392,138 @@ def _apply_additional_filters(df, config):
             filters = filters & (atr_pct > atr_min)
 
     return filters
+
+
+def generate_signals_multi_timeframe(df_trade, df_higher, config):
+    """
+    Genera señales usando estrategia Multi-Timeframe (MTF).
+
+    Arquitectura:
+    1. TIMEFRAME SUPERIOR (df_higher): Filtra TENDENCIA y CONDICIONES del mercado
+       - Solo permite operar cuando hay tendencia clara
+       - Reduce drawdown eliminando mercados laterales
+
+    2. TIMEFRAME OPERACIÓN (df_trade): Busca ENTRADAS específicas
+       - Genera señales con indicadores técnicos
+       - Solo ejecuta si timeframe superior lo permite
+
+    Resultado: Más frecuencia (TF bajo) + Menos DD (filtro TF alto)
+
+    Args:
+        df_trade: DataFrame del timeframe de operación (ej: 5m, 15m)
+        df_higher: DataFrame del timeframe superior (ej: 1h, 4h)
+        config: Configuración con parámetros de ambos timeframes:
+            {
+                # FILTRO TIMEFRAME SUPERIOR
+                'htf_ema_fast': 50,
+                'htf_ema_slow': 200,
+                'htf_adx_period': 14,
+                'htf_adx_threshold': 25,
+                'htf_use_rsi_filter': False,  # RSI no extremo en TF alto
+                'htf_rsi_min': 40,
+                'htf_rsi_max': 60,
+
+                # SEÑALES TIMEFRAME OPERACIÓN (igual que single TF)
+                'entry_indicators': ['supertrend', 'rsi'],
+                'supertrend_length': 7,
+                'supertrend_multiplier': 1.5,
+                'rsi_period': 14,
+                'rsi_oversold': 30,
+                'rsi_overbought': 65,
+
+                # GESTIÓN DE RIESGO
+                'atr_period': 14,
+                'sl_atr_multiplier': 2.5,
+                'tp_atr_multiplier': 5.0,
+            }
+
+    Returns:
+        DataFrame del timeframe de operación con columna 'señal'
+    """
+
+    # 1. Calcular filtro de tendencia en timeframe superior
+    df_higher = df_higher.copy()
+
+    ema_fast_col = f"EMA_{config.get('htf_ema_fast', 50)}"
+    ema_slow_col = f"EMA_{config.get('htf_ema_slow', 200)}"
+    adx_col = f"ADX_{config.get('htf_adx_period', 14)}"
+    rsi_col = f"RSI_{config.get('rsi_period', 14)}"
+
+    # Asegurar que las columnas existen
+    if ema_fast_col not in df_higher.columns:
+        df_higher.ta.ema(length=config.get('htf_ema_fast', 50), append=True)
+    if ema_slow_col not in df_higher.columns:
+        df_higher.ta.ema(length=config.get('htf_ema_slow', 200), append=True)
+    if adx_col not in df_higher.columns:
+        df_higher.ta.adx(length=config.get('htf_adx_period', 14), append=True)
+
+    adx_threshold = config.get('htf_adx_threshold', 25)
+
+    # Determinar dirección permitida en cada vela del TF superior
+    df_higher['can_long'] = (
+        (df_higher[ema_fast_col] > df_higher[ema_slow_col]) &  # Tendencia alcista
+        (df_higher[adx_col] > adx_threshold)  # Tendencia fuerte
+    )
+
+    df_higher['can_short'] = (
+        (df_higher[ema_fast_col] < df_higher[ema_slow_col]) &  # Tendencia bajista
+        (df_higher[adx_col] > adx_threshold)  # Tendencia fuerte
+    )
+
+    # Filtro RSI opcional en TF superior (evitar extremos)
+    if config.get('htf_use_rsi_filter', False) and rsi_col in df_higher.columns:
+        rsi_min = config.get('htf_rsi_min', 40)
+        rsi_max = config.get('htf_rsi_max', 60)
+
+        rsi_ok = (df_higher[rsi_col] > rsi_min) & (df_higher[rsi_col] < rsi_max)
+        df_higher['can_long'] = df_higher['can_long'] & rsi_ok
+        df_higher['can_short'] = df_higher['can_short'] & rsi_ok
+
+    # 2. Sincronizar timeframes: Cada vela trade TF debe saber qué permite el higher TF
+    df_trade = df_trade.copy()
+
+    # Crear columna timestamp redondeada al TF superior
+    # Asumimos que df_trade y df_higher tienen columna 'timestamp' como datetime
+    # Si no existe, usar el índice
+    if 'timestamp' not in df_trade.columns:
+        df_trade['timestamp'] = df_trade.index
+    if 'timestamp' not in df_higher.columns:
+        df_higher['timestamp'] = df_higher.index
+
+    # Determinar el intervalo del TF superior para hacer merge correcto
+    # Esto es una simplificación - en producción deberías detectar automáticamente
+    df_trade['timestamp_htf'] = pd.to_datetime(df_trade['timestamp']).dt.floor('1H')
+
+    # Merge para traer can_long y can_short al timeframe de operación
+    df_merged = df_trade.merge(
+        df_higher[['timestamp', 'can_long', 'can_short']],
+        left_on='timestamp_htf',
+        right_on='timestamp',
+        how='left',
+        suffixes=('', '_htf')
+    )
+
+    # Forward fill por si hay gaps
+    df_merged['can_long'] = df_merged['can_long'].fillna(method='ffill').fillna(False)
+    df_merged['can_short'] = df_merged['can_short'].fillna(method='ffill').fillna(False)
+
+    # 3. Generar señales en timeframe de operación usando generate_signals_multi_indicator
+    df_signals = generate_signals_multi_indicator(df_merged, config)
+
+    # 4. Filtrar señales según permiso del timeframe superior
+    final_signal = pd.Series(0, index=df_signals.index)
+
+    # Solo permitir LONG si can_long = True
+    long_signals = (df_signals['señal'] == 1) & df_signals['can_long']
+    final_signal[long_signals] = 1
+
+    # Solo permitir SHORT si can_short = True
+    short_signals = (df_signals['señal'] == -1) & df_signals['can_short']
+    final_signal[short_signals] = -1
+
+    df_signals['señal'] = final_signal
+
+    # Limpiar columnas temporales
+    df_signals = df_signals.drop(columns=['timestamp_htf', 'timestamp_htf', 'can_long', 'can_short'], errors='ignore')
+
+    return df_signals

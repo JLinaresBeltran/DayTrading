@@ -58,25 +58,47 @@ STRATEGY_GRID = {
     # ========================================
     # TIPO DE ESTRATEGIA
     # ========================================
-    'regime_type': ['ema', 'sma', 'none'],
+    'regime_type': ['ema', 'sma', 'ema_adx', 'sma_adx', 'adx', 'none'],
     'regime_period': [50, 100, 150, 200],
     'regime_direction': ['long_only', 'short_only', 'hybrid'],
+
+    # ========================================
+    # PARÁMETROS DE ADX
+    # ========================================
+    'adx_period': [14],
+    'adx_threshold': [20, 25, 30],
 
     # ========================================
     # INDICADORES DE ENTRADA (combinaciones)
     # ========================================
     'entry_combinations': [
+        # Estrategias EMA
         ['ema_cross'],
         ['ema_cross', 'rsi'],
         ['ema_cross', 'macd'],
         ['ema_cross', 'rsi', 'macd'],
+
+        # Estrategias VWMA (alternativa ponderada por volumen)
+        ['vwma_cross'],
+        ['vwma_cross', 'rsi'],
+
+        # Estrategias MACD
         ['macd'],
         ['macd', 'rsi'],
+
+        # Estrategias Donchian
         ['donchian'],
         ['donchian', 'rsi'],
+
+        # Estrategias Bollinger
         ['bb'],
         ['bb', 'rsi'],
         ['ema_cross', 'bb'],
+
+        # Estrategias Supertrend (nuevo)
+        ['supertrend'],
+        ['supertrend', 'rsi'],
+        ['supertrend', 'macd'],
     ],
 
     # ========================================
@@ -109,6 +131,18 @@ STRATEGY_GRID = {
     # PARÁMETROS DE DONCHIAN
     # ========================================
     'donchian_period': [20, 30],
+
+    # ========================================
+    # PARÁMETROS DE VWMA
+    # ========================================
+    'vwma_fast': [9, 12, 15],
+    'vwma_slow': [21, 26, 30],
+
+    # ========================================
+    # PARÁMETROS DE SUPERTREND
+    # ========================================
+    'supertrend_length': [10, 14],
+    'supertrend_multiplier': [2.0, 3.0],
 
     # ========================================
     # FILTROS ADICIONALES
@@ -312,10 +346,22 @@ def main():
     }
     df_base = agregar_indicadores(df_base, config=indicator_config)
 
-    # Calcular ATR_20 manualmente
+    # Calcular indicadores adicionales manualmente
+    print(f"   Calculando ADX, ATR_20 y Supertrend...")
+
+    # ATR_20
     df_base.ta.atr(length=20, append=True)
 
-    print(f"   ✓ Indicadores calculados (incluyendo ATR_14 y ATR_20)")
+    # ADX (Average Directional Index)
+    df_base.ta.adx(length=14, append=True)
+
+    # Supertrend (múltiples configuraciones)
+    df_base.ta.supertrend(length=10, multiplier=2.0, append=True)
+    df_base.ta.supertrend(length=10, multiplier=3.0, append=True)
+    df_base.ta.supertrend(length=14, multiplier=2.0, append=True)
+    df_base.ta.supertrend(length=14, multiplier=3.0, append=True)
+
+    print(f"   ✓ Indicadores calculados (EMA, SMA, RSI, MACD, BB, ATR, Donchian, ADX, Supertrend)")
 
     print("\n" + "="*80)
     print("FASE 2: GENERACIÓN Y PRUEBA DE ESTRATEGIAS")

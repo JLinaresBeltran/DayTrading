@@ -116,10 +116,27 @@ def _apply_regime_filter(df, config):
         return df['close'] > df[sma_col]
 
     elif regime_type == 'adx':
+        # ADX solo: Filtra por fuerza de tendencia (sin dirección)
         adx_col = f"ADX_{config.get('adx_period', 14)}"
         if adx_col not in df.columns:
             return pd.Series(True, index=df.index)
         return df[adx_col] > config.get('adx_threshold', 25)
+
+    elif regime_type == 'ema_adx':
+        # Combinación: EMA para dirección + ADX para fuerza
+        ema_col = f"EMA_{regime_period}"
+        adx_col = f"ADX_{config.get('adx_period', 14)}"
+        if ema_col not in df.columns or adx_col not in df.columns:
+            return pd.Series(True, index=df.index)
+        return (df['close'] > df[ema_col]) & (df[adx_col] > config.get('adx_threshold', 25))
+
+    elif regime_type == 'sma_adx':
+        # Combinación: SMA para dirección + ADX para fuerza
+        sma_col = f"SMA_{regime_period}"
+        adx_col = f"ADX_{config.get('adx_period', 14)}"
+        if sma_col not in df.columns or adx_col not in df.columns:
+            return pd.Series(True, index=df.index)
+        return (df['close'] > df[sma_col]) & (df[adx_col] > config.get('adx_threshold', 25))
 
     return pd.Series(True, index=df.index)
 
@@ -156,6 +173,16 @@ def _generate_entry_signals(df, config):
 
         elif indicator == 'donchian':
             long, short = _signal_donchian(df, config)
+            long_signals = long_signals & long
+            short_signals = short_signals & short
+
+        elif indicator == 'supertrend':
+            long, short = _signal_supertrend(df, config)
+            long_signals = long_signals & long
+            short_signals = short_signals & short
+
+        elif indicator == 'vwma_cross':
+            long, short = _signal_vwma_cross(df, config)
             long_signals = long_signals & long
             short_signals = short_signals & short
 
@@ -275,6 +302,70 @@ def _signal_donchian(df, config):
     short = (
         (df['close'] <= df[dcl_col]) &
         (df['close'].shift(1) > df[dcl_col].shift(1))
+    )
+
+    return long, short
+
+
+def _signal_supertrend(df, config):
+    """Señal: Supertrend indicator."""
+    supertrend_length = config.get('supertrend_length', 10)
+    supertrend_multiplier = config.get('supertrend_multiplier', 3.0)
+
+    # Nombres de columnas de Supertrend
+    st_col = f"SUPERT_{supertrend_length}_{supertrend_multiplier}"
+    std_col = f"SUPERTd_{supertrend_length}_{supertrend_multiplier}"
+
+    # Si no existen las columnas, retornar True (permitir todas las señales)
+    if st_col not in df.columns or std_col not in df.columns:
+        return pd.Series(True, index=df.index), pd.Series(True, index=df.index)
+
+    # Compra: Supertrend cambia a alcista (dirección = 1)
+    # Supertrend alcista cuando close > Supertrend line
+    long = (
+        (df[std_col] == 1) &
+        (df[std_col].shift(1) == -1)
+    )
+
+    # Venta: Supertrend cambia a bajista (dirección = -1)
+    short = (
+        (df[std_col] == -1) &
+        (df[std_col].shift(1) == 1)
+    )
+
+    return long, short
+
+
+def _signal_vwma_cross(df, config):
+    """Señal: Cruce de VWMAs (Volume Weighted Moving Averages)."""
+    vwma_fast = config.get('vwma_fast', 9)
+    vwma_slow = config.get('vwma_slow', 21)
+
+    # Calcular VWMAs si no existen
+    if 'volume' not in df.columns:
+        # Si no hay volumen, usar EMA regular
+        return _signal_ema_cross(df, {'ema_fast': vwma_fast, 'ema_slow': vwma_slow})
+
+    # VWMA = Sum(close * volume) / Sum(volume)
+    vwma_fast_col = f"VWMA_{vwma_fast}"
+    vwma_slow_col = f"VWMA_{vwma_slow}"
+
+    # Si no existen, calcularlos
+    if vwma_fast_col not in df.columns:
+        df[vwma_fast_col] = (df['close'] * df['volume']).rolling(vwma_fast).sum() / df['volume'].rolling(vwma_fast).sum()
+    if vwma_slow_col not in df.columns:
+        df[vwma_slow_col] = (df['close'] * df['volume']).rolling(vwma_slow).sum() / df['volume'].rolling(vwma_slow).sum()
+
+    # Golden Cross (compra)
+    long = (
+        (df[vwma_fast_col] > df[vwma_slow_col]) &
+        (df[vwma_fast_col].shift(1) <= df[vwma_slow_col].shift(1))
+    )
+
+    # Death Cross (venta)
+    short = (
+        (df[vwma_fast_col] < df[vwma_slow_col]) &
+        (df[vwma_fast_col].shift(1) >= df[vwma_slow_col].shift(1))
     )
 
     return long, short

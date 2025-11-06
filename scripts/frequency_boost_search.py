@@ -170,7 +170,7 @@ def main():
         client=client,
         simbolo=SYMBOL,
         intervalo=INTERVAL,
-        fecha_inicio=START_DATE
+        inicio=START_DATE
     )
 
     print(f"Datos descargados: {len(df_base)} registros")

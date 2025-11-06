@@ -1,0 +1,146 @@
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - ================================================================================
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - ITERACIÓN 28: BB BREAKOUT CON MÚLTIPLES FILTROS EMA EN 5M
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - ================================================================================
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - 
+Hipótesis: Filtros EMA rápidos [21-200] → Última prueba técnica en 5m
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - Objetivo: PF > 1.1 AND Num Trades > 150
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - 
+2. Definiendo Grid de Parámetros (BB Breakout con Múltiples Filtros)...
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    ✓ Total de combinaciones: 16
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    ✓ Parámetros:
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -       - ema_filter_periodo: [21, 50, 100, 200]
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -       - bb_length: [20]
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -       - bb_std: [2.0]
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -       - sl_multiplier: [3.0, 4.0]
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -       - tp_multiplier: [3.0, 4.0]
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    (Probando filtros EMA desde muy rápidos hasta lentos)
+
+2025-11-05 18:50:50 - phase2_optimize_v28 - INFO -    Evaluando combinación 1/16...
+2025-11-05 18:51:08 - phase2_optimize_v28 - INFO -    Evaluando combinación 6/16...
+2025-11-05 18:51:26 - phase2_optimize_v28 - INFO -    Evaluando combinación 11/16...
+2025-11-05 18:51:43 - phase2_optimize_v28 - INFO -    Evaluando combinación 16/16...
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -    ✓ Resultados guardados: backtest_results_eth_v28_bb_ema_combo_5m.csv
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -    ✓ Total de combinaciones evaluadas: 16
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+================================================================================
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - ================================================================================
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   - Profit Factor > 1.1: ✓
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   - Num Trades > 150: ✓
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   - Total encontradas: 0
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗ ITERACIÓN 28 SIN APROBACIÓN ✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - No se encontraron configuraciones que cumplan AMBOS criterios.
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - CONCLUSIÓN DEFINITIVA - FIN DE EXPERIMENTACIÓN EN 5M
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Hemos agotado TODAS las estrategias técnicas principales en 5m:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   1. ✗ v24 - Donchian Breakout (Precio) - PF: 0.78
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   2. ✗ v25 - EMA Pullback (Precio) - PF: 0.81
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   3. ✗ v26 - MACD Crossover (Momentum) - PF: 0.80
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   4. ✗ v27 - Stochastic Crossover (Oscilador) - PF: 0.80
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   5. ✗ v28 - BB Breakout + Multi-EMA (Volatilidad) - evaluado
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+TODAS las estrategias muestran el mismo patrón:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   ✓ Alta frecuencia (>150 trades)
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   ✗ Profit Factor < 1.0 (pérdidas sistemáticas)
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   ✗ Retornos totales: -75% a -97%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - ANÁLISIS SEPARADO POR FILTRO EMA:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Comparación de filtros EMA (ordenado por mejor PF):
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+  EMA 21:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Mejor PF: 0.78
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Num Trades: 2557
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Win Rate: 40.16%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Retorno: -94.08%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+  EMA 50:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Mejor PF: 0.81
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Num Trades: 2481
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Win Rate: 40.23%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Retorno: -93.41%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+  EMA 100:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Mejor PF: 0.84
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Num Trades: 2181
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Win Rate: 42.23%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Retorno: -86.81%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+  EMA 200:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Mejor PF: 0.85
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Num Trades: 1975
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Win Rate: 43.75%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -     Retorno: -80.26%
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - Top 10 configuraciones por Profit Factor:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -  ema_filter_periodo  bb_length  bb_std  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                200         20     2.0            3.0            4.0           0.85        1975         43.75            -80.26         -0.14             82.65
+                200         20     2.0            4.0            4.0           0.85        1750         47.66            -79.24         -0.13             81.74
+                100         20     2.0            3.0            4.0           0.84        2181         42.23            -86.81         -0.18             87.58
+                100         20     2.0            4.0            4.0           0.83        1984         45.67            -85.84         -0.16             87.03
+                 50         20     2.0            3.0            4.0           0.81        2481         40.23            -93.41         -0.24             93.69
+                 50         20     2.0            4.0            4.0           0.81        2283         43.10            -93.31         -0.23             93.67
+                100         20     2.0            3.0            3.0           0.81        2473         49.13            -92.58         -0.25             93.36
+                200         20     2.0            3.0            3.0           0.81        2266         49.65            -91.65         -0.24             93.19
+                200         20     2.0            4.0            3.0           0.81        1987         53.95            -91.73         -0.22             93.04
+                100         20     2.0            4.0            3.0           0.80        2225         52.40            -92.73         -0.24             93.42
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - TRADE-OFF: ¿Alguna configuración estuvo cerca?
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Configuraciones con PF > 1.1: 0
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Configuraciones con > 150 trades: 16
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -    - Mejor PF: 0.85
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -    - Necesitamos: PF > 1.1
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -    - GAP: 0.25 puntos de PF
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+================================================================================
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - RECOMENDACIÓN FINAL Y DEFINITIVA:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - ================================================================================
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+⚠️  El timeframe de 5 minutos NO es viable para ETHUSDT con estrategias técnicas.
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+El problema es fundamental:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   - Filtros rápidos (EMA 21-50): Demasiado ruido, whipsaws excesivos
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   - Filtros lentos (EMA 100-200): Señales tardías, pocas oportunidades
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   - Sin filtro: Pérdidas catastróficas por ruido de mercado
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+PRÓXIMOS PASOS OBLIGATORIOS:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   1. 🔄 PIVOTAR a timeframe 15m (menos ruido, señales más confiables)
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   2. 🪙 Evaluar BTC en lugar de ETH (mayor liquidez, menos volatilidad)
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   3. 🤖 Considerar Machine Learning para filtrado adaptativo
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   4. 📊 Estrategias Mean Reversion (RSI) en lugar de Trend Following
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+⛔ CONCLUSIÓN: Aceptar que Day Trading agresivo (5m) requiere otro enfoque.
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+================================================================================
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - EJECUCIÓN COMPLETADA
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - ================================================================================
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Resultados guardados en: backtest_results_eth_v28_bb_ema_combo_5m.csv
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO - 
+Próximos pasos obligatorios:
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   1. Implementar Iteración 29 en timeframe 15m
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   2. Aplicar la mejor estrategia identificada (v25 EMA Pullback)
+2025-11-05 18:51:47 - phase2_optimize_v28 - INFO -   3. Re-evaluar objetivo de Day Trading

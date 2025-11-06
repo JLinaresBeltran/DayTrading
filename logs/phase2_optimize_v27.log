@@ -1,0 +1,119 @@
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - ================================================================================
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - ITERACIÓN 27: ESTRATEGIA STOCHASTIC CROSSOVER EN TIMEFRAME 5M
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - ================================================================================
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - 
+Hipótesis: Stochastic en zonas extremas → ÚLTIMA OPORTUNIDAD en 5m
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - Objetivo: PF > 1.1 AND Num Trades > 150
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - 
+2. Definiendo Grid de Parámetros (Estrategia Stochastic Crossover)...
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    ✓ Total de combinaciones: 12
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    ✓ Parámetros:
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -       - ema_filter_periodo: [150, 200]
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -       - stoch_k: [14]
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -       - stoch_d: [3]
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -       - stoch_smooth: [3]
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -       - sl_multiplier: [2.0, 3.0]
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -       - tp_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 18:39:43 - phase2_optimize_v27 - INFO -    Evaluando combinación 1/12...
+2025-11-05 18:39:55 - phase2_optimize_v27 - INFO -    Evaluando combinación 6/12...
+2025-11-05 18:40:07 - phase2_optimize_v27 - INFO -    Evaluando combinación 11/12...
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -    ✓ Resultados guardados: backtest_results_eth_v27_stoch_5m.csv
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -    ✓ Total de combinaciones evaluadas: 12
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+================================================================================
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - ================================================================================
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   - Profit Factor > 1.1: ✓
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   - Num Trades > 150: ✓
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   - Total encontradas: 0
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗ ITERACIÓN 27 SIN APROBACIÓN ✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - No se encontraron configuraciones que cumplan AMBOS criterios.
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - CONCLUSIÓN CRÍTICA:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Hemos agotado las CUATRO familias principales de estrategias en 5m:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   1. ✗ v24 - Donchian Breakout (PF: 0.78)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   2. ✗ v25 - EMA Pullback (PF: 0.81)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   3. ✗ v26 - MACD Crossover (PF: 0.80)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   4. ✗ v27 - Stochastic Crossover (evaluado)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+TODAS las estrategias generan alta frecuencia (>150 trades) pero
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - NINGUNA es rentable (todas PF < 1.0 = pérdidas sistemáticas).
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - ANÁLISIS SEPARADO:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Top 10 por Profit Factor (sin filtro de trades):
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -  ema_filter_periodo  stoch_k  stoch_d  stoch_smooth  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                200       14        3             3            3.0            4.0           0.80        1211         43.10            -76.53         -0.18             80.39
+                150       14        3             3            2.0            4.0           0.79        1315         34.14            -75.72         -0.21             78.47
+                150       14        3             3            3.0            3.0           0.79        1237         50.77            -73.98         -0.19             78.20
+                150       14        3             3            3.0            4.0           0.79        1130         43.01            -76.24         -0.18             79.66
+                200       14        3             3            2.0            4.0           0.78        1432         33.59            -79.58         -0.22             82.16
+                200       14        3             3            3.0            3.0           0.78        1331         50.49            -77.62         -0.21             81.57
+                150       14        3             3            2.0            3.0           0.75        1401         41.33            -75.64         -0.23             77.54
+                150       14        3             3            3.0            2.0           0.75        1344         61.46            -75.46         -0.24             78.02
+                200       14        3             3            3.0            2.0           0.74        1472         61.48            -78.81         -0.25             81.36
+                200       14        3             3            2.0            3.0           0.73        1536         40.49            -81.97         -0.27             83.74
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Top 10 con alta frecuencia (> 150 trades):
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -  ema_filter_periodo  stoch_k  stoch_d  stoch_smooth  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                200       14        3             3            3.0            4.0           0.80        1211         43.10            -76.53         -0.18             80.39
+                150       14        3             3            2.0            4.0           0.79        1315         34.14            -75.72         -0.21             78.47
+                150       14        3             3            3.0            3.0           0.79        1237         50.77            -73.98         -0.19             78.20
+                150       14        3             3            3.0            4.0           0.79        1130         43.01            -76.24         -0.18             79.66
+                200       14        3             3            2.0            4.0           0.78        1432         33.59            -79.58         -0.22             82.16
+                200       14        3             3            3.0            3.0           0.78        1331         50.49            -77.62         -0.21             81.57
+                150       14        3             3            2.0            3.0           0.75        1401         41.33            -75.64         -0.23             77.54
+                150       14        3             3            3.0            2.0           0.75        1344         61.46            -75.46         -0.24             78.02
+                200       14        3             3            3.0            2.0           0.74        1472         61.48            -78.81         -0.25             81.36
+                200       14        3             3            2.0            3.0           0.73        1536         40.49            -81.97         -0.27             83.74
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - TRADE-OFF: ¿Qué tan cerca estamos?
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Configuraciones con PF > 1.1: 0
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Configuraciones con > 150 trades: 12
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -    - Mejor PF entre ellas: 0.80
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -    - Necesitamos: PF > 1.1
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+================================================================================
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - RECOMENDACIÓN FINAL:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - ================================================================================
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+El timeframe de 5 minutos es demasiado ruidoso para ETHUSDT.
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - Próximos pasos:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   1. PIVOTAR a timeframe 15m (menos ruido, señales más confiables)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   2. Evaluar BTC en lugar de ETH (mayor liquidez)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   3. Considerar estrategias Mean Reversion (RSI)
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   4. Aceptar que Day Trading agresivo (5m) NO es viable con este sistema
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+================================================================================
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - EJECUCIÓN COMPLETADA
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - ================================================================================
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Resultados guardados en: backtest_results_eth_v27_stoch_5m.csv
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO - 
+Próximos pasos:
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   1. Revisar el CSV completo para análisis detallado
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   2. Cambiar a timeframe 15m para la próxima iteración
+2025-11-05 18:40:13 - phase2_optimize_v27 - INFO -   3. Re-evaluar el objetivo de Day Trading

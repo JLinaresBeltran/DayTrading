@@ -56,73 +56,66 @@ CRITERIA = {
 
 STRATEGY_GRID = {
     # ========================================
-    # TIPO DE ESTRATEGIA
+    # TIPO DE ESTRATEGIA (REDUCIDO)
     # ========================================
-    'regime_type': ['ema', 'sma', 'ema_adx', 'sma_adx', 'adx', 'none'],
-    'regime_period': [50, 100, 150, 200],
-    'regime_direction': ['long_only', 'short_only', 'hybrid'],
+    'regime_type': ['ema_adx', 'sma_adx', 'none'],  # Los más prometedores con ADX
+    'regime_period': [100, 150],  # Períodos medios
+    'regime_direction': ['long_only', 'hybrid'],  # Enfoque en largos e híbrido
 
     # ========================================
     # PARÁMETROS DE ADX
     # ========================================
     'adx_period': [14],
-    'adx_threshold': [20, 25, 30],
+    'adx_threshold': [25],  # Valor óptimo estándar
 
     # ========================================
-    # INDICADORES DE ENTRADA (combinaciones)
+    # INDICADORES DE ENTRADA (combinaciones REDUCIDAS)
     # ========================================
     'entry_combinations': [
-        # Estrategias EMA
+        # Estrategias EMA (las más probadas)
         ['ema_cross'],
         ['ema_cross', 'rsi'],
-        ['ema_cross', 'macd'],
-        ['ema_cross', 'rsi', 'macd'],
 
-        # Estrategias VWMA (alternativa ponderada por volumen)
+        # Estrategias VWMA (alternativa volumen)
         ['vwma_cross'],
         ['vwma_cross', 'rsi'],
 
         # Estrategias MACD
-        ['macd'],
         ['macd', 'rsi'],
 
         # Estrategias Donchian
-        ['donchian'],
         ['donchian', 'rsi'],
 
         # Estrategias Bollinger
-        ['bb'],
         ['bb', 'rsi'],
-        ['ema_cross', 'bb'],
 
-        # Estrategias Supertrend (nuevo)
+        # Estrategias Supertrend (nuevo - prioritario)
         ['supertrend'],
         ['supertrend', 'rsi'],
-        ['supertrend', 'macd'],
     ],
 
     # ========================================
-    # PARÁMETROS DE EMAS
+    # PARÁMETROS DE EMAS (REDUCIDO)
     # ========================================
-    'ema_fast': [9, 12, 15],
-    'ema_slow': [21, 26, 30],
+    'ema_fast': [12, 15],  # Valores más usados
+    'ema_slow': [21, 26],
 
     # ========================================
     # PARÁMETROS DE RSI
     # ========================================
     'rsi_period': [14],
-    'rsi_oversold': [20, 30],
-    'rsi_overbought': [70, 80],
+    'rsi_oversold': [30],  # Valor estándar
+    'rsi_overbought': [70],  # Valor estándar
 
     # ========================================
-    # PARÁMETROS DE MACD
+    # PARÁMETROS DE MACD (ESTÁNDAR)
     # ========================================
     'macd_fast': [12],
     'macd_slow': [26],
     'macd_signal': [9],
 
     # ========================================
-    # PARÁMETROS DE BOLLINGER
+    # PARÁMETROS DE BOLLINGER (ESTÁNDAR)
     # ========================================
     'bb_length': [20],
     'bb_std': [2.0],
@@ -133,10 +126,10 @@ STRATEGY_GRID = {
     'donchian_period': [20, 30],
 
     # ========================================
-    # PARÁMETROS DE VWMA
+    # PARÁMETROS DE VWMA (REDUCIDO)
     # ========================================
-    'vwma_fast': [9, 12, 15],
-    'vwma_slow': [21, 26, 30],
+    'vwma_fast': [12, 15],
+    'vwma_slow': [21, 26],
 
     # ========================================
     # PARÁMETROS DE SUPERTREND
@@ -145,26 +138,22 @@ STRATEGY_GRID = {
     'supertrend_multiplier': [2.0, 3.0],
 
     # ========================================
-    # FILTROS ADICIONALES
+    # FILTROS ADICIONALES (SIMPLIFICADO)
     # ========================================
     'use_volume_filter': [False, True],
     'volume_ma_period': [20],
-    'use_atr_filter': [False, True],
-    'atr_min_threshold': [0.3, 0.5],
+    'use_atr_filter': [False],  # Simplificado
+    'atr_min_threshold': [0.5],  # Valor único
 
     # ========================================
-    # GESTIÓN DE RIESGO (RATIOS SL:TP)
+    # GESTIÓN DE RIESGO (RATIOS SL:TP REDUCIDOS)
     # ========================================
-    'atr_period': [14, 20],
+    'atr_period': [14],  # Solo estándar
     'atr_multiplier_combinations': [
-        {'sl': 1.5, 'tp': 3.0},   # Ratio 1:2
-        {'sl': 1.5, 'tp': 4.5},   # Ratio 1:3
         {'sl': 2.0, 'tp': 4.0},   # Ratio 1:2
         {'sl': 2.0, 'tp': 6.0},   # Ratio 1:3
         {'sl': 2.5, 'tp': 5.0},   # Ratio 1:2
-        {'sl': 2.5, 'tp': 7.5},   # Ratio 1:3
         {'sl': 3.0, 'tp': 6.0},   # Ratio 1:2
-        {'sl': 3.0, 'tp': 9.0},   # Ratio 1:3
     ],
 }
 
@@ -173,35 +162,97 @@ STRATEGY_GRID = {
 # FUNCIONES AUXILIARES
 # ============================================================================
 
-def calculate_total_combinations():
-    """Calcula el número total de combinaciones a probar."""
-    count = 1
-    for key, values in STRATEGY_GRID.items():
-        if isinstance(values, list):
-            count *= len(values)
-    return count
+def get_relevant_params_for_indicators(entry_indicators):
+    """
+    Determina qué parámetros son relevantes para una combinación de indicadores.
+
+    Esto evita generar combinaciones inútiles (ej: probar parámetros de VWMA
+    cuando la estrategia solo usa EMA).
+    """
+    params = {
+        # Siempre incluir parámetros base
+        'regime_type': STRATEGY_GRID['regime_type'],
+        'regime_period': STRATEGY_GRID['regime_period'],
+        'regime_direction': STRATEGY_GRID['regime_direction'],
+        'adx_period': STRATEGY_GRID['adx_period'],
+        'adx_threshold': STRATEGY_GRID['adx_threshold'],
+        'use_volume_filter': STRATEGY_GRID['use_volume_filter'],
+        'volume_ma_period': STRATEGY_GRID['volume_ma_period'],
+        'use_atr_filter': STRATEGY_GRID['use_atr_filter'],
+        'atr_min_threshold': STRATEGY_GRID['atr_min_threshold'],
+        'atr_period': STRATEGY_GRID['atr_period'],
+        'atr_multiplier_combinations': STRATEGY_GRID['atr_multiplier_combinations'],
+    }
+
+    # Agregar parámetros específicos según indicadores usados
+    for indicator in entry_indicators:
+        if indicator == 'ema_cross':
+            params['ema_fast'] = STRATEGY_GRID['ema_fast']
+            params['ema_slow'] = STRATEGY_GRID['ema_slow']
+        elif indicator == 'vwma_cross':
+            params['vwma_fast'] = STRATEGY_GRID['vwma_fast']
+            params['vwma_slow'] = STRATEGY_GRID['vwma_slow']
+        elif indicator == 'rsi':
+            params['rsi_period'] = STRATEGY_GRID['rsi_period']
+            params['rsi_oversold'] = STRATEGY_GRID['rsi_oversold']
+            params['rsi_overbought'] = STRATEGY_GRID['rsi_overbought']
+        elif indicator == 'macd':
+            params['macd_fast'] = STRATEGY_GRID['macd_fast']
+            params['macd_slow'] = STRATEGY_GRID['macd_slow']
+            params['macd_signal'] = STRATEGY_GRID['macd_signal']
+        elif indicator == 'bb':
+            params['bb_length'] = STRATEGY_GRID['bb_length']
+            params['bb_std'] = STRATEGY_GRID['bb_std']
+        elif indicator == 'donchian':
+            params['donchian_period'] = STRATEGY_GRID['donchian_period']
+        elif indicator == 'supertrend':
+            params['supertrend_length'] = STRATEGY_GRID['supertrend_length']
+            params['supertrend_multiplier'] = STRATEGY_GRID['supertrend_multiplier']
+
+    return params
 
 
 def generate_strategy_configs():
-    """Genera todas las configuraciones de estrategias a probar."""
+    """
+    Genera configuraciones de estrategias de forma INTELIGENTE.
+
+    Solo incluye parámetros relevantes para cada combinación de indicadores,
+    evitando la explosión combinatoria de probar parámetros innecesarios.
+    """
     configs = []
 
-    # Obtener todas las combinaciones
-    keys = list(STRATEGY_GRID.keys())
-    values = [STRATEGY_GRID[k] for k in keys]
+    # Iterar sobre cada entry_combination
+    for entry_combination in STRATEGY_GRID['entry_combinations']:
 
-    for combination in product(*values):
-        config = dict(zip(keys, combination))
+        # Obtener solo los parámetros relevantes para esta combinación
+        relevant_params = get_relevant_params_for_indicators(entry_combination)
 
-        # Extraer entry_indicators y atr_multipliers
-        config['entry_indicators'] = config.pop('entry_combinations')
-        atr_mult = config.pop('atr_multiplier_combinations')
-        config['sl_atr_multiplier'] = atr_mult['sl']
-        config['tp_atr_multiplier'] = atr_mult['tp']
+        # Generar producto cartesiano SOLO de parámetros relevantes
+        keys = list(relevant_params.keys())
+        values = [relevant_params[k] for k in keys]
 
-        configs.append(config)
+        for combination in product(*values):
+            config = dict(zip(keys, combination))
+
+            # Extraer entry_indicators y atr_multipliers
+            config['entry_indicators'] = entry_combination
+            atr_mult = config.pop('atr_multiplier_combinations')
+            config['sl_atr_multiplier'] = atr_mult['sl']
+            config['tp_atr_multiplier'] = atr_mult['tp']
+
+            configs.append(config)
 
     return configs
+
+
+def calculate_total_combinations():
+    """
+    Calcula el número REAL de combinaciones a probar.
+
+    Tiene en cuenta que solo se prueban parámetros relevantes para cada
+    combinación de indicadores.
+    """
+    return len(generate_strategy_configs())
 
 
 def test_strategy(df_base, config, strategy_id):

@@ -1,0 +1,238 @@
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - ================================================================================
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - ITERACIÓN 25: ESTRATEGIA EMA PULLBACK EN TIMEFRAME 5M
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - ================================================================================
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - 
+Hipótesis: Retrocesos a EMA → Alta frecuencia + Rentabilidad
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - Objetivo: PF > 1.2 AND Num Trades > 150
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - 
+2. Definiendo Grid de Parámetros (Estrategia EMA Pullback)...
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    ✓ Total de combinaciones: 36
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    ✓ Parámetros:
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -       - ema_filtro_periodo: [100, 150, 200]
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -       - ema_gatillo_periodo: [21, 50]
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -       - sl_multiplier: [2.0, 3.0]
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -       - tp_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 1/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 1: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 2: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 3: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 4: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 5/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 5: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 6: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 7: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 8: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 9: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 10/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 10: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 11: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 12: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_100']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 13: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 14: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 15/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 15: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 16: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 17: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 18: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 19: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 20/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 20: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 21: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 22: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 23: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 24: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_150']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 25/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 25: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 26: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 27: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 28: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 29: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 30/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 30: Columnas faltantes en DataFrame: ['EMA_21', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 31: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 32: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 33: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 34: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO -    Evaluando combinación 35/36...
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 35: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - ERROR -    ✗ Error en combinación 36: Columnas faltantes en DataFrame: ['EMA_50', 'EMA_200']
+Asegúrate de calcular indicadores primero.
+Columnas disponibles: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'ATRr_14', 'RSI_14', 'BBU_20_2.0', 'BBM_20_2.0', 'BBL_20_2.0', 'MACD_12_26_9', 'MACDs_12_26_9', 'MACDh_12_26_9', 'STOCHk_14_3_3', 'STOCHd_14_3_3']
+2025-11-05 18:03:51 - phase2_optimize_v25 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - ================================================================================
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - ITERACIÓN 25: ESTRATEGIA EMA PULLBACK EN TIMEFRAME 5M
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - ================================================================================
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - 
+Hipótesis: Retrocesos a EMA → Alta frecuencia + Rentabilidad
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - Objetivo: PF > 1.2 AND Num Trades > 150
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - 
+2. Definiendo Grid de Parámetros (Estrategia EMA Pullback)...
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    ✓ Total de combinaciones: 36
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    ✓ Parámetros:
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -       - ema_filtro_periodo: [100, 150, 200]
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -       - ema_gatillo_periodo: [21, 50]
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -       - sl_multiplier: [2.0, 3.0]
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -       - tp_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 18:05:33 - phase2_optimize_v25 - INFO -    Evaluando combinación 1/36...
+2025-11-05 18:05:49 - phase2_optimize_v25 - INFO -    Evaluando combinación 5/36...
+2025-11-05 18:06:07 - phase2_optimize_v25 - INFO -    Evaluando combinación 10/36...
+2025-11-05 18:06:25 - phase2_optimize_v25 - INFO -    Evaluando combinación 15/36...
+2025-11-05 18:06:44 - phase2_optimize_v25 - INFO -    Evaluando combinación 20/36...
+2025-11-05 18:07:00 - phase2_optimize_v25 - INFO -    Evaluando combinación 25/36...
+2025-11-05 18:07:19 - phase2_optimize_v25 - INFO -    Evaluando combinación 30/36...
+2025-11-05 18:07:35 - phase2_optimize_v25 - INFO -    Evaluando combinación 35/36...
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -    ✓ Resultados guardados: backtest_results_eth_v25_pullback_5m.csv
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -    ✓ Total de combinaciones evaluadas: 36
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+================================================================================
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - ================================================================================
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -   - Profit Factor > 1.2: ✓
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -   - Num Trades > 150: ✓
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -   - Total encontradas: 0
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+✗✗✗ ITERACIÓN 25 SIN APROBACIÓN ✗✗✗
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - No se encontraron configuraciones que cumplan AMBOS criterios.
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - ANÁLISIS SEPARADO:
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+Top 10 por Profit Factor (sin filtro de trades):
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -  ema_gatillo_periodo  ema_filtro_periodo  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                  21                 100            3.0            4.0           0.81        2826         35.63            -94.94         -0.26             95.64
+                  21                 150            3.0            4.0           0.80        2526         37.49            -94.02         -0.24             94.83
+                  21                 200            3.0            4.0           0.79        2403         38.41            -94.02         -0.24             95.02
+                  21                 150            3.0            3.0           0.78        2976         44.72            -96.37         -0.30             96.85
+                  21                 100            2.0            4.0           0.78        3320         31.39            -96.79         -0.32             97.19
+                  21                 150            2.0            4.0           0.78        3078         32.07            -96.27         -0.30             96.72
+                  21                 200            3.0            3.0           0.77        2847         45.87            -96.47         -0.30             97.01
+                  21                 100            3.0            3.0           0.77        3265         42.36            -97.20         -0.33             97.53
+                  21                 200            2.0            4.0           0.76        2970         32.32            -96.51         -0.31             97.01
+                  50                 150            3.0            4.0           0.75        1996         37.22            -91.28         -0.25             92.31
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+Top 10 con alta frecuencia (> 150 trades):
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -  ema_gatillo_periodo  ema_filtro_periodo  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                  21                 100            3.0            4.0           0.81        2826         35.63            -94.94         -0.26             95.64
+                  21                 150            3.0            4.0           0.80        2526         37.49            -94.02         -0.24             94.83
+                  21                 200            3.0            4.0           0.79        2403         38.41            -94.02         -0.24             95.02
+                  21                 150            3.0            3.0           0.78        2976         44.72            -96.37         -0.30             96.85
+                  21                 100            2.0            4.0           0.78        3320         31.39            -96.79         -0.32             97.19
+                  21                 150            2.0            4.0           0.78        3078         32.07            -96.27         -0.30             96.72
+                  21                 200            3.0            3.0           0.77        2847         45.87            -96.47         -0.30             97.01
+                  21                 100            3.0            3.0           0.77        3265         42.36            -97.20         -0.33             97.53
+                  21                 200            2.0            4.0           0.76        2970         32.32            -96.51         -0.31             97.01
+                  50                 150            3.0            4.0           0.75        1996         37.22            -91.28         -0.25             92.31
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - TRADE-OFF: ¿Qué tan cerca estamos?
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+================================================================================
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - EJECUCIÓN COMPLETADA
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - ================================================================================
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+Resultados guardados en: backtest_results_eth_v25_pullback_5m.csv
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO - 
+Próximos pasos:
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -   1. Revisar el CSV completo para análisis detallado
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -   2. Si se cumplieron los criterios:
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -      - Implementar la mejor configuración en paper trading (Fase 3)
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -      - Validar en datos out-of-sample antes de live
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -   3. Si no se cumplieron:
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -      - Evaluar trade-off entre frecuencia y rentabilidad
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -      - Considerar estrategias Mean Reversion (RSI)
+2025-11-05 18:07:42 - phase2_optimize_v25 - INFO -      - Evaluar cambio de activo (BTC en lugar de ETH)

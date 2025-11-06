@@ -1,0 +1,141 @@
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - ================================================================================
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - ITERACIÓN 30: BB + TRIPLE FILTRO (ADX + EMA ESPECTRO) EN 5M
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - ================================================================================
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - 
+Hipótesis: ADX > 15 elimina whipsaws → PRUEBA DEFINITIVA DEL EDGE
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - Objetivo: PF > 1.1 AND Num Trades > 100
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - 
+2. Definiendo Grid de Parámetros (Triple Filtro: ADX + BB + EMA)...
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    ✓ Total de combinaciones: 20
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    ✓ Parámetros:
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - ema_filter_periodo: [21, 50, 100, 150, 200]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - bb_length: [20]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - bb_std: [2.0]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - adx_period: [14]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - adx_threshold: [15]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - sl_multiplier: [3.0, 4.0]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -       - tp_multiplier: [3.0, 4.0]
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - 
+   🔑 INNOVACIÓN: Filtro ADX > 15 para eliminar whipsaws laterales
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    (Probando Triple Filtro en espectro completo de EMAs)
+
+2025-11-05 19:01:10 - phase2_optimize_v30 - INFO -    Evaluando combinación 1/20...
+2025-11-05 19:01:28 - phase2_optimize_v30 - INFO -    Evaluando combinación 6/20...
+2025-11-05 19:01:46 - phase2_optimize_v30 - INFO -    Evaluando combinación 11/20...
+2025-11-05 19:02:03 - phase2_optimize_v30 - INFO -    Evaluando combinación 16/20...
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -    ✓ Resultados guardados: backtest_results_eth_v30_bb_adx_espectro_5m.csv
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -    ✓ Total de combinaciones evaluadas: 20
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+================================================================================
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - ================================================================================
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   - Profit Factor > 1.1: ✓
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   - Num Trades > 100: ✓
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   - Total encontradas: 0
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - ITERACIÓN 30 SIN APROBACIÓN - FIN DE LA EXPERIMENTACIÓN EN 5M
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+El filtro ADX NO resolvió el problema de whipsaws.
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+Hemos probado TODO en 5m:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   1. ✗ Breakout (Donchian) - PF 0.78
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   2. ✗ Pullback (EMA) - PF 0.81
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   3. ✗ Momentum Cross (MACD) - PF 0.80
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   4. ✗ Oscillator (Stochastic) - PF 0.80
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   5. ✗ Volatility (BB + Multi-EMA) - PF 0.74-0.85
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   6. ✗ Triple Filter (BB + ADX + EMA) - evaluado
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - ANÁLISIS POR FILTRO EMA (con ADX > 15):
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - --------------------------------------------------------------------------------
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+  EMA 21:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Mejor PF: 0.78
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Num Trades: 2545
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Win Rate: 40.28%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Retorno: -93.86%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+  EMA 50:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Mejor PF: 0.80
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Num Trades: 2471
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Win Rate: 40.31%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Retorno: -93.28%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+  EMA 100:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Mejor PF: 0.84
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Num Trades: 2175
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Win Rate: 42.30%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Retorno: -86.65%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+  EMA 150:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Mejor PF: 0.84
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Num Trades: 1840
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Win Rate: 46.90%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Retorno: -80.31%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+  EMA 200:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Mejor PF: 0.85
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Num Trades: 1972
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Win Rate: 43.81%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -     Retorno: -80.01%
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - Top 10 configuraciones por Profit Factor:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - --------------------------------------------------------------------------------
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -  ema_filter_periodo  adx_threshold  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct
+                200             15            4.0            4.0           0.85        1748         47.71            -79.22
+                200             15            3.0            4.0           0.85        1972         43.81            -80.01
+                150             15            4.0            4.0           0.84        1840         46.90            -80.31
+                100             15            3.0            4.0           0.84        2175         42.30            -86.65
+                100             15            4.0            4.0           0.83        1979         45.68            -86.01
+                150             15            4.0            3.0           0.83        2072         53.67            -89.88
+                150             15            3.0            4.0           0.83        2053         43.21            -83.07
+                150             15            3.0            3.0           0.82        2335         49.68            -90.59
+                100             15            3.0            3.0           0.81        2465         49.09            -92.88
+                200             15            4.0            3.0           0.80        1983         53.91            -92.16
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - IMPACTO DEL FILTRO ADX:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - --------------------------------------------------------------------------------
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+Comparación con v28 (sin ADX):
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   v28 (sin ADX): PF máximo = 0.85
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   v30 (con ADX): PF máximo = 0.85
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   Mejora: +0.00 puntos de PF
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+  ✗ El ADX NO mejoró el PF (incluso empeoró)
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+================================================================================
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - CONCLUSIÓN DEFINITIVA:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - ================================================================================
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+⛔ Day Trading en 5m NO es viable para ETHUSDT con indicadores técnicos.
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+PRÓXIMOS PASOS OBLIGATORIOS:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   1. 🔄 Pivotar a timeframe 15m (Iteración 31)
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   2. 🪙 Evaluar BTC en lugar de ETH
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   3. 🤖 Considerar Machine Learning / AI
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   4. 📊 Estrategias adaptativas (no estáticas)
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+================================================================================
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - EJECUCIÓN COMPLETADA
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - ================================================================================
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+Resultados guardados en: backtest_results_eth_v30_bb_adx_espectro_5m.csv
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO - 
+Próximos pasos:
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   1. Implementar Iteración 31 en timeframe 15m
+2025-11-05 19:02:21 - phase2_optimize_v30 - INFO -   2. Abandonar definitivamente el objetivo de 5m

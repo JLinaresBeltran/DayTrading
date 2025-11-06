@@ -1,0 +1,97 @@
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - ================================================================================
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - ITERACIÓN 24: ESTRATEGIA GANADORA EN TIMEFRAME 5M
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - ================================================================================
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - 
+Hipótesis: Lógica ganadora (Donchian/EMA) en 5m → Alta frecuencia + Rentabilidad
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - Objetivo: PF > 1.2 AND Num Trades > 150
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - 
+2. Definiendo Grid de Parámetros (Lógica Ganadora v22)...
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    ✓ Total de combinaciones: 36
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    ✓ Parámetros:
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -       - donchian_period: [10, 15, 20]
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -       - ema_filter_period: [50, 100, 150]
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -       - sl_multiplier: [3.0, 4.0]
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -       - tp_multiplier: [3.0, 4.0]
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 17:35:49 - phase2_optimize_v24 - INFO -    Evaluando combinación 1/36...
+2025-11-05 17:36:15 - phase2_optimize_v24 - INFO -    Evaluando combinación 5/36...
+2025-11-05 17:36:47 - phase2_optimize_v24 - INFO -    Evaluando combinación 10/36...
+2025-11-05 17:37:18 - phase2_optimize_v24 - INFO -    Evaluando combinación 15/36...
+2025-11-05 17:37:48 - phase2_optimize_v24 - INFO -    Evaluando combinación 20/36...
+2025-11-05 17:38:18 - phase2_optimize_v24 - INFO -    Evaluando combinación 25/36...
+2025-11-05 17:38:47 - phase2_optimize_v24 - INFO -    Evaluando combinación 30/36...
+2025-11-05 17:39:16 - phase2_optimize_v24 - INFO -    Evaluando combinación 35/36...
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -    ✓ Resultados guardados: backtest_results_eth_v24_donchian_5m.csv
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -    ✓ Total de combinaciones evaluadas: 36
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+================================================================================
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - ================================================================================
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -   - Profit Factor > 1.2: ✓
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -   - Num Trades > 150: ✓
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -   - Total encontradas: 0
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+✗✗✗ ITERACIÓN 24 SIN APROBACIÓN ✗✗✗
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - No se encontraron configuraciones que cumplan AMBOS criterios.
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - ANÁLISIS SEPARADO:
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - --------------------------------------------------------------------------------
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+Top 10 por Profit Factor (sin filtro de trades):
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -  donchian_period  ema_filter_period  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+              15                 50            4.0            4.0           0.78         474         50.00            -39.30         -0.11             45.83
+              10                 50            4.0            4.0           0.77         628         47.61            -47.62         -0.13             55.09
+              15                 50            3.0            4.0           0.76         502         44.82            -40.10         -0.12             47.42
+              10                 50            3.0            4.0           0.75         667         42.28            -50.95         -0.16             57.73
+              15                 50            4.0            3.0           0.73         492         57.32            -42.12         -0.13             47.44
+              10                100            3.0            4.0           0.73         618         42.39            -51.79         -0.17             55.99
+              15                100            3.0            4.0           0.73         470         44.47            -42.35         -0.14             45.04
+              15                 50            3.0            3.0           0.73         517         51.64            -41.58         -0.15             46.53
+              15                100            4.0            4.0           0.72         440         49.32            -44.10         -0.13             47.55
+              10                100            4.0            4.0           0.72         580         47.41            -52.38         -0.15             56.28
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+Top 10 con alta frecuencia (> 150 trades):
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -  donchian_period  ema_filter_period  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+              15                 50            4.0            4.0           0.78         474         50.00            -39.30         -0.11             45.83
+              10                 50            4.0            4.0           0.77         628         47.61            -47.62         -0.13             55.09
+              15                 50            3.0            4.0           0.76         502         44.82            -40.10         -0.12             47.42
+              10                 50            3.0            4.0           0.75         667         42.28            -50.95         -0.16             57.73
+              15                 50            4.0            3.0           0.73         492         57.32            -42.12         -0.13             47.44
+              10                100            3.0            4.0           0.73         618         42.39            -51.79         -0.17             55.99
+              15                100            3.0            4.0           0.73         470         44.47            -42.35         -0.14             45.04
+              15                 50            3.0            3.0           0.73         517         51.64            -41.58         -0.15             46.53
+              15                100            4.0            4.0           0.72         440         49.32            -44.10         -0.13             47.55
+              10                100            4.0            4.0           0.72         580         47.41            -52.38         -0.15             56.28
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - TRADE-OFF: ¿Qué tan cerca estamos?
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - --------------------------------------------------------------------------------
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+================================================================================
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - EJECUCIÓN COMPLETADA
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - ================================================================================
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+Resultados guardados en: backtest_results_eth_v24_donchian_5m.csv
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO - 
+Próximos pasos:
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -   1. Revisar el CSV completo para análisis detallado
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -   2. Si se cumplieron los criterios:
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -      - Implementar la mejor configuración en paper trading (Fase 3)
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -      - Validar en datos out-of-sample antes de live
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -   3. Si no se cumplieron:
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -      - Evaluar trade-off entre frecuencia y rentabilidad
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -      - Considerar ajustar objetivo de frecuencia
+2025-11-05 17:39:28 - phase2_optimize_v24 - INFO -      - Evaluar timeframe 1m como última opción

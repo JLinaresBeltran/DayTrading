@@ -392,8 +392,9 @@ def optimize_hibrido_strategy(client, symbol='ETHUSDT', interval='15m',
 
 def main():
     print("=" * 80)
-    print("FASE 2: BACKTESTING CON ESTRATEGIA HÍBRIDA - ITERACIÓN 12")
+    print("FASE 2: BACKTESTING MULTI-TIMEFRAME - ESTRATEGIA HÍBRIDA v1")
     print("Estrategia: 4 Capas LONG-ONLY (EMA_200 + RSI + MACD + ATR)")
+    print("Timeframes a probar: 5m, 15m, 1h")
     print("=" * 80)
 
     # 1. Crear cliente
@@ -402,24 +403,77 @@ def main():
     client = manager.get_public_client()
     print("   ✓ Cliente público creado")
 
-    # 2. Ejecutar optimización
-    best_params, best_metrics, all_results = optimize_hibrido_strategy(
-        client=client,
-        symbol='ETHUSDT',
-        interval='15m',
-        start_date='1 year ago UTC'
-    )
-
-    # 3. Mostrar mejores resultados
-    if best_params is None:
-        print("\n❌ No se encontraron resultados válidos en la optimización")
-        return
+    # 2. Definir timeframes a probar
+    timeframes = ['5m', '15m', '1h']
+    all_timeframe_results = {}
 
     print("\n" + "=" * 80)
-    print("🏆 MEJORES PARÁMETROS ENCONTRADOS")
+    print("🔄 INICIANDO BACKTESTS MULTI-TIMEFRAME")
     print("=" * 80)
 
-    print("\nParámetros Óptimos - Estrategia Híbrida:")
+    # 3. Ejecutar optimización para cada timeframe
+    for interval in timeframes:
+        print("\n" + "🎯" * 40)
+        print(f"TIMEFRAME: {interval.upper()}")
+        print("🎯" * 40)
+
+        try:
+            best_params, best_metrics, all_results = optimize_hibrido_strategy(
+                client=client,
+                symbol='ETHUSDT',
+                interval=interval,
+                start_date='1 year ago UTC'
+            )
+
+            if best_params is not None:
+                all_timeframe_results[interval] = {
+                    'best_params': best_params,
+                    'best_metrics': best_metrics,
+                    'all_results': all_results
+                }
+                print(f"\n✅ {interval} completado - Sharpe: {best_metrics['sharpe_ratio']:.4f}, "
+                      f"Win Rate: {best_metrics['win_rate']:.2f}%")
+            else:
+                print(f"\n❌ {interval} - No se encontraron resultados válidos")
+
+        except Exception as e:
+            print(f"\n❌ Error en timeframe {interval}: {e}")
+            continue
+
+    # 4. Comparar resultados entre timeframes
+    if len(all_timeframe_results) == 0:
+        print("\n❌ No se obtuvieron resultados válidos en ningún timeframe")
+        return
+
+    print("\n\n" + "=" * 80)
+    print("📊 COMPARACIÓN DE RESULTADOS ENTRE TIMEFRAMES")
+    print("=" * 80)
+
+    # Tabla comparativa
+    print(f"\n{'Timeframe':<12} {'Trades':<10} {'Win Rate':<12} {'Sharpe':<10} {'Return %':<12} {'Drawdown %':<12}")
+    print("-" * 80)
+
+    for interval in timeframes:
+        if interval in all_timeframe_results:
+            metrics = all_timeframe_results[interval]['best_metrics']
+            print(f"{interval:<12} {metrics['total_trades']:<10} "
+                  f"{metrics['win_rate']:<12.2f} {metrics['sharpe_ratio']:<10.4f} "
+                  f"{metrics['total_return_pct']:<12.2f} {metrics['max_drawdown_pct']:<12.2f}")
+
+    # 5. Determinar el mejor timeframe
+    print("\n" + "=" * 80)
+    print("🏆 MEJOR TIMEFRAME (por Sharpe Ratio)")
+    print("=" * 80)
+
+    best_timeframe = max(all_timeframe_results.items(),
+                         key=lambda x: x[1]['best_metrics']['sharpe_ratio'])
+
+    interval_winner = best_timeframe[0]
+    best_params = best_timeframe[1]['best_params']
+    best_metrics = best_timeframe[1]['best_metrics']
+
+    print(f"\n🥇 GANADOR: {interval_winner.upper()}")
+    print("\nParámetros Óptimos:")
     print(f"  CAPA 1 (Régimen): EMA_trend = {best_params['ema_trend']}")
     print(f"  CAPA 2 (Momentum): RSI_period = {best_params['rsi_period']}, "
           f"RSI_momentum_level = {best_params['rsi_momentum_level']}")
@@ -428,11 +482,8 @@ def main():
     print(f"  CAPA 4 (Riesgo): ATR_length = {best_params['atr_length']}, "
           f"ATR_multiplier = {best_params['atr_multiplier']}")
 
-    print("\n" + "=" * 80)
-    print("📊 MÉTRICAS DE RENDIMIENTO")
-    print("=" * 80)
-
-    print(f"\n  Total de Trades: {best_metrics['total_trades']}")
+    print("\n📈 Métricas de Rendimiento:")
+    print(f"  Total de Trades: {best_metrics['total_trades']}")
     print(f"  Trades Ganadores: {best_metrics['winning_trades']}")
     print(f"  Trades Perdedores: {best_metrics['losing_trades']}")
     print(f"  Win Rate: {best_metrics['win_rate']:.2f}%")
@@ -445,15 +496,46 @@ def main():
     print(f"  Capital Final: ${best_metrics['final_capital']:.2f}")
     print(f"  Holding Promedio: {best_metrics['avg_holding_periods']:.1f} períodos")
 
-    # 4. Guardar parámetros óptimos
+    # 6. Guardar resultados de todos los timeframes
     print("\n" + "=" * 80)
-    print("💾 GUARDANDO PARÁMETROS ÓPTIMOS")
+    print("💾 GUARDANDO RESULTADOS")
     print("=" * 80)
 
-    optimal_config = {
+    config_dir = os.path.join(os.path.dirname(__file__), '..', 'config')
+    os.makedirs(config_dir, exist_ok=True)
+
+    # Guardar comparación completa
+    comparison_config = {
         'strategy_name': 'hibrido_v1',
         'strategy_type': 'long_only',
-        'description': 'Estrategia Híbrida de 4 Capas (Régimen + Momentum + MACD + ATR)',
+        'description': 'Estrategia Híbrida de 4 Capas - Comparación Multi-Timeframe',
+        'best_timeframe': interval_winner,
+        'timeframe_results': {}
+    }
+
+    for interval, data in all_timeframe_results.items():
+        comparison_config['timeframe_results'][interval] = {
+            'optimized_params': data['best_params'],
+            'performance_metrics': {
+                'total_trades': data['best_metrics']['total_trades'],
+                'win_rate': data['best_metrics']['win_rate'],
+                'sharpe_ratio': data['best_metrics']['sharpe_ratio'],
+                'total_return_pct': data['best_metrics']['total_return_pct'],
+                'max_drawdown_pct': data['best_metrics']['max_drawdown_pct']
+            }
+        }
+
+    # Guardar comparación
+    comparison_file = os.path.join(config_dir, 'optimal_params_hibrido_v1_multi_timeframe.json')
+    with open(comparison_file, 'w') as f:
+        json.dump(comparison_config, f, indent=2)
+    print(f"   ✓ Comparación guardada en: {comparison_file}")
+
+    # Guardar mejor configuración individual
+    best_config = {
+        'strategy_name': 'hibrido_v1',
+        'strategy_type': 'long_only',
+        'description': f'Estrategia Híbrida de 4 Capas - Mejor Timeframe: {interval_winner}',
         'optimized_params': best_params,
         'performance_metrics': {
             'total_trades': best_metrics['total_trades'],
@@ -464,54 +546,34 @@ def main():
         },
         'backtest_info': {
             'symbol': 'ETHUSDT',
-            'interval': '15m',
+            'interval': interval_winner,
             'period': '1 year ago UTC'
         }
     }
 
-    # Guardar en config/optimal_params_hibrido_v1.json
-    import json
-    config_dir = os.path.join(os.path.dirname(__file__), '..', 'config')
-    os.makedirs(config_dir, exist_ok=True)
+    best_file = os.path.join(config_dir, 'optimal_params_hibrido_v1.json')
+    with open(best_file, 'w') as f:
+        json.dump(best_config, f, indent=2)
+    print(f"   ✓ Mejor configuración guardada en: {best_file}")
 
-    output_file = os.path.join(config_dir, 'optimal_params_hibrido_v1.json')
-    with open(output_file, 'w') as f:
-        json.dump(optimal_config, f, indent=2)
-
-    print(f"   ✓ Parámetros guardados en: {output_file}")
-
-    # 5. Mostrar ranking de todos los resultados
+    # 7. Mostrar resumen final
     print("\n" + "=" * 80)
-    print("📈 TOP 5 MEJORES CONFIGURACIONES")
+    print("✅ BACKTEST MULTI-TIMEFRAME COMPLETADO")
     print("=" * 80)
 
-    # Ordenar por Sharpe Ratio
-    all_results_sorted = sorted(all_results,
-                                 key=lambda x: x['metrics']['sharpe_ratio'],
-                                 reverse=True)
-
-    for i, result in enumerate(all_results_sorted[:5], 1):
-        params = result['params']
-        metrics = result['metrics']
-
-        print(f"\n{i}. RSI_level={params['rsi_momentum_level']}, "
-              f"ATR_mult={params['atr_multiplier']}")
-        print(f"   Trades: {metrics['total_trades']}, "
-              f"Win Rate: {metrics['win_rate']:.2f}%, "
-              f"Sharpe: {metrics['sharpe_ratio']:.4f}, "
-              f"Return: {metrics['total_return_pct']:.2f}%")
-
-    print("\n" + "=" * 80)
-    print("✅ BACKTEST COMPLETADO")
-    print("=" * 80)
+    print(f"\n📌 RESUMEN:")
+    print(f"  • Timeframes probados: {', '.join(timeframes)}")
+    print(f"  • Mejor timeframe: {interval_winner.upper()}")
+    print(f"  • Mejor Sharpe Ratio: {best_metrics['sharpe_ratio']:.4f}")
+    print(f"  • Mejor Win Rate: {best_metrics['win_rate']:.2f}%")
 
     print("\n📚 Próximos pasos:")
-    print("  1. Revisa los resultados en config/optimal_params_hibrido_v1.json")
-    print("  2. Si los resultados son satisfactorios (Win Rate >40%, Sharpe >0.5):")
+    print("  1. Revisa los resultados en config/optimal_params_hibrido_v1_multi_timeframe.json")
+    print(f"  2. La mejor configuración está en config/optimal_params_hibrido_v1.json ({interval_winner})")
+    print("  3. Si los resultados son satisfactorios (Win Rate >40%, Sharpe >0.5):")
     print("     - Continúa a Fase 3: Paper Trading (python scripts/phase3_paper.py)")
-    print("  3. Si los resultados no son satisfactorios:")
+    print("  4. Si los resultados no son satisfactorios:")
     print("     - Ajusta el grid de parámetros en este script")
-    print("     - Prueba diferentes timeframes (5m, 1h)")
     print("     - Considera añadir filtros adicionales (volumen, volatilidad)")
     print("\n  Documentación completa: ESTRATEGIA_HIBRIDA_DAY_TRADING.md")
 

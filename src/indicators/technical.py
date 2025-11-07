@@ -101,8 +101,8 @@ def agregar_indicadores(df, config=None):
             df[f'DONCHIm_{period}'] = (df[f'DONCHI_h_{period}'] + df[f'DONCHI_l_{period}']) / 2
 
     # Limpiar valores NaN (primeras filas donde no se pueden calcular indicadores)
-    # Nota: No eliminamos filas, solo rellenamos con método forward-fill para las primeras
-    df.fillna(method='bfill', inplace=True)
+    # Nota: No eliminamos filas, solo rellenamos con método backward-fill para las primeras
+    df = df.bfill()
 
     return df
 

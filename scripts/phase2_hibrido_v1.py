@@ -341,22 +341,30 @@ def optimize_hibrido_strategy(client, symbol='ETHUSDT', interval='15m',
     best_metrics = None
 
     # Contador de progreso
-    progress_milestone = max(1, total_combinations // 20)  # Mostrar resumen cada 5%
+    progress_milestone = max(1, total_combinations // 10)  # Mostrar resumen cada 10%
+    import time
+    start_time = time.time()
+
+    print("\n🔄 Progreso del Grid Search:")
+    print("=" * 80)
 
     for i, params in enumerate(ParameterGrid(param_grid)):
-        # Mostrar progreso detallado
+        # Barra de progreso simple (actualiza en la misma línea)
         progress_pct = ((i + 1) / total_combinations) * 100
+        elapsed = time.time() - start_time
+        avg_time_per_iteration = elapsed / (i + 1) if i > 0 else 0
+        eta_seconds = avg_time_per_iteration * (total_combinations - i - 1)
+        eta_minutes = int(eta_seconds / 60)
 
-        # Cada 5% mostrar línea de progreso
-        if (i + 1) % progress_milestone == 0 or i == 0:
-            print(f"\n{'='*80}")
-            print(f"   PROGRESO: {i+1}/{total_combinations} ({progress_pct:.1f}%)")
-            print(f"{'='*80}")
+        # Actualizar barra de progreso en la misma línea
+        bar_length = 50
+        filled = int(bar_length * (i + 1) / total_combinations)
+        bar = '█' * filled + '░' * (bar_length - filled)
 
-        print(f"\n   [{i+1}/{total_combinations}] EMA={params['ema_trend']}, "
-              f"RSI({params['rsi_period']})={params['rsi_momentum_level']}, "
-              f"MACD({params['macd_fast']},{params['macd_slow']}), "
-              f"ATR_mult={params['atr_multiplier']}")
+        sharpe_display = f"{best_sharpe:.4f}" if best_sharpe > -999 else "N/A    "
+        print(f"\r   [{bar}] {progress_pct:.1f}% ({i+1}/{total_combinations}) | "
+              f"Best Sharpe: {sharpe_display} | "
+              f"ETA: {eta_minutes}min", end='', flush=True)
 
         # Calcular indicadores
         df_temp = agregar_indicadores(df.copy(), config=params)
@@ -388,25 +396,22 @@ def optimize_hibrido_strategy(client, symbol='ETHUSDT', interval='15m',
             }
             all_results.append(result)
 
-            # Imprimir resumen
-            print(f"      ├─ Trades: {metrics['total_trades']}, "
-                  f"Win Rate: {metrics['win_rate']:.2f}%, "
-                  f"Sharpe: {metrics['sharpe_ratio']:.4f}, "
-                  f"Return: {metrics['total_return_pct']:.2f}%")
-            print(f"      └─ Drawdown: {metrics['max_drawdown_pct']:.2f}%, "
-                  f"Profit Factor: {metrics['profit_factor']:.2f}")
-
-            # Actualizar mejor resultado
+            # Actualizar mejor resultado (silenciosamente)
             if metrics['sharpe_ratio'] > best_sharpe and metrics['total_trades'] > 10:
                 best_sharpe = metrics['sharpe_ratio']
                 best_params = params.copy()
                 best_metrics = metrics.copy()
-                print(f"      ⭐⭐⭐ NUEVO MEJOR RESULTADO ⭐⭐⭐")
-                print(f"      → Sharpe: {best_sharpe:.4f}, Win Rate: {best_metrics['win_rate']:.2f}%, Return: {best_metrics['total_return_pct']:.2f}%")
 
         except Exception as e:
-            print(f"      ❌ Error en backtest: {e}")
+            # Silenciar errores individuales para no interrumpir la barra de progreso
             continue
+
+    # Salto de línea después de la barra de progreso
+    print()
+
+    # Calcular tiempo total
+    total_time = time.time() - start_time
+    print(f"\n⏱️  Tiempo total: {int(total_time/60)}m {int(total_time%60)}s")
 
     print("\n" + "=" * 80)
     print("✅ OPTIMIZACIÓN COMPLETADA")

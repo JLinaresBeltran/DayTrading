@@ -24,17 +24,17 @@ Documentación completa: ESTRATEGIA_HIBRIDA_DAY_TRADING.md
 
 import sys
 import os
+import json
+import pandas as pd
+import numpy as np
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from src.data.binance_client import BinanceClientManager
 from src.data.data_fetcher import obtener_datos_binance
 from src.indicators.technical import agregar_indicadores
 from src.strategy.signal_generator import generar_senales_hibrido_v1
-from src.backtest.engine import VectorizedBacktester
-from src.utils.metrics import calculate_metrics, print_metrics
 from sklearn.model_selection import ParameterGrid
-import pandas as pd
-import numpy as np
 
 
 def run_backtest_with_stop_loss(df, initial_capital=10000, commission=0.00075,

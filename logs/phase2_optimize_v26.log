@@ -1,0 +1,151 @@
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - ITERACIÓN 26: ESTRATEGIA MACD CROSSOVER CON FILTRO EMA EN TIMEFRAME 5M
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - 
+Hipótesis: Cruce MACD + Filtro EMA → Señales rápidas y fiables
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - Objetivo: PF > 1.1 AND Num Trades > 150
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - 
+2. Definiendo Grid de Parámetros (Estrategia MACD Crossover)...
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ Total de combinaciones: 12
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ Parámetros:
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -       - ema_filter_periodo: [100, 150]
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -       - macd_fast: [12]
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -       - macd_slow: [26]
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -       - macd_signal: [9]
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -       - sl_multiplier: [2.0, 3.0]
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -       - tp_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    Evaluando combinación 1/12...
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 1: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 2: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 3: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 4: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 5: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    Evaluando combinación 6/12...
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 6: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 7: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 8: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 9: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 10: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    Evaluando combinación 11/12...
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 11: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR -    ✗ Error en combinación 12: VectorizedBacktester.__init__() got an unexpected keyword argument 'atr_sl_multiplier'
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ Resultados guardados: backtest_results_eth_v26_macd_5m.csv
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO -    ✓ Total de combinaciones evaluadas: 0
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - 
+================================================================================
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 18:14:16 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:14:16 - phase2_optimize_v26 - ERROR - 
+
+❌ Error: 'profit_factor'
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - ITERACIÓN 26: ESTRATEGIA MACD CROSSOVER CON FILTRO EMA EN TIMEFRAME 5M
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - 
+Hipótesis: Cruce MACD + Filtro EMA → Señales rápidas y fiables
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - Objetivo: PF > 1.1 AND Num Trades > 150
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - 
+1. Cargando datos históricos de ETHUSDT 5m...
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    ✓ Cargando desde archivo: ETHUSDT_5m_OHLCV_2025-11-05.csv
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    ✓ 105,120 velas cargadas desde CSV
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    ✓ Período: 2024-11-05 22:30:00 hasta 2025-11-05 22:25:00
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - 
+2. Definiendo Grid de Parámetros (Estrategia MACD Crossover)...
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    ✓ Total de combinaciones: 12
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    ✓ Parámetros:
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -       - ema_filter_periodo: [100, 150]
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -       - macd_fast: [12]
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -       - macd_slow: [26]
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -       - macd_signal: [9]
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -       - sl_multiplier: [2.0, 3.0]
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -       - tp_multiplier: [2.0, 3.0, 4.0]
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO - 
+3. Ejecutando Grid Search...
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    (Esto puede tardar varios minutos)
+
+2025-11-05 18:14:58 - phase2_optimize_v26 - INFO -    Evaluando combinación 1/12...
+2025-11-05 18:15:12 - phase2_optimize_v26 - INFO -    Evaluando combinación 6/12...
+2025-11-05 18:15:27 - phase2_optimize_v26 - INFO -    Evaluando combinación 11/12...
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+4. Guardando resultados completos...
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -    ✓ Resultados guardados: backtest_results_eth_v26_macd_5m.csv
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -    ✓ Total de combinaciones evaluadas: 12
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+================================================================================
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - REPORTE FINAL: CRITERIOS DE ÉXITO
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Combinaciones que cumplen AMBOS criterios:
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -   - Profit Factor > 1.1: ✓
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -   - Num Trades > 150: ✓
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -   - Total encontradas: 0
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗ ITERACIÓN 26 SIN APROBACIÓN ✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - No se encontraron configuraciones que cumplan AMBOS criterios.
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - ANÁLISIS SEPARADO:
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Top 10 por Profit Factor (sin filtro de trades):
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -  ema_filter_periodo  macd_fast  macd_slow  macd_signal  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                100         12         26            9            3.0            4.0           0.80        2155         38.19            -88.36         -0.22             89.94
+                100         12         26            9            2.0            4.0           0.79        2525         32.71            -90.63         -0.26             91.76
+                150         12         26            9            3.0            4.0           0.79        2080         39.09            -90.08         -0.23             91.48
+                150         12         26            9            2.0            4.0           0.78        2515         32.88            -92.29         -0.28             93.15
+                100         12         26            9            3.0            3.0           0.73        2402         44.63            -94.01         -0.31             94.66
+                100         12         26            9            2.0            3.0           0.72        2786         38.84            -94.73         -0.36             95.07
+                150         12         26            9            3.0            3.0           0.72        2328         45.49            -94.94         -0.33             95.46
+                150         12         26            9            2.0            3.0           0.71        2781         39.16            -95.63         -0.38             95.86
+                100         12         26            9            2.0            2.0           0.69        3127         49.02            -96.42         -0.48             96.58
+                100         12         26            9            3.0            2.0           0.69        2768         55.31            -95.55         -0.40             95.78
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Top 10 con alta frecuencia (> 150 trades):
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -  ema_filter_periodo  macd_fast  macd_slow  macd_signal  sl_multiplier  tp_multiplier  profit_factor  num_trades  win_rate_pct  total_return_pct  sharpe_ratio  max_drawdown_pct
+                100         12         26            9            3.0            4.0           0.80        2155         38.19            -88.36         -0.22             89.94
+                100         12         26            9            2.0            4.0           0.79        2525         32.71            -90.63         -0.26             91.76
+                150         12         26            9            3.0            4.0           0.79        2080         39.09            -90.08         -0.23             91.48
+                150         12         26            9            2.0            4.0           0.78        2515         32.88            -92.29         -0.28             93.15
+                100         12         26            9            3.0            3.0           0.73        2402         44.63            -94.01         -0.31             94.66
+                100         12         26            9            2.0            3.0           0.72        2786         38.84            -94.73         -0.36             95.07
+                150         12         26            9            3.0            3.0           0.72        2328         45.49            -94.94         -0.33             95.46
+                150         12         26            9            2.0            3.0           0.71        2781         39.16            -95.63         -0.38             95.86
+                100         12         26            9            2.0            2.0           0.69        3127         49.02            -96.42         -0.48             96.58
+                100         12         26            9            3.0            2.0           0.69        2768         55.31            -95.55         -0.40             95.78
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+--------------------------------------------------------------------------------
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - TRADE-OFF: ¿Qué tan cerca estamos?
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - --------------------------------------------------------------------------------
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Configuraciones con PF > 1.1: 0
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Configuraciones con > 150 trades: 12
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -    - Mejor PF entre ellas: 0.80
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -    - Necesitamos: PF > 1.1
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+================================================================================
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - EJECUCIÓN COMPLETADA
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - ================================================================================
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Resultados guardados en: backtest_results_eth_v26_macd_5m.csv
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO - 
+Próximos pasos:
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -   1. Revisar el CSV completo para análisis detallado
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -   2. Si no se cumplieron los criterios:
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -      - Considerar cambio a timeframe 15m (menos ruido)
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -      - Evaluar estrategias Mean Reversion (RSI oversold/overbought)
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -      - Probar con BTC en lugar de ETH (mayor liquidez)
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -   3. CONCLUSIÓN CLAVE:
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -      Si v26 falla, habremos agotado las 3 estrategias principales
+2025-11-05 18:15:34 - phase2_optimize_v26 - INFO -      (Breakout, Pullback, Crossover) en 5m.
